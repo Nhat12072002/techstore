@@ -22,7 +22,7 @@ import com.shopme.admin.category.CategoryNotFoundException;
 import com.shopme.common.entity.Brand;
 import com.shopme.common.entity.Product;
 
-// Hello , tao là Luân nè, mày thấy dòng này không ?
+
 @Controller
 public class ProductController {
 	@Autowired
