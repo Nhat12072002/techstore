@@ -1,0 +1,113 @@
+2023-08-07T21:20:00.424+07:00  INFO 24544 --- [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2023-08-07T21:20:00.425+07:00 DEBUG 24544 --- [File Watcher] rtingClassPathChangeChangedEventListener : Change set: [D:\ShopMe_Project\Shopme_Project\ShopmeWebParent\ShopmeBackEnd\target\classes [D:\ShopMe_Project\Shopme_Project\ShopmeWebParent\ShopmeBackEnd\target\classes\application.properties (MODIFY)]]
+2023-08-07T21:20:00.425+07:00 DEBUG 24544 --- [File Watcher] o.s.boot.devtools.restart.Restarter      : Restarting application
+2023-08-07T21:20:00.426+07:00 DEBUG 24544 --- [Thread-7] o.s.boot.devtools.restart.Restarter      : Stopping application
+2023-08-07T21:20:00.426+07:00 DEBUG 24544 --- [Thread-7] o.s.b.a.ApplicationAvailabilityBean      : Application availability state ReadinessState changed from ACCEPTING_TRAFFIC to REFUSING_TRAFFIC
+2023-08-07T21:20:00.428+07:00 DEBUG 24544 --- [Thread-7] ConfigServletWebServerApplicationContext : Closing org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@2da7a0b8, started on Mon Aug 07 21:19:35 ICT 2023
+2023-08-07T21:20:00.438+07:00  INFO 24544 --- [Thread-7] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2023-08-07T21:20:00.442+07:00  INFO 24544 --- [Thread-7] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-08-07T21:20:00.443+07:00  INFO 24544 --- [Thread-7] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown initiated...
+2023-08-07T21:20:00.446+07:00  INFO 24544 --- [Thread-7] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown completed.
+2023-08-07T21:20:00.480+07:00 DEBUG 24544 --- [Thread-7] o.s.boot.devtools.restart.Restarter      : Starting application com.shopme.admin.ShopmeBackEndApplication with URLs [file:/D:/ShopMe_Project/Shopme_Project/ShopmeWebParent/ShopmeBackEnd/target/classes/, file:/D:/ShopMe_Project/Shopme_Project/ShopmeCommon/target/classes/]
+2023-08-07T21:23:30.550+07:00  INFO 24544 --- [restartedMain] c.shopme.admin.ShopmeBackEndApplication  : Starting ShopmeBackEndApplication using Java 17.0.7 with PID 24544 (D:\ShopMe_Project\Shopme_Project\ShopmeWebParent\ShopmeBackEnd\target\classes started by Minh Nhat in D:\ShopMe_Project\Shopme_Project\ShopmeWebParent\ShopmeBackEnd)
+2023-08-07T21:23:30.550+07:00  INFO 24544 --- [restartedMain] c.shopme.admin.ShopmeBackEndApplication  : No active profile set, falling back to 1 default profile: "default"
+2023-08-07T21:23:30.667+07:00  INFO 24544 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-08-07T21:23:30.674+07:00  INFO 24544 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 6 ms. Found 2 JPA repository interfaces.
+2023-08-07T21:23:30.743+07:00  INFO 24544 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8082 (http)
+2023-08-07T21:23:30.743+07:00  INFO 24544 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-08-07T21:23:30.743+07:00  INFO 24544 --- [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.10]
+2023-08-07T21:23:30.755+07:00  INFO 24544 --- [restartedMain] o.a.c.c.C.[.[localhost].[/ShopmeAdmin]   : Initializing Spring embedded WebApplicationContext
+2023-08-07T21:23:30.755+07:00  INFO 24544 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 203 ms
+2023-08-07T21:23:30.775+07:00  WARN 24544 --- [restartedMain] o.a.c.c.C.[.[localhost].[/ShopmeAdmin]   : Cannot deserialize session attribute [SPRING_SECURITY_CONTEXT] for session [F611DA9E1864953C287CE45C49965FFF]
+2023-08-07T21:23:30.795+07:00  INFO 24544 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-08-07T21:23:30.800+07:00  INFO 24544 --- [restartedMain] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
+2023-08-07T21:23:30.800+07:00  INFO 24544 --- [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2023-08-07T21:23:30.801+07:00  INFO 24544 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Starting...
+2023-08-07T21:23:30.815+07:00  INFO 24544 --- [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-4 - Added connection com.mysql.cj.jdbc.ConnectionImpl@ac69d57
+2023-08-07T21:23:30.815+07:00  INFO 24544 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Start completed.
+2023-08-07T21:23:30.817+07:00  WARN 24544 --- [restartedMain] org.hibernate.orm.deprecation            : HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2023-08-07T21:23:30.826+07:00  INFO 24544 --- [restartedMain] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
+2023-08-07T21:23:30.849+07:00  INFO 24544 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-08-07T21:23:30.870+07:00  INFO 24544 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-08-07T21:23:30.920+07:00  WARN 24544 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-08-07T21:23:30.940+07:00  INFO 24544 --- [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2023-08-07T21:23:31.141+07:00  INFO 24544 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@72bdeb76, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@54b29332, org.springframework.security.web.context.SecurityContextHolderFilter@336ba412, org.springframework.security.web.header.HeaderWriterFilter@387b5086, org.springframework.security.web.csrf.CsrfFilter@3dee9b32, org.springframework.security.web.authentication.logout.LogoutFilter@33d0fefa, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@1c0f17c4, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@7a158e46, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@6959c73d, org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter@70698bff, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@30670f57, org.springframework.security.web.access.ExceptionTranslationFilter@27168930, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@1b57bfcc]
+2023-08-07T21:23:31.185+07:00  INFO 24544 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2023-08-07T21:23:31.193+07:00  INFO 24544 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8082 (http) with context path '/ShopmeAdmin'
+2023-08-07T21:23:31.195+07:00  INFO 24544 --- [restartedMain] c.shopme.admin.ShopmeBackEndApplication  : Started ShopmeBackEndApplication in 0.66 seconds (process running for 385.668)
+2023-08-07T21:23:31.196+07:00  INFO 24544 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2023-08-07T21:23:45.484+07:00  INFO 24544 --- [http-nio-8082-exec-1] o.a.c.c.C.[.[localhost].[/ShopmeAdmin]   : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-08-07T21:23:45.484+07:00  INFO 24544 --- [http-nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2023-08-07T21:23:45.484+07:00  INFO 24544 --- [http-nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms
+2023-08-07T21:23:45.527+07:00  WARN 24544 --- [http-nio-8082-exec-1] actStandardFragmentInsertionTagProcessor : [THYMELEAF][http-nio-8082-exec-1][users/user_form] Deprecated unwrapped fragment expression "fragments :: page_head('User - Shopme Admin')" found in template users/user_form, line 3, col 7. Please use the complete syntax of fragment expressions instead ("~{fragments :: page_head('User - Shopme Admin')}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-08-07T21:23:45.531+07:00  WARN 24544 --- [http-nio-8082-exec-1] actStandardFragmentInsertionTagProcessor : [THYMELEAF][http-nio-8082-exec-1][users/user_form] Deprecated unwrapped fragment expression "navigation::menu" found in template users/user_form, line 5, col 7. Please use the complete syntax of fragment expressions instead ("~{navigation::menu}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-08-07T21:23:45.556+07:00  WARN 24544 --- [http-nio-8082-exec-1] actStandardFragmentInsertionTagProcessor : [THYMELEAF][http-nio-8082-exec-1][users/user_form] Deprecated unwrapped fragment expression "fragments::footer" found in template users/user_form, line 89, col 7. Please use the complete syntax of fragment expressions instead ("~{fragments::footer}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-08-07T21:23:58.233+07:00  WARN 24544 --- [http-nio-8082-exec-3] actStandardFragmentInsertionTagProcessor : [THYMELEAF][http-nio-8082-exec-3][users/users] Deprecated unwrapped fragment expression "fragments :: page_head('User - Shopme Admin')" found in template users/users, line 3, col 7. Please use the complete syntax of fragment expressions instead ("~{fragments :: page_head('User - Shopme Admin')}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-08-07T21:23:58.236+07:00  WARN 24544 --- [http-nio-8082-exec-3] actStandardFragmentInsertionTagProcessor : [THYMELEAF][http-nio-8082-exec-3][users/users] Deprecated unwrapped fragment expression "navigation::menu" found in template users/users, line 7, col 8. Please use the complete syntax of fragment expressions instead ("~{navigation::menu}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-08-07T21:23:58.266+07:00  WARN 24544 --- [http-nio-8082-exec-3] actStandardFragmentInsertionTagProcessor : [THYMELEAF][http-nio-8082-exec-3][users/users] Deprecated unwrapped fragment expression "fragments::footer" found in template users/users, line 144, col 7. Please use the complete syntax of fragment expressions instead ("~{fragments::footer}"). The old, unwrapped syntax for fragment expressions will be removed in future versions of Thymeleaf.
+2023-08-07T21:25:10.437+07:00  INFO 24544 --- [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2023-08-07T21:25:10.448+07:00  INFO 24544 --- [Thread-15] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2023-08-07T21:25:10.448+07:00  INFO 24544 --- [Thread-15] o.a.c.c.C.[.[localhost].[/ShopmeAdmin]   : Destroying Spring FrameworkServlet 'dispatcherServlet'
+2023-08-07T21:25:10.449+07:00  WARN 24544 --- [Thread-15] o.a.c.c.C.[.[localhost].[/ShopmeAdmin]   : Cannot serialize session attribute [SPRING_SECURITY_CONTEXT] for session [F611DA9E1864953C287CE45C49965FFF]
+
+java.io.NotSerializableException: com.shopme.common.entity.User
+	at java.base/java.io.ObjectOutputStream.writeObject0(ObjectOutputStream.java:1187) ~[na:na]
+	at java.base/java.io.ObjectOutputStream.defaultWriteFields(ObjectOutputStream.java:1572) ~[na:na]
+	at java.base/java.io.ObjectOutputStream.writeSerialData(ObjectOutputStream.java:1529) ~[na:na]
+	at java.base/java.io.ObjectOutputStream.writeOrdinaryObject(ObjectOutputStream.java:1438) ~[na:na]
+	at java.base/java.io.ObjectOutputStream.writeObject0(ObjectOutputStream.java:1181) ~[na:na]
+	at java.base/java.io.ObjectOutputStream.defaultWriteFields(ObjectOutputStream.java:1572) ~[na:na]
+	at java.base/java.io.ObjectOutputStream.writeSerialData(ObjectOutputStream.java:1529) ~[na:na]
+	at java.base/java.io.ObjectOutputStream.writeOrdinaryObject(ObjectOutputStream.java:1438) ~[na:na]
+	at java.base/java.io.ObjectOutputStream.writeObject0(ObjectOutputStream.java:1181) ~[na:na]
+	at java.base/java.io.ObjectOutputStream.defaultWriteFields(ObjectOutputStream.java:1572) ~[na:na]
+	at java.base/java.io.ObjectOutputStream.writeSerialData(ObjectOutputStream.java:1529) ~[na:na]
+	at java.base/java.io.ObjectOutputStream.writeOrdinaryObject(ObjectOutputStream.java:1438) ~[na:na]
+	at java.base/java.io.ObjectOutputStream.writeObject0(ObjectOutputStream.java:1181) ~[na:na]
+	at java.base/java.io.ObjectOutputStream.writeObject(ObjectOutputStream.java:350) ~[na:na]
+	at org.apache.catalina.session.StandardSession.doWriteObject(StandardSession.java:1529) ~[tomcat-embed-core-10.1.10.jar:10.1.10]
+	at org.apache.catalina.session.StandardSession.writeObjectData(StandardSession.java:1003) ~[tomcat-embed-core-10.1.10.jar:10.1.10]
+	at org.apache.catalina.session.StandardManager.doUnload(StandardManager.java:307) ~[tomcat-embed-core-10.1.10.jar:10.1.10]
+	at org.apache.catalina.session.StandardManager.unload(StandardManager.java:259) ~[tomcat-embed-core-10.1.10.jar:10.1.10]
+	at org.apache.catalina.session.StandardManager.stopInternal(StandardManager.java:374) ~[tomcat-embed-core-10.1.10.jar:10.1.10]
+	at org.apache.catalina.util.LifecycleBase.stop(LifecycleBase.java:257) ~[tomcat-embed-core-10.1.10.jar:10.1.10]
+	at org.apache.catalina.core.StandardContext.stopInternal(StandardContext.java:5121) ~[tomcat-embed-core-10.1.10.jar:10.1.10]
+	at org.apache.catalina.util.LifecycleBase.stop(LifecycleBase.java:257) ~[tomcat-embed-core-10.1.10.jar:10.1.10]
+	at org.apache.catalina.core.ContainerBase$StopChild.call(ContainerBase.java:1344) ~[tomcat-embed-core-10.1.10.jar:10.1.10]
+	at org.apache.catalina.core.ContainerBase$StopChild.call(ContainerBase.java:1333) ~[tomcat-embed-core-10.1.10.jar:10.1.10]
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264) ~[na:na]
+	at org.apache.tomcat.util.threads.InlineExecutorService.execute(InlineExecutorService.java:75) ~[tomcat-embed-core-10.1.10.jar:10.1.10]
+	at java.base/java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:145) ~[na:na]
+	at org.apache.catalina.core.ContainerBase.stopInternal(ContainerBase.java:931) ~[tomcat-embed-core-10.1.10.jar:10.1.10]
+	at org.apache.catalina.util.LifecycleBase.stop(LifecycleBase.java:257) ~[tomcat-embed-core-10.1.10.jar:10.1.10]
+	at org.apache.catalina.core.ContainerBase$StopChild.call(ContainerBase.java:1344) ~[tomcat-embed-core-10.1.10.jar:10.1.10]
+	at org.apache.catalina.core.ContainerBase$StopChild.call(ContainerBase.java:1333) ~[tomcat-embed-core-10.1.10.jar:10.1.10]
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264) ~[na:na]
+	at org.apache.tomcat.util.threads.InlineExecutorService.execute(InlineExecutorService.java:75) ~[tomcat-embed-core-10.1.10.jar:10.1.10]
+	at java.base/java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:145) ~[na:na]
+	at org.apache.catalina.core.ContainerBase.stopInternal(ContainerBase.java:931) ~[tomcat-embed-core-10.1.10.jar:10.1.10]
+	at org.apache.catalina.util.LifecycleBase.stop(LifecycleBase.java:257) ~[tomcat-embed-core-10.1.10.jar:10.1.10]
+	at org.apache.catalina.core.StandardService.stopInternal(StandardService.java:491) ~[tomcat-embed-core-10.1.10.jar:10.1.10]
+	at org.apache.catalina.util.LifecycleBase.stop(LifecycleBase.java:257) ~[tomcat-embed-core-10.1.10.jar:10.1.10]
+	at org.apache.catalina.core.StandardServer.stopInternal(StandardServer.java:971) ~[tomcat-embed-core-10.1.10.jar:10.1.10]
+	at org.apache.catalina.util.LifecycleBase.stop(LifecycleBase.java:257) ~[tomcat-embed-core-10.1.10.jar:10.1.10]
+	at org.apache.catalina.startup.Tomcat.stop(Tomcat.java:495) ~[tomcat-embed-core-10.1.10.jar:10.1.10]
+	at org.springframework.boot.web.embedded.tomcat.TomcatWebServer.stopTomcat(TomcatWebServer.java:273) ~[spring-boot-3.1.1.jar:3.1.1]
+	at org.springframework.boot.web.embedded.tomcat.TomcatWebServer.stop(TomcatWebServer.java:331) ~[spring-boot-3.1.1.jar:3.1.1]
+	at org.springframework.boot.web.servlet.context.WebServerStartStopLifecycle.stop(WebServerStartStopLifecycle.java:53) ~[spring-boot-3.1.1.jar:3.1.1]
+	at org.springframework.context.SmartLifecycle.stop(SmartLifecycle.java:117) ~[spring-context-6.0.10.jar:6.0.10]
+	at org.springframework.context.support.DefaultLifecycleProcessor.doStop(DefaultLifecycleProcessor.java:234) ~[spring-context-6.0.10.jar:6.0.10]
+	at org.springframework.context.support.DefaultLifecycleProcessor$LifecycleGroup.stop(DefaultLifecycleProcessor.java:373) ~[spring-context-6.0.10.jar:6.0.10]
+	at org.springframework.context.support.DefaultLifecycleProcessor.stopBeans(DefaultLifecycleProcessor.java:206) ~[spring-context-6.0.10.jar:6.0.10]
+	at org.springframework.context.support.DefaultLifecycleProcessor.onClose(DefaultLifecycleProcessor.java:129) ~[spring-context-6.0.10.jar:6.0.10]
+	at org.springframework.context.support.AbstractApplicationContext.doClose(AbstractApplicationContext.java:1067) ~[spring-context-6.0.10.jar:6.0.10]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.doClose(ServletWebServerApplicationContext.java:173) ~[spring-boot-3.1.1.jar:3.1.1]
+	at org.springframework.context.support.AbstractApplicationContext.close(AbstractApplicationContext.java:1026) ~[spring-context-6.0.10.jar:6.0.10]
+	at org.springframework.boot.devtools.restart.Restarter.stop(Restarter.java:308) ~[spring-boot-devtools-3.1.1.jar:3.1.1]
+	at org.springframework.boot.devtools.restart.Restarter.lambda$restart$1(Restarter.java:250) ~[spring-boot-devtools-3.1.1.jar:3.1.1]
+	at org.springframework.boot.devtools.restart.Restarter$LeakSafeThread.run(Restarter.java:614) ~[spring-boot-devtools-3.1.1.jar:3.1.1]
+
+2023-08-07T21:25:10.453+07:00  INFO 24544 --- [Thread-15] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-08-07T21:25:10.454+07:00  INFO 24544 --- [Thread-15] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Shutdown initiated...
+2023-08-07T21:25:10.457+07:00  INFO 24544 --- [Thread-15] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Shutdown completed.
+2023-08-09T10:49:50.275+07:00 ERROR 20640 --- [main] o.h.engine.jdbc.spi.SqlExceptionHelper   : Duplicate entry 'minhnhatnguyenphan1207@gmail.com' for key 'users.UK_6dotkott2kjsp8vw4d0m25fb7'
