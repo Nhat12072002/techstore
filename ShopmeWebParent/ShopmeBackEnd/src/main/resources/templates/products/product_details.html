@@ -4,9 +4,22 @@
 <body>
 	<div th:fragment="content" id="divProductDetails">
 		<div>
-		<input type="button" class="btn btn-secondary" value="Add More Detail " onclick="addNextDetailSection()" />
-	</div>
-		<div class="form-inline m-3" id="divDetail0">
+			<input type="button" class="btn btn-secondary" value="Add More Detail " onclick="addNextDetailSection()" />
+		</div>
+		<th:block th:each="detail, status : ${product.details}">
+			<div class="form-inline m-3" th:id="'divDetail'+${status.index}">
+				<label class="m-3" style="display: inline;">Name:</label>
+				<input type="text" style="display: inline;" class="form-control w-25" name="detailNames" maxlength="255"
+					th:value="${detail.name}" />
+				<label class="m-3" style="display: inline;">Value:</label>
+				<input type="text" style="display: inline;" class="form-control w-25" name="detailValues"
+					th:value="${detail.value}" maxlength="255" />
+				<a name="linkRemoveDetail" class=" btn fas fa-times-circle fa-2x ml-3" title="Remove this detail"
+					style="color:red"></a>
+
+			</div>
+		</th:block>
+		<div class="form-inline m-3" th:id="'divDetail'+${#lists.size(product.details)}">
 			<label class="m-3" style="display: inline;">Name:</label>
 			<input type="text" style="display: inline;" class="form-control w-25" name="detailNames" maxlength="255" />
 			<label class="m-3" style="display: inline;">Value:</label>
@@ -40,6 +53,7 @@
 		function removeDetailSectionById(id) {
 			$("#" + id).remove();
 		}
+
 	</script>
 </body>
 

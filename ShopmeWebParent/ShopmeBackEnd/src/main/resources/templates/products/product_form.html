@@ -215,6 +215,19 @@
 	function removeDetailSectionById(id){
 		$("#"+id).remove();
 	}
+	$("a[name='linkRemoveExtraImage']").each(function(index){
+		$(this).click(function(){
+			removeExtraImage(index)
+		})
+	})
+	$("a[name='linkRemoveDetail']").each(function(index){
+		$(this).click(function(){
+			removeDetailByIndex(index)
+		})
+	})
+	function removeDetailByIndex(index){
+		$("#divDetail" +index).remove()
+	}
 	</script>
 	<script th:src="@{/js/common_form.js}"></script>
 	</script>

@@ -22,7 +22,6 @@ import com.shopme.admin.category.CategoryNotFoundException;
 import com.shopme.common.entity.Brand;
 import com.shopme.common.entity.Product;
 
-
 @Controller
 public class ProductController {
 	@Autowired
@@ -88,28 +87,24 @@ public class ProductController {
 			FileUploadUtil.saveFile(uploadDir, fileName, mainImageMultipart);
 		}
 		if (extraImageMultiparts.length > 0) {
-			  for (MultipartFile multipartFile : extraImageMultiparts) {
-			    if (multipartFile.isEmpty()) {
-			      System.out.println("Extra image multipart file is empty.");
-			      continue;
-			    }
-
-			    // Check if extras directory exists
-			    String uploadDir = "../product-images/" + savedProduct.getId() + "/extras";
-			    if (!Files.exists(Paths.get(uploadDir))) {
-			      // Create extras directory
-			      Files.createDirectories(Paths.get(uploadDir));
-			    }
-
-			    // Save extra image
-			    String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-			    FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
-
-			  }
+			for (MultipartFile multipartFile : extraImageMultiparts) {
+				if (multipartFile.isEmpty()) {
+					System.out.println("Extra image multipart file is empty.");
+					continue;
+				}
+				// Check if extras directory exists
+				String uploadDir = "../product-images/" + savedProduct.getId() + "/extras";
+				if (!Files.exists(Paths.get(uploadDir))) {
+					// Create extras directory
+					Files.createDirectories(Paths.get(uploadDir));
+				}
+				// Save extra image
+				String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+				FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
 			}
-
 		}
-	
+
+	}
 
 	public void setMainImageName(MultipartFile mainImageMultipart, Product product) {
 		if (!mainImageMultipart.isEmpty()) {
@@ -155,21 +150,23 @@ public class ProductController {
 		}
 		return "redirect:/products";
 	}
-	@GetMapping("/products/edit/{id}")
-	public String editProduct(@PathVariable("id") Integer id, Model model,
-			RedirectAttributes ra) {
-		try {
-			Product product=productService.get(id);
-			List<Brand> listBrands = brandService.listAll();
 
-			model.addAttribute("product",product);
-			model.addAttribute("listBrands",listBrands);
-			model.addAttribute("pageTitle","Edit Product(ID: " +id+ ")");
+	@GetMapping("/products/edit/{id}")
+	public String editProduct(@PathVariable("id") Integer id, Model model, RedirectAttributes ra) {
+		try {
+			Product product = productService.get(id);
+			List<Brand> listBrands = brandService.listAll();
+			Integer numberOfExistingExtraImages= product.getImages().size();
+			model.addAttribute("product", product);
+			model.addAttribute("listBrands", listBrands);
+			model.addAttribute("pageTitle", "Edit Product(ID: " + id + ")");
+			model.addAttribute("numberOfExistingExtraImages", numberOfExistingExtraImages);
+
 			return "products/product_form";
 		} catch (ProductNotFoundException e) {
 			ra.addFlashAttribute("message", e.getMessage());
 			return "redirect:/products";
 		}
-		
+
 	}
 }

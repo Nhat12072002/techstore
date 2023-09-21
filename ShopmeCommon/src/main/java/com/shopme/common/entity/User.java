@@ -16,35 +16,31 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
 @Entity
-@Table(name ="users")
+@Table(name = "users")
 public class User {
 	@Id
-	@GeneratedValue(strategy= GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	@Column(length= 128, nullable= false, unique= true)
+	@Column(length = 128, nullable = false, unique = true)
 	private String email;
-	@Column(length=64, nullable=false)
+	@Column(length = 64, nullable = false)
 	private String password;
-	@Column(name="first_name", length=45, nullable=false)
+	@Column(name = "first_name", length = 45, nullable = false)
 	private String firstname;
-	@Column(name="last_name", length=45, nullable=false)
+	@Column(name = "last_name", length = 45, nullable = false)
 	private String lastname;
-	@Column(length=64)
+	@Column(length = 64)
 	private String photos;
-	
+
 	private boolean enabled;
-	
-	@ManyToMany(fetch=FetchType.EAGER)
-	@JoinTable(
-			name="users_roles",
-			joinColumns= @JoinColumn(name ="user_id"),
-			inverseJoinColumns=@JoinColumn(name="role_id")
-			)
-			
-	private Set<Role> roles=new HashSet<>();
+
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+
+	private Set<Role> roles = new HashSet<>();
 
 	public User() {
-		
+
 	}
 
 	public User(String email, String password, String firstname, String lastname) {
@@ -118,6 +114,7 @@ public class User {
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
+
 	public void addRole(Role role) {
 		this.roles.add(role);
 	}
@@ -127,14 +124,16 @@ public class User {
 		return "User [id=" + id + ", email=" + email + ", firstname=" + firstname + ", lastname=" + lastname
 				+ ", roles=" + roles + "]";
 	}
+
 	@Transient
 	public String getPhotosImagePath() {
-		if(id==null || photos==null)
-		return "/img/default-user.png";
+		if (id == null || photos == null)
+			return "/img/default-user.png";
 		return "/user-photos/" + this.id + "/" + this.photos;
 	}
+
 	@Transient
 	public String getFullName() {
-		return firstname+" "+lastname;
+		return firstname + " " + lastname;
 	}
 }
