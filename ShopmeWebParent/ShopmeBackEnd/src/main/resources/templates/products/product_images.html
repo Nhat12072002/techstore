@@ -39,7 +39,7 @@
 				</div>
 			</th:block>
 			<div class="col border m-3 p-2 text-center" th:id="'divExtraImage' + ${numberOfExistingExtraImages} ">
-				<div th:id="'extraImageHeader'+${numberOfExistingExtraImages}">
+				<div th:id="'extraImageHeader'+${numberOfExistingExtraImages}"th:if="${numberOfExistingExtraImages != null}">
 					<label>Extra Images #[[${numberOfExistingExtraImages + 1}]]:</label>
 				</div>
 				<div class="m-2">
