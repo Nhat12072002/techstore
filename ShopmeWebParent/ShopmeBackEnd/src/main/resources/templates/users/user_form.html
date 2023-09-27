@@ -4,7 +4,7 @@
 <body>
 	<div th:replace="navigation::menu"></div>
 		<div>
-			<h2>Manage Users | [[${pageTitle}]]</h2>
+			<h2 style="text-align: center;">Manage Users | [[${pageTitle}]]</h2>
 		</div>
 	</div>
 	<form th:action="@{/user/save}" method="post" style="max-width:700px ; margin: 0 auto" th:object="${user}" onsubmit="return checkEmailUnique(this);" enctype="multipart/form-data">

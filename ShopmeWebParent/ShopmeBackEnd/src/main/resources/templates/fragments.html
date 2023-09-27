@@ -15,8 +15,8 @@
 </head>
 
 <body>
-	<div th:fragment="footer" class="text-center">
-		<p>Shopme Control Panel - Copyright &copy; Shopme</p>
+	<div th:fragment="footer" class="text-center" style="font-weight: bold;font-family: Georgia, 'Times New Roman', Times, serif;">
+		<p>TECHSTORE - Copyright &copy; TechStore</p>
 	</div>
 	<th th:fragment="column_link(moduleURL,fieldName, columnLabel, removeTag)" th:remove="${removeTag}">
 		<a class="text-white  text-decoration-none"
@@ -62,12 +62,12 @@
 		</div>
 	</div>
 	<div th:fragment="search_form(moduleURL)">
-		<form th:action="@{${moduleURL}}" class="form-inline m-3">
+		<form th:action="@{${moduleURL}}" class="form-inline m-3" style="text-align: center;">
                 <input type="hidden" name="sortField" th:value="${sortField}" />
                 <input type="hidden" name="sortDir" th:value="${sortDir}" />
-                Filter:&nbsp;
+                SEARCH:&nbsp;
                 <input type="search" name="keyword" th:value="${keyword}" class="form-control-inline"
-                    style="width: 200px; height: 30px;" required />
+                    style="width: 70%; height: 30px;" required />
            
                 <button type="submit" class="btn btn-primary mb-2"><i class="fa-solid fa-magnifying-glass"></i></button>
         

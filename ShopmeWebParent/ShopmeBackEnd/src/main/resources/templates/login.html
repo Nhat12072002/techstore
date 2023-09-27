@@ -6,10 +6,10 @@
 	<title>Login - Shopme Admin</title>
 	<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
 </head>
-<body>
+<body style="background-color:rgb(255, 202, 104);">
 <div class="container-fluid text-center">
 	<div>
-		<img th:src="@{/img/ShopmeAdminBig.png}"  />
+		<img th:src="@{/img/techstore3.png}"  />
 	</div>
 
 	<form th:action="@{/login}" method="post" style="max-width: 350px; margin: 0 auto">
@@ -20,8 +20,8 @@
 	<p class="text-warning">You have been logged out.</p>
 	
 </div>
-		<div class="border border-secondary rounded p-3">
-			<p>ĐĂNG NHẬP</p>
+		<div class="border border-secondary rounded p-3"style="background-color:white;">
+			<p style="font-weight: bold; font-family: Georgia, 'Times New Roman', Times, serif;">ĐĂNG NHẬP</p>
 			<p>
 				<input type="email" name="email" class="form-control" placeholder="E-mail" required />
 			</p>
@@ -32,14 +32,12 @@
 				<input type="checkbox" name="remember-me"/>&nbsp;Remember me
 			</p>
 			<p>
-				<input type="submit" value="Login" class="btn btn-primary" />
+				<input type="submit" value="Login" class="btn btn-primary login-btn" style="width: 100px;" />
 			</p>			
 		</div>
 	</form>
 	
-	<div>
-		<p>Shopme Control Panel - Copyright &copy; Shopme</p>
-	</div>
+
 	
 </div>
 </body>

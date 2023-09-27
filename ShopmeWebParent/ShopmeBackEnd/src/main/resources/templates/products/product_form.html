@@ -11,7 +11,7 @@
 <body>
 	<div th:replace="navigation::menu"></div>
 	<div>
-		<h2>Manage Products | [[${pageTitle}]]</h2>
+		<h2 style="text-align: center;">Manage Products | [[${pageTitle}]]</h2>
 	</div>
 	<form th:action="@{/products/save}" method="post" th:object="${product}" onsubmit="return checkUnique(this)
 		" enctype="multipart/form-data">

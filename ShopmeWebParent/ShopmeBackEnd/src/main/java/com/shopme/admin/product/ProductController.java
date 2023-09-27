@@ -3,7 +3,9 @@ package com.shopme.admin.product;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +23,7 @@ import com.shopme.admin.brand.BrandService;
 import com.shopme.admin.category.CategoryNotFoundException;
 import com.shopme.common.entity.Brand;
 import com.shopme.common.entity.Product;
+import com.shopme.common.entity.ProductImage;
 
 @Controller
 public class ProductController {
@@ -54,14 +57,29 @@ public class ProductController {
 			@RequestParam("fileImage") MultipartFile mainImageMultipart,
 			@RequestParam("extraImage") MultipartFile[] extraImageMultiparts,
 			@RequestParam(name = "detailNames", required = false) String[] detailNames,
-			@RequestParam(name = "detailValues", required = false) String[] detailValues) throws IOException {
+			@RequestParam(name = "detailValues", required = false) String[] detailValues,
+			@RequestParam(name = "imageIDs", required = false) String[] imageIDs,
+			@RequestParam(name = "imageNames", required = false) String[] imageNames) throws IOException {
 		setMainImageName(mainImageMultipart, product);
-		setExtraImageName(extraImageMultiparts, product);
+		setExistingExtraImagenames(imageIDs, imageNames, product);
+		setNewExtraImageName(extraImageMultiparts, product);
 		setProductDetails(detailNames, detailValues, product);
 		Product savedProduct = productService.save(product);
 		saveUploadedImages(mainImageMultipart, extraImageMultiparts, product);
 		ra.addFlashAttribute("message", "The product has been saved successfully");
 		return "redirect:/products";
+	}
+
+	private void setExistingExtraImagenames(String[] imageIDs, String[] imageNames, Product product) {
+		if(imageIDs ==null || imageIDs.length==0) return;
+		Set<ProductImage> images = new HashSet<>();
+		for (int count=0; count< imageIDs.length; count++) {
+			Integer id =Integer.parseInt(imageIDs[count]);
+			String name = imageNames[count];
+			images.add(new ProductImage(id,name,product));
+		
+		}
+		product.setImages(images);
 	}
 
 	private void setProductDetails(String[] detailNames, String[] detailValues, Product product) {
@@ -113,12 +131,14 @@ public class ProductController {
 		}
 	}
 
-	public void setExtraImageName(MultipartFile[] extraImageMultiparts, Product product) {
+	public void setNewExtraImageName(MultipartFile[] extraImageMultiparts, Product product) {
 		if (extraImageMultiparts.length > 0) {
 			for (MultipartFile multipartFile : extraImageMultiparts) {
 				if (!multipartFile.isEmpty()) {
 					String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+					if(product.containsImageName(fileName)) {
 					product.addExtraImages(fileName);
+					}
 				}
 			}
 		}

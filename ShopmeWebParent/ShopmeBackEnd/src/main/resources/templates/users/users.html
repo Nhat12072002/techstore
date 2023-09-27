@@ -3,9 +3,8 @@
 <head th:replace="fragments :: page_head('User - Shopme Admin','none')"/>
 
 <body>
-	<div class="container-fluid">
 		<div th:replace="navigation::menu"></div>
-		<div>
+		<div style="margin-left: 20px;text-align: center;">
 			<h2>Manage Users</h2>
 			<a th:href="@{/users/new}" style="color:black; text-decoration: none;" class=" fas fa-solid fa-user-plus fa-2x icon-dark mr-2"></a>
 			&nbsp;|&nbsp;
@@ -15,8 +14,7 @@
 			&nbsp;|&nbsp;
 			<a th:href="@{/users/export/pdf}" style="color:black; text-decoration: none;" class="fa-solid fa-file-pdf fa-2x icon-dark mr-2"></a>
 		</div>
-	</div>
-	
+
 	<div th:replace="fragments::search_form('/users/page/1')"></div>
 	<div class="full-details">
 		<table class="table table-bordered table-striped table-hover table-responsive-xl">

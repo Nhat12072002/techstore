@@ -3,15 +3,15 @@
 <head th:replace="fragments :: page_head('Products - Shopme Admin','none')"/>
 
 <body>
-	<div class="container-fluid">
+	
 		<div th:replace="navigation::menu"></div>
-		<div>
+		<div style="margin-left: 20px;text-align: center;">
 			<h2>Manage Products</h2>
 			<a th:href="@{/products/new}" style="color:black; text-decoration: none;" class=" fas fa-solid fa-user-plus fa-2x icon-dark mr-2"></a>
 			&nbsp;|&nbsp;
 			<a th:href="@{/products/export/csv}" style="color:black; text-decoration: none;" class="fa-solid fa-file-csv fa-2x icon-dark mr-2 "></a>
 		</div>
-	</div>
+
 	<div th:if="${message != null}" class="alert alert-success text-center">
 		[[${message}]]
 	</div>
