@@ -6,7 +6,9 @@ import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
+import java.nio.file.Path;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,6 +29,7 @@ import com.shopme.common.entity.ProductImage;
 
 @Controller
 public class ProductController {
+	private static final Logger LOGGER= LoggerFactory.getLogger(ProductController.class);
 	@Autowired
 	private ProductService productService;
 	@Autowired
@@ -65,19 +68,42 @@ public class ProductController {
 		setNewExtraImageName(extraImageMultiparts, product);
 		setProductDetails(detailNames, detailValues, product);
 		Product savedProduct = productService.save(product);
-		saveUploadedImages(mainImageMultipart, extraImageMultiparts, product);
+		saveUploadedImages(mainImageMultipart, extraImageMultiparts, savedProduct);
+		deleteExtraImageWereReomovedOnForm(product);
 		ra.addFlashAttribute("message", "The product has been saved successfully");
 		return "redirect:/products";
 	}
 
+	private void deleteExtraImageWereReomovedOnForm(Product product) {
+		String extraImageDir="../product-images/"+product.getId()+"/extras";
+		Path dirPath= Paths.get(extraImageDir);
+		try {
+			Files.list(dirPath).forEach(file-> {
+				String filename=file.toFile().getName();
+				if(!product.containsImageName(filename)) {
+					try {
+						Files.delete(file);
+						LOGGER.info("Delete extra image: "+filename);
+						
+					} catch (IOException e) {
+						LOGGER.error("Could not delete extra image: "+filename);
+					}
+				}
+			});
+		}catch (IOException ex) {
+			LOGGER.error("Could not list directory: "+dirPath);
+		}
+	}
+
 	private void setExistingExtraImagenames(String[] imageIDs, String[] imageNames, Product product) {
-		if(imageIDs ==null || imageIDs.length==0) return;
+		if (imageIDs == null || imageIDs.length == 0)
+			return;
 		Set<ProductImage> images = new HashSet<>();
-		for (int count=0; count< imageIDs.length; count++) {
-			Integer id =Integer.parseInt(imageIDs[count]);
+		for (int count = 0; count < imageIDs.length; count++) {
+			Integer id = Integer.parseInt(imageIDs[count]);
 			String name = imageNames[count];
-			images.add(new ProductImage(id,name,product));
-		
+			images.add(new ProductImage(id, name, product));
+
 		}
 		product.setImages(images);
 	}
@@ -136,8 +162,8 @@ public class ProductController {
 			for (MultipartFile multipartFile : extraImageMultiparts) {
 				if (!multipartFile.isEmpty()) {
 					String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-					if(product.containsImageName(fileName)) {
-					product.addExtraImages(fileName);
+					if (product.containsImageName(fileName)) {
+						product.addExtraImages(fileName);
 					}
 				}
 			}
@@ -176,7 +202,7 @@ public class ProductController {
 		try {
 			Product product = productService.get(id);
 			List<Brand> listBrands = brandService.listAll();
-			Integer numberOfExistingExtraImages= product.getImages().size();
+			Integer numberOfExistingExtraImages = product.getImages().size();
 			model.addAttribute("product", product);
 			model.addAttribute("listBrands", listBrands);
 			model.addAttribute("pageTitle", "Edit Product(ID: " + id + ")");

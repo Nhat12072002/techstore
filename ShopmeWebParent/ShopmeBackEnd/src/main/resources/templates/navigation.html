@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
+<link rel="stylesheet" type="text/css" th:href="@{/src/main/resources/static/style.css}">
 <body>
 	<div th:fragment="menu">
 		<form th:action="@{/logout}" method="post" th:hidden="true" name="LogoutForm">
 			<input type="submit" />
 		</form>
 		<nav class="navbar navbar-expand-lg navbar-dark" style="background-color:rgb(255, 202, 104);">
-			<a class="navbar-brand" th:href="@{/}">
-				<img th:src="@{/img/techstore3.png}" width="90px" height="90px">
+			<a class="navbar-brand" th:href="@{/}" style="margin-left: 5px;">
+				<img id="logoshop"th:src="@{/img/techstore3.png}" width="90px" height="90px">
 
 			</a>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topNavbar">
@@ -77,7 +77,7 @@
 						<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" th:href="@{/account}"
 							sec:authentication="principal.fullname" style="font-size: 10pt;color: blue; font-weight: bold;text-decoration: underline;font-family: Georgia, 'Times New Roman', Times, serif;"></a>
 						<div class="dropdown-menu">
-							<a class="dropdown-item" id="LogoutLink" href="">LOG OUT</a>
+							<a class="dropdown-item no-hover" id="LogoutLink" style="text-align: center; font-weight: bold;" href="">ĐĂNG XUẤT</a>
 						</div>
 					</li>
 				</ul>
