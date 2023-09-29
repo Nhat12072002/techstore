@@ -15,8 +15,8 @@
 	</div>
 	<form th:action="@{/products/save}" method="post" th:object="${product}" onsubmit="return checkUnique(this)
 		" enctype="multipart/form-data">
-		<input type="hidden" th:field="*{id}"/>
-		<input th:if="${product.category !=null}"type="hidden" id="categoryId" th:value="${product.category.id}"/>
+		<input type="hidden" th:field="*{id}" />
+		<input th:if="${product.category !=null}" type="hidden" id="categoryId" th:value="${product.category.id}" />
 		<div>
 			<!-- Nav tabs -->
 			<ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -49,12 +49,12 @@
 					<div th:replace="products/product_images :: content"></div>
 				</div>
 				<div class="tab-pane p-3" id="details" role="tabpanel">
-					<div th:replace="products/product_details :: content"></div>						
+					<div th:replace="products/product_details :: content"></div>
 				</div>
 				<div class="tab-pane p-3" id="shipping" role="tabpanel">
 					<div th:replace="products/product_shipping :: content"></div>
 				</div>
-				
+
 			</div>
 		</div>
 		<div class="text-center">
@@ -87,34 +87,39 @@
 		dropdownBrands = $("#brand");
 		dropdownCategories = $("#category");
 		var extraImagesCount = 0
+
+
 		$(document).ready(function () {
-			$("#shortDescription").richText()
-			$("#fullDescription").richText()
-			dropdownBrands.change(function () {
-				dropdownCategories.empty();
-				getCategories();
-			})
-			getCategoriesForNewForm();
 			$("input[name='extraImage']").each(function (index) {
+				extraImagesCount++;
 				$(this).change(function () {
-					extraImagesCount++
+					if (!checkFileSize(this)) {
+						return;
+					}
 					showExtraImageThumbnail(this, index);
-				})
-			})
-		})
-		function getCategoriesForNewForm(){
-			catIdField=$("#categoryId")
-			editMode=false
-			
-			if(catIdField.length){
-				editMode=true
+				});
+			});
+			$("a[name='linkRemoveExtraImage']").each(function (index) {
+				$(this).click(function () {
+					removeExtraImage(index);
+				});
+			});
+		});
+
+		function getCategoriesForNewForm() {
+			catIdField = $("#categoryId")
+			editMode = false
+
+			if (catIdField.length) {
+				editMode = true
 			}
-			if(!editMode) getCategories();
+			if (!editMode) getCategories();
 		}
 		function showExtraImageThumbnail(fileInput, index) {
 			var file = fileInput.files[0];
-			imageNameHiddenField= $("#imageName"+index)
-			if(imageNameHiddenField.length){
+			fileName = file.name;
+			imageNameHiddenField = $("#imageName" + index)
+			if (imageNameHiddenField.length) {
 				imageNameHiddenField.val(fileName)
 			}
 			var reader = new FileReader();
@@ -193,45 +198,45 @@
 			$("#divExtraImage" + index).remove()
 			extraImagesCount--
 		}
-	function addNextDetailSection(){
-		allDivDetails = $("[id^='divDetail']");
-		divDetailsCount =allDivDetails.length;
-		nextDivDetailId =divDetailsCount
-		htmlDetailSection=
-		`<div class="form-inline m-3" id="divDetail${nextDivDetailId}">
+		function addNextDetailSection() {
+			allDivDetails = $("[id^='divDetail']");
+			divDetailsCount = allDivDetails.length;
+			nextDivDetailId = divDetailsCount
+			htmlDetailSection =
+				`<div class="form-inline m-3" id="divDetail${nextDivDetailId}">
 			<label class="m-3"style="display: inline;">Name:</label>
 			<input type="text"style="display: inline;" class="form-control w-25" name="detailNames" maxlength="255" />
 			<label class="m-3"style="display: inline;">Value:</label>
 			<input type="text"style="display: inline;" class="form-control w-25" name="detailValues" maxlength="255" />
 		</div>`;
-		$("#divProductDetails").append(htmlDetailSection)
-		previousDivDetailSection =allDivDetails.last()
-		previousDivDetailID=previousDivDetailSection.attr("id")
-		
-		htmlLinkRemove = `
+			$("#divProductDetails").append(htmlDetailSection)
+			previousDivDetailSection = allDivDetails.last()
+			previousDivDetailID = previousDivDetailSection.attr("id")
+
+			htmlLinkRemove = `
 				<a class=" btn fas fa-times-circle fa-2x ml-3" title="Remove this detail" style="color:red" href="javascript:removeDetailSectionById('${previousDivDetailID}')"></a>
 				`;
-		previousDivDetailSection.append(htmlLinkRemove)
-		
-		$("input[name='detailNames']").last().focus()
-		
-	}
-	function removeDetailSectionById(id){
-		$("#"+id).remove();
-	}
-	$("a[name='linkRemoveExtraImage']").each(function(index){
-		$(this).click(function(){
-			removeExtraImage(index)
+			previousDivDetailSection.append(htmlLinkRemove)
+
+			$("input[name='detailNames']").last().focus()
+
+		}
+		function removeDetailSectionById(id) {
+			$("#" + id).remove();
+		}
+		$("a[name='linkRemoveExtraImage']").each(function (index) {
+			$(this).click(function () {
+				removeExtraImage(index)
+			})
 		})
-	})
-	$("a[name='linkRemoveDetail']").each(function(index){
-		$(this).click(function(){
-			removeDetailByIndex(index)
+		$("a[name='linkRemoveDetail']").each(function (index) {
+			$(this).click(function () {
+				removeDetailByIndex(index)
+			})
 		})
-	})
-	function removeDetailByIndex(index){
-		$("#divDetail" +index).remove()
-	}
+		function removeDetailByIndex(index) {
+			$("#divDetail" + index).remove()
+		}
 	</script>
 	<script th:src="@{/js/common_form.js}"></script>
 	</script>

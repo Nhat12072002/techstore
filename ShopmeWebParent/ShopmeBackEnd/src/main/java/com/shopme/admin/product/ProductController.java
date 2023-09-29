@@ -59,12 +59,13 @@ public class ProductController {
 	public String saveProduct(Product product, RedirectAttributes ra,
 			@RequestParam("fileImage") MultipartFile mainImageMultipart,
 			@RequestParam("extraImage") MultipartFile[] extraImageMultiparts,
+			@RequestParam(name = "detailIDs", required = false) String[] detailIDs,
 			@RequestParam(name = "detailNames", required = false) String[] detailNames,
 			@RequestParam(name = "detailValues", required = false) String[] detailValues,
 			@RequestParam(name = "imageIDs", required = false) String[] imageIDs,
 			@RequestParam(name = "imageNames", required = false) String[] imageNames) throws IOException {
 		setMainImageName(mainImageMultipart, product);
-		setExistingExtraImagenames(imageIDs, imageNames, product);
+		setExistingExtraImageNames(imageIDs, imageNames, product);
 		setNewExtraImageName(extraImageMultiparts, product);
 		setProductDetails(detailNames, detailValues, product);
 		Product savedProduct = productService.save(product);
@@ -95,19 +96,22 @@ public class ProductController {
 		}
 	}
 
-	private void setExistingExtraImagenames(String[] imageIDs, String[] imageNames, Product product) {
-		if (imageIDs == null || imageIDs.length == 0)
-			return;
+	private void setExistingExtraImageNames(String[] imageIDs, String[] imageNames, 
+			Product product) {
+		if (imageIDs == null || imageIDs.length == 0) return;
+
 		Set<ProductImage> images = new HashSet<>();
+
 		for (int count = 0; count < imageIDs.length; count++) {
 			Integer id = Integer.parseInt(imageIDs[count]);
 			String name = imageNames[count];
+
 			images.add(new ProductImage(id, name, product));
-
 		}
-		product.setImages(images);
-	}
 
+		product.setImages(images);
+
+	}
 	private void setProductDetails(String[] detailNames, String[] detailValues, Product product) {
 		if (detailNames == null || detailNames.length == 0)
 			return;
@@ -162,7 +166,7 @@ public class ProductController {
 			for (MultipartFile multipartFile : extraImageMultiparts) {
 				if (!multipartFile.isEmpty()) {
 					String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-					if (product.containsImageName(fileName)) {
+					if (!product.containsImageName(fileName)) {
 						product.addExtraImages(fileName);
 					}
 				}
