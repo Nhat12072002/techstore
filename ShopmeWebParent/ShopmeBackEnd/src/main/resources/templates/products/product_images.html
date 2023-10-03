@@ -22,8 +22,8 @@
 					<div>
 						<label>Extra Images #[[${status.index+1}]]: [[${productImage.name}]]</label>
 						<a name="linkRemoveExtraImage" class=" btn fas fa-times-circle fa-2x ml-3"
-							title="Remove this detail" style="color:black"
-							href="javascript:removeDetailSectionById('${previousDivDetailID}')"></a>
+							title="Remove this detail" style="color:black">
+						</a>
 					</div>
 					<div class="m-2">
 						<img th:id="'extraThumbnail'+${status.index}"
@@ -34,8 +34,11 @@
 						<input type="file" name="extraImage" accept="image/png, image/jpeg" />
 					</div>
 
-					<input type="hidden" name="imageIDs" th:id="'imageId'+${status.index}">
-					<input type="hidden" name="imageNames" th:id="'imageName'+${status.index}">
+					<input type="hidden" name="imageIDs" th:id="'imageId'+${status.index}"
+						th:value="${productImage.id}">
+					<input type="hidden" name="imageNames" th:id="'imageName'+${status.index}"
+						th:value="${productImage.name}">
+
 				</div>
 			</th:block>
 			<div class="col border m-3 p-2 text-center" th:id="'divExtraImage' + ${numberOfExistingExtraImages} ">

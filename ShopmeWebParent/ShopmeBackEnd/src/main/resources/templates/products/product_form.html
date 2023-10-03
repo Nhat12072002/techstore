@@ -90,6 +90,7 @@
 
 
 		$(document).ready(function () {
+			
 			$("input[name='extraImage']").each(function (index) {
 				extraImagesCount++;
 				$(this).change(function () {
@@ -97,10 +98,8 @@
 						return ;
 					}
 					showExtraImageThumbnail(this, index);
-				});
+					});
 			});
-
-
 			$("a[name='linkRemoveExtraImage']").each(function (index) {
 				$(this).click(function () {
 					removeExtraImage(index);
@@ -108,15 +107,7 @@
 			});
 		});
 
-		function getCategoriesForNewForm() {
-			catIdField = $("#categoryId")
-			editMode = false
-
-			if (catIdField.length) {
-				editMode = true
-			}
-			if (!editMode) getCategories();
-		}
+		
 		function showExtraImageThumbnail(fileInput, index) {
 			var file = fileInput.files[0];
 			fileName = file.name;
@@ -159,16 +150,6 @@
 			$("#extraImageHeader" + (index - 1)).append(htmlLinkRemove)
 		}
 
-		function getCategories() {
-			brandId = dropdownBrands.val();
-			url = brandModuleURL + "/" + brandId + "/categories";
-			$.get(url, function (responseJson) {
-				$.each(responseJson, function (index, category) {
-					$("<option>").val(category.id).text(category.name).appendTo(dropdownCategories)
-				})
-			})
-
-		}
 		$('#myTab a').on('click', function (e) {
 			e.preventDefault()
 			$(this).tab('show')
