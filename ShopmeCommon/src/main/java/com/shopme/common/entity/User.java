@@ -136,4 +136,8 @@ public class User {
 	public String getFullName() {
 		return firstname + " " + lastname;
 	}
+	public String getImageUser() {
+		return this.getPhotos();
+	}
+
 }

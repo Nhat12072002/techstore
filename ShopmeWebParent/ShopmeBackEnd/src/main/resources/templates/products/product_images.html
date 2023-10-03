@@ -11,11 +11,12 @@
 						style="width: 300px;" />
 				</div>
 				<div>
-					<input type="file" th:required="${product.mainImage==null}" id="fileImage" name="fileImage" required
+					<input type="file" th:required="${product.mainImage==null}" id="fileImage" name="fileImage" 
 						accept="image/png, image/jpeg" />
 				</div>
 				<input type="hidden" th:field="*{mainImage}" />
 			</div>
+			
 			<th:block th:each="productImage, status : ${product.images}">
 				<div class="col border m-3 p-2 text-center" th:id="'divExtraImage'+${status.index}">
 					<div>
@@ -33,11 +34,8 @@
 						<input type="file" name="extraImage" accept="image/png, image/jpeg" />
 					</div>
 
-					<input type="hidden" name="imageIDs" th:id="'imageId'+${status.index}"
-						th:value="${productImage.id}">
-					<input type="hidden" name="imageNames" th:id="'imageName'+${status.index}"
-						th:value="${productImage.name}">
-
+					<input type="hidden" name="imageIDs" th:id="'imageId'+${status.index}">
+					<input type="hidden" name="imageNames" th:id="'imageName'+${status.index}">
 				</div>
 			</th:block>
 			<div class="col border m-3 p-2 text-center" th:id="'divExtraImage' + ${numberOfExistingExtraImages} ">
@@ -46,13 +44,14 @@
 					<label>Extra Images #[[${numberOfExistingExtraImages + 1}]]:</label>
 				</div>
 				<div class="m-2">
-					<img id="'extraThumbnail'+${numberOfExistingExtraImages}"
-						alt="'Extra image #'+${numberOfExistingExtraImages}+ 'preview'" class="img fluid"
+					<img th:id="'extraThumbnail'+${numberOfExistingExtraImages}"
+						th:alt="'Extra image #'+${numberOfExistingExtraImages}+ 'preview'" class="img fluid"
 						th:src="@{/img/image-thumbnail.png}" style="width: 300px;" />
 				</div>
 				<div>
 					<input type="file" name="extraImage" accept="image/png, image/jpeg" />
 				</div>
+				
 			</div>
 		</div>
 

@@ -75,4 +75,8 @@ public class ShopmeUserDetails implements UserDetails {
 	public void setLastname(String lastname) {
 		this.user.setLastname(lastname);
 	}
+	public void setImageUser(String img) {
+		this.user.setPhotos(img);
+	}
+	
 }

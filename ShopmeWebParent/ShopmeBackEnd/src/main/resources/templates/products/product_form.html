@@ -94,11 +94,13 @@
 				extraImagesCount++;
 				$(this).change(function () {
 					if (!checkFileSize(this)) {
-						return;
+						return ;
 					}
 					showExtraImageThumbnail(this, index);
 				});
 			});
+
+
 			$("a[name='linkRemoveExtraImage']").each(function (index) {
 				$(this).click(function () {
 					removeExtraImage(index);
@@ -128,10 +130,15 @@
 			};
 			reader.readAsDataURL(file);
 
-			if (index >= extraImagesCount - 1) {
+			// Kiểm tra xem phần tử extra image có hình ảnh không
+			var existingImage = $("#extraThumbnail" + index).attr("src");
+			if (!existingImage || existingImage.trim() === defaultThumbnailImages.trim()) {
+				// Chỉ thêm phần tử HTML mới khi hình ảnh đã chọn
 				addNextExtraImageSection(index + 1);
 			}
 		}
+
+
 		function addNextExtraImageSection(index) {
 			var htmlExtraImage = `<div class="col border m-3 p-2 text-center" id="divExtraImage${index}">
 				<div id="extraImageHeader${index}">
@@ -151,6 +158,7 @@
 			$("#divProductImages").append(htmlExtraImage);
 			$("#extraImageHeader" + (index - 1)).append(htmlLinkRemove)
 		}
+
 		function getCategories() {
 			brandId = dropdownBrands.val();
 			url = brandModuleURL + "/" + brandId + "/categories";
