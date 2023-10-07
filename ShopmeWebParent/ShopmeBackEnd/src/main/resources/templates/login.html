@@ -19,7 +19,7 @@
 			<p class="text-danger">[[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]</p>
 		</div>
 <div th:if="${param.logout}">
-	<p class="text-warning">You have been logged out.</p>
+	<p class="text-danger">You have been logged out.</p>
 	
 </div>
 		<div class="border border-secondary rounded p-3"style="background-color:white;">
@@ -35,8 +35,6 @@
 			</p>
 			<p>
 				<input type="submit" value="Login" class="btn btn-primary login-btn" style="width: 100px; font-weight: bold; color: black ; border: black 1px;" />
-				
-				
 			</p>			
 		</div>
 	</form>

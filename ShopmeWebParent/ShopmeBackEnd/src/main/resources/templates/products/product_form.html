@@ -81,24 +81,24 @@
 	</div>
 	<div th:replace="fragments::footer"></div>
 	<script type="text/javascript">
-		defaultThumbnailImages = "[[@{/img/image-thumbnail.png}]]"
 		moduleURL = "[[@{/products}]]"
 		brandModuleURL = "[[@{/brands}]]"
 		dropdownBrands = $("#brand");
 		dropdownCategories = $("#category");
 		var extraImagesCount = 0
+		defaultThumbnailImages = "[[@{/img/image-thumbnail.png}]]"
 
 
 		$(document).ready(function () {
-			
+
 			$("input[name='extraImage']").each(function (index) {
 				extraImagesCount++;
 				$(this).change(function () {
 					if (!checkFileSize(this)) {
-						return ;
+						return;
 					}
 					showExtraImageThumbnail(this, index);
-					});
+				});
 			});
 			$("a[name='linkRemoveExtraImage']").each(function (index) {
 				$(this).click(function () {
@@ -107,7 +107,7 @@
 			});
 		});
 
-		
+
 		function showExtraImageThumbnail(fileInput, index) {
 			var file = fileInput.files[0];
 			fileName = file.name;
@@ -149,7 +149,11 @@
 			$("#divProductImages").append(htmlExtraImage);
 			$("#extraImageHeader" + (index - 1)).append(htmlLinkRemove)
 		}
-
+		function removeExtraImage(index) {
+			$("#divExtraImage" + index).remove()
+			extraImagesCount--
+		}
+		
 		$('#myTab a').on('click', function (e) {
 			e.preventDefault()
 			$(this).tab('show')
@@ -183,10 +187,7 @@
 				window.location = "[[@{/products}]]";
 			});
 		});
-		function removeExtraImage(index) {
-			$("#divExtraImage" + index).remove()
-			extraImagesCount--
-		}
+
 		function addNextDetailSection() {
 			allDivDetails = $("[id^='divDetail']");
 			divDetailsCount = allDivDetails.length;
