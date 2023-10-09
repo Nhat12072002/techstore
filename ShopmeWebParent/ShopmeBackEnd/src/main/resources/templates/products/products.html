@@ -35,7 +35,7 @@
 					<td class="text-center">
 						<img th:src="@{${product.mainImagePath}}" style="width: 120px;" class="img-fluid"/>
 					 </td>
-					<td>[[${product.name}]]</td>
+					<td><a class="link-details" style="font-size: 24;" th:href="@{'/products/detail/'+${product.id}}" title="View details of this product">[[${product.name}]]</a></td>
 					<td>[[${product.brand.name}]]</td>
 					<td >[[${product.category.name}]]</td>
 					<td class="text-center">
@@ -43,7 +43,7 @@
 						<a th:if="${product.enabled==false}" th:href="@{'/products/'+${product.id}+'/enabled/true'}" class="fa-regular fa-circle-xmark fa-2x"style= "color: red; text-decoration:none;"title="Enable this Product"></a>
 					</td>
 					<td class="text-center">
-						<a class="fas fa-file-alt fa-2x" th:href="@{'/products/detail/'+${product.id}}" title="View details of this product"></a>
+						<a class="fas fa-file-alt fa-2x link-details" th:href="@{'/products/detail/'+${product.id}}" title="View details of this product"></a>
 						 &nbsp;  &nbsp;
 						<a class="fa-solid fa-user-pen fa-2x"style= "color: green; text-decoration: none;" th:href="@{'/products/edit/' + ${product.id}}" title="Edit this product"></a>
 						 &nbsp;
@@ -74,6 +74,13 @@
 			</div>
 		</div>
 	</div>
+	<div class="modal fade" id="detailModal">
+		<div class="modal-dialog modal-xl">
+			<div class="modal-content">
+				
+			</div>
+		</div>
+	</div>
 	<div th:replace="fragments::footer"></div>
 	<script type="text/javascript">
 		$(document).ready(function(){
@@ -97,6 +104,11 @@
 			})
 			 customizeDropdownMenu()
 		});
+		$(".link-details").on("click",function(e){
+			e.preventDefault()
+			linkDataURL=$(this).attr("href")
+			$("#detailModal").modal("show").find(".modal-content").load(linkDataURL)
+		})
 		function customizeDropdownMenu(){
 		$(".navbar .dropdown").hover(
 			function(){
