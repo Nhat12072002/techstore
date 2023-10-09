@@ -20,11 +20,11 @@
 		<table class="table table-bordered table-striped table-hover table-responsive-xl">
 			<thead class="table-dark text-center">
 				<tr>
-					<th>Product ID</th>
+					<th th:replace="~{fragments:: column_link('/products','id','Product ID', 'none')}"/></th>
 					<th>Main Image</th>
-					<th>Name</th>
-					<th>Brand</th>
-					<th>Category</th>
+					<th th:replace="~{fragments:: column_link('/products','name','Product Name', 'none')}"/></th>
+					<th th:replace="~{fragments:: column_link('/products','brand','Brand', 'none')}"/></th>
+					<th th:replace="~{fragments:: column_link('/products','category','Category', 'none')}"/></th>
 					<th>Enabled</th>
 					<th></th>
 				</tr>
@@ -81,6 +81,8 @@
 			</div>
 		</div>
 	</div>
+	<div th:replace="fragments::pagination('/products','products')"></div>
+
 	<div th:replace="fragments::footer"></div>
 	<script type="text/javascript">
 		$(document).ready(function(){
