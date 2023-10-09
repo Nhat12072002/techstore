@@ -108,6 +108,7 @@
 		});
 
 
+
 		function showExtraImageThumbnail(fileInput, index) {
 			var file = fileInput.files[0];
 			fileName = file.name;
@@ -153,7 +154,7 @@
 			$("#divExtraImage" + index).remove()
 			extraImagesCount--
 		}
-		
+
 		$('#myTab a').on('click', function (e) {
 			e.preventDefault()
 			$(this).tab('show')
@@ -194,6 +195,7 @@
 			nextDivDetailId = divDetailsCount
 			htmlDetailSection =
 				`<div class="form-inline m-3" id="divDetail${nextDivDetailId}">
+									<input type="hidden" name="detailIDs" value="0"/>
 			<label class="m-3"style="display: inline;">Name:</label>
 			<input type="text"style="display: inline;" class="form-control w-25" name="detailNames" maxlength="255" />
 			<label class="m-3"style="display: inline;">Value:</label>

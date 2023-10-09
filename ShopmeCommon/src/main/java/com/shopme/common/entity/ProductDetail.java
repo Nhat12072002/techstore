@@ -17,10 +17,10 @@ public class ProductDetail {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@Column(unique = true, length = 255)
+	@Column(unique = false, length = 255)
 	private String name;
 
-	@Column(unique = true, length = 255)
+	@Column(unique = false, length = 255)
 	private String value;
 	
 	@ManyToOne
@@ -30,6 +30,14 @@ public class ProductDetail {
 	
 	public ProductDetail() {
 	
+	}
+
+	public ProductDetail(Integer id, String name, String value, Product product) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.value = value;
+		this.product = product;
 	}
 
 	public ProductDetail(String name, String value, Product product) {

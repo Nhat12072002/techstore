@@ -25,11 +25,12 @@ import com.shopme.admin.brand.BrandService;
 import com.shopme.admin.category.CategoryNotFoundException;
 import com.shopme.common.entity.Brand;
 import com.shopme.common.entity.Product;
+import com.shopme.common.entity.ProductDetail;
 import com.shopme.common.entity.ProductImage;
 
 @Controller
 public class ProductController {
-	private static final Logger LOGGER= LoggerFactory.getLogger(ProductController.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(ProductController.class);
 	@Autowired
 	private ProductService productService;
 	@Autowired
@@ -54,7 +55,6 @@ public class ProductController {
 		model.addAttribute("pageTitle", "Create New Product");
 		model.addAttribute("numberOfExistingExtraImages", 0);
 
-
 		return "products/product_form";
 	}
 
@@ -70,7 +70,7 @@ public class ProductController {
 		setMainImageName(mainImageMultipart, product);
 		setExistingExtraImageNames(imageIDs, imageNames, product);
 		setNewExtraImageName(extraImageMultiparts, product);
-		setProductDetails(detailNames, detailValues, product);
+		setProductDetails(detailIDs, detailNames, detailValues, product);
 		Product savedProduct = productService.save(product);
 		saveUploadedImages(mainImageMultipart, extraImageMultiparts, savedProduct);
 		deleteExtraImageWereReomovedOnForm(product);
@@ -79,29 +79,29 @@ public class ProductController {
 	}
 
 	private void deleteExtraImageWereReomovedOnForm(Product product) {
-		String extraImageDir="../product-images/"+product.getId()+"/extras";
-		Path dirPath= Paths.get(extraImageDir);
+		String extraImageDir = "../product-images/" + product.getId() + "/extras";
+		Path dirPath = Paths.get(extraImageDir);
 		try {
-			Files.list(dirPath).forEach(file-> {
-				String filename=file.toFile().getName();
-				if(!product.containsImageName(filename)) {
+			Files.list(dirPath).forEach(file -> {
+				String filename = file.toFile().getName();
+				if (!product.containsImageName(filename)) {
 					try {
 						Files.delete(file);
-						LOGGER.info("Delete extra image: "+filename);
-						
+						LOGGER.info("Delete extra image: " + filename);
+
 					} catch (IOException e) {
-						LOGGER.error("Could not delete extra image: "+filename);
+						LOGGER.error("Could not delete extra image: " + filename);
 					}
 				}
 			});
-		}catch (IOException ex) {
-			LOGGER.error("Could not list directory: "+dirPath);
+		} catch (IOException ex) {
+			LOGGER.error("Could not list directory: " + dirPath);
 		}
 	}
 
-	private void setExistingExtraImageNames(String[] imageIDs, String[] imageNames, 
-			Product product) {
-		if (imageIDs == null || imageIDs.length == 0) return;
+	private void setExistingExtraImageNames(String[] imageIDs, String[] imageNames, Product product) {
+		if (imageIDs == null || imageIDs.length == 0)
+			return;
 
 		Set<ProductImage> images = new HashSet<>();
 
@@ -115,16 +115,44 @@ public class ProductController {
 		product.setImages(images);
 
 	}
-	private void setProductDetails(String[] detailNames, String[] detailValues, Product product) {
+
+	private void setProductDetails(String[] detailIDs, String[] detailNames, String[] detailValues, Product product) {
 		if (detailNames == null || detailNames.length == 0)
 			return;
 
 		for (int count = 0; count < detailNames.length; count++) {
 			String name = detailNames[count];
 			String value = detailValues[count];
+			Integer id = Integer.parseInt(detailIDs[count]);
 
-			if (!name.isEmpty() && !value.isEmpty()) {
-				product.addDetail(name, value);
+			if (id != 0) {
+				// Trường hợp này là bạn đang cập nhật một chi tiết sản phẩm đã tồn tại
+				// Hãy kiểm tra xem chi tiết có tồn tại trong danh sách chi tiết hay không trước
+				// khi cập nhật
+				boolean detailExists = false;
+				for (ProductDetail existingDetail : product.getDetails()) {
+					if (existingDetail.getName().equals(name) && existingDetail.getValue().equals(value)) {
+						detailExists = true;
+						break;
+					}
+				}
+				if (!detailExists) {
+					product.addDetail(id, name, value);
+				}
+			} else if (!name.isEmpty() && !value.isEmpty()) {
+				// Trường hợp này là bạn đang thêm một chi tiết mới
+				// Hãy kiểm tra xem chi tiết có tồn tại trong danh sách chi tiết hay không trước
+				// khi thêm mới
+				boolean detailExists = false;
+				for (ProductDetail existingDetail : product.getDetails()) {
+					if (existingDetail.getName().equals(name) && existingDetail.getValue().equals(value)) {
+						detailExists = true;
+						break;
+					}
+				}
+				if (!detailExists) {
+					product.addDetail(name, value);
+				}
 			}
 		}
 	}
