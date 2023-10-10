@@ -87,14 +87,7 @@
 			</div>
 		</div>
 		<div class="tab-pane p-3" id="description" role="tabpanel">
-			<div class="m-2">
-				<label>Short Description:</label>
-				<div th:utext="${product.shortDescription}" class="border p-2 m-2"></div>
-			</div>
-			<div class="m-2">
-				<label>Full Description:</label>
-				<div th:utext="${product.fullDescription}" class="border p-2 m-2"></div>
-			</div>
+			<div th:replace="products/product_description_read_only :: content"></div>
 		</div>
 		<div class="tab-pane p-3" id="images" role="tabpanel">
 			<div class="col border m-3 p-2 text-center">

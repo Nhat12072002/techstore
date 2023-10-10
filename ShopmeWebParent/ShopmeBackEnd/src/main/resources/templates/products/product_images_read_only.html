@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+	<div th:fragment="content" remove="tag">
+		<div class="tab-pane p-3" id="description" role="tabpanel">
+			<div class="col border m-3 p-2 text-center">
+				<div><label>Main Images: [[${product.mainImage}]]</label></div>
+				<div class="m-2">
+					<img alt="Main image preview" class="img fluid" th:src="@{${product.mainImagePath}}"
+						style="width: 300px;" />
+				</div>
+				<th:block th:each="productImage, status : ${product.images}">
+					<div class="col border m-3 p-2 text-center">
+						<div>
+							<label>Extra Images #[[${status.index+1}]]: [[${productImage.name}]]</label>
+						</div>
+						<div class="m-2">
+							<img th:alt="'Extra image #'+${status.index+1}+ 'preview'" class="img fluid"
+								th:src="@{${productImage.imagePath}}" style="width: 300px;" />
+						</div>
+					</div>
+				</th:block>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

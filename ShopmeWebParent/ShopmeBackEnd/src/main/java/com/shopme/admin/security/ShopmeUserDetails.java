@@ -13,6 +13,8 @@ import com.shopme.common.entity.User;
 public class ShopmeUserDetails implements UserDetails {
 
 	
+	
+	private static final long serialVersionUID = 1L;
 	private User user;
 	
 	
@@ -77,6 +79,9 @@ public class ShopmeUserDetails implements UserDetails {
 	}
 	public void setImageUser(String img) {
 		this.user.setPhotos(img);
+	}
+	public boolean hasRole(String roleName) {
+		return user.hasRole(roleName);
 	}
 	
 }

@@ -43,16 +43,36 @@
 					<div th:replace="products/product_overview :: content"></div>
 				</div>
 				<div class="tab-pane p-3" id="description" role="tabpanel">
-					<div th:replace="products/product_description :: content"></div>
+					<th:block sec:authorize="hasAuthority('Salesperson')">
+						<div th:replace="products/product_description_read_only :: content"></div>
+					</th:block>
+					<th:block sec:authorize="hasAnyAuthority('Admin','Editor')">
+						<div th:replace="products/product_description :: content"></div>
+					</th:block>
 				</div>
 				<div class="tab-pane p-3" id="images" role="tabpanel">
-					<div th:replace="products/product_images :: content"></div>
+					<th:block sec:authorize="hasAuthority('Salesperson')">
+						<div th:replace="products/product_images_read_only :: content"></div>
+					</th:block>
+					<th:block sec:authorize="hasAnyAuthority('Admin','Editor')">
+						<div th:replace="products/product_images :: content"></div>
+					</th:block>
 				</div>
 				<div class="tab-pane p-3" id="details" role="tabpanel">
-					<div th:replace="products/product_details :: content"></div>
+					<th:block sec:authorize="hasAuthority('Salesperson')">
+						<div th:replace="products/product_details_read_only :: content"></div>
+					</th:block>
+					<th:block sec:authorize="hasAnyAuthority('Admin','Editor')">
+						<div th:replace="products/product_details :: content"></div>
+					</th:block>
 				</div>
 				<div class="tab-pane p-3" id="shipping" role="tabpanel">
-					<div th:replace="products/product_shipping :: content"></div>
+					<th:block sec:authorize="hasAuthority('Salesperson')">
+						<div th:replace="products/product_shipping_read_only :: content"></div>
+					</th:block>
+					<th:block sec:authorize="hasAnyAuthority('Admin','Editor')">
+						<div th:replace="products/product_shipping :: content"></div>
+					</th:block>
 				</div>
 
 			</div>
