@@ -1,10 +1,86 @@
 <!DOCTYPE html>
-<html>
-<head>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments :: page_head('TechStore','none')" />
 <meta charset="ISO-8859-1">
-<title>Welcome to Shopme</title>
+<title>Welcome to TechStore</title>
 </head>
+
 <body>
-	<h1>Welcome to Shopme</h1>
+
+	<div th:replace="navigation::header_menu"></div>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		<div class="container">
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+				aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav">
+					<li class="nav-item">
+						<a class="nav-link" href="#" style="font-weight: bold; color: rgb(255, 202, 104);">Tất cả</a>
+					</li>
+					<!-- Duyệt qua danh mục từ danh sách cat.name -->
+					<div th:each="cat: ${listCategories}">
+						<li class="nav-item" style="font-weight: bold;">
+							<a class="nav-link" style="color: rgb(255, 202, 104);"
+								th:href="@{'/category/'+${cat.alias}}" th:text="${cat.name}"></a>
+						</li>
+					</div>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<div class="row">
+		<div class="col-md-8">
+			<!-- Slideshow -->
+			<div id="slideshow" class="carousel slide" data-bs-ride="carousel" data-interval="5000"
+				style="margin-top: 30px;margin-bottom: 30px;">
+				<div class="carousel-inner">
+					<div class="carousel-item active">
+						<img th:src="@{/img/techstore3.png}" height="300px" width="300px" class="d-block w-100"
+							alt="Hình ảnh 1">
+					</div>
+					<div class="carousel-item">
+						<img th:src="@{/img/samsung.jpg}" height="300px" width="300px" class="d-block w-100"
+							alt="Hình ảnh 2">
+					</div>
+					<div class="carousel-item">
+						<img th:src="@{/img/apple.png}" height="300px" width="300px" class="d-block w-100"
+							alt="Hình ảnh 3">
+					</div>
+				</div>
+
+				<!-- Nút Previous -->
+				<a class="carousel-control-prev" href="#slideshow" role="button" data-bs-slide="prev">
+					<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+					<span class="visually-hidden">Previous</span>
+				</a>
+
+				<!-- Nút Next -->
+				<a class="carousel-control-next" href="#slideshow" role="button" data-bs-slide="next">
+					<span class="carousel-control-next-icon" ariahidden="true"></span>
+					<span class="visually-hidden">Next</span>
+				</a>
+			</div>
+		</div>
+		<div class="col-md-4" style="margin-top: 30px;margin-bottom: 30px;">
+			<!-- Hình ảnh cố định -->
+			<img th:src="@{/img/chinhsach.jpg}" class="img-fluid" alt="Tấm hình cố định">
+		</div>
+	</div>
+	
+	<div th:replace="navigation :: footer_menu"></div>
+
+	<script>
+		$(document).ready(function () {
+			// Tự động bật carousel khi trang đã tải
+			$('#slideshow').carousel();
+			// Bắt đầu chạy slideshow tự động
+			$('#slideshow').carousel('cycle');
+		});
+	</script>
 </body>
+
 </html>

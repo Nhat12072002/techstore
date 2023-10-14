@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head th:replace="fragments :: page_head('Error - TechStore','none')"/>
+<body>
+		<div th:replace="navigation::header_menu"></div>
+		<div class="m-3" style="color: red; text-align: center;">
+			<h2>[Error 403]Sorry, you don't have permission to access this page!!!</h2>
+		</div>
+	</div>
+</body>
+</html>
