@@ -18,7 +18,7 @@
 			<div class="collapse navbar-collapse" id="topNavbar">
 				<ul class="navbar-nav">
 					<li class="nav-item">
-						<a class="nav-link" style="color: black; font-weight: bold;" href="#">Trang Chủ</a>
+						<a class="nav-link" style="color: black; font-weight: bold;" th:href="@{/}">Trang Chủ</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" style="color: black; font-weight: bold;" href="#">Sản Phẩm</a>
@@ -43,7 +43,7 @@
 	</div>
 	</nav>
 	</div>
-	<div th:fragment="footer_menu" >
+	<div th:fragment="footer_menu" style="margin-top: 20px;" >
 		<div class="container-fluid">
 		<div class="row" style="background-color: black;color: white;">
 			<div class="col-md-6">

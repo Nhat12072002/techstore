@@ -8,14 +8,23 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.shopme.category.CategoryService;
 import com.shopme.common.entity.Category;
+import com.shopme.common.entity.Product;
+import com.shopme.product.ProductService;
 @Controller
 public class MainController {
 	@Autowired private CategoryService categoryService;
+	@Autowired
+    private ProductService productService;
 	@GetMapping("")
-	public String viewHomePage(Model model) {
-		List<Category> listCategories= categoryService.listNoChildrenCategories();
-		model.addAttribute("listCategories",listCategories);
-		return "index";
-	}
-	
+    public String viewHomePage(Model model) {
+        List<Category> listCategories = categoryService.listNoChildrenCategories();
+        List<Product> listProducts = productService.listAll();
+
+        model.addAttribute("listCategories", listCategories);
+        model.addAttribute("listProducts", listProducts);
+
+        return "index";
+    }
 }
+	
+

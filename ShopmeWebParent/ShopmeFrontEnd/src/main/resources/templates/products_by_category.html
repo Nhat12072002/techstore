@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="fragments :: page_head('TechStore','none')" />
+<head th:replace="fragments :: page_head(${pageTitle},'none')" />
 <meta charset="ISO-8859-1">
 <title>Welcome to TechStore</title>
 </head>
@@ -18,7 +18,8 @@
 			<div class="collapse navbar-collapse" id="navbarNav">
 				<ul class="navbar-nav">
 					<li class="nav-item">
-						<a class="nav-link" href="#" style="font-weight: bold; color: rgb(255, 202, 104);">Tất cả</a>
+						<a class="nav-link" th:href="@{/}" style="font-weight: bold; color: rgb(255, 202, 104);">Tất
+							cả</a>
 					</li>
 					<!-- Duyệt qua danh mục từ danh sách cat.name -->
 					<div th:each="cat: ${listCategories}">
@@ -31,47 +32,26 @@
 			</div>
 		</div>
 	</nav>
+	<div th:if="${listCategoryParents != null && !listCategoryParents.empty}" style="background-color: darkgray;">
+		<div class="row" style="margin-left:20px;">
+			<div class="col">
+				<nav>
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item">
+							<a th:href="@{/}">Home</a>
+						</li>
 
-	<div class="row">
-		<div class="col-md-8">
-			<!-- Slideshow -->
-			<div id="slideshow" class="carousel slide" data-bs-ride="carousel" data-interval="5000"
-				style="margin-top: 30px;margin-bottom: 30px;">
-				<div class="carousel-inner">
-					<div class="carousel-item active">
-						<img th:src="@{/img/techstore3.png}" height="300px" width="300px" class="d-block w-100"
-							alt="Hình ảnh 1">
-					</div>
-					<div class="carousel-item">
-						<img th:src="@{/img/samsung.jpg}" height="300px" width="300px" class="d-block w-100"
-							alt="Hình ảnh 2">
-					</div>
-					<div class="carousel-item">
-						<img th:src="@{/img/apple.png}" height="300px" width="300px" class="d-block w-100"
-							alt="Hình ảnh 3">
-					</div>
-				</div>
-
-				<!-- Nút Previous -->
-				<a class="carousel-control-prev" href="#slideshow" role="button" data-bs-slide="prev">
-					<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-					<span class="visually-hidden">Previous</span>
-				</a>
-
-				<!-- Nút Next -->
-				<a class="carousel-control-next" href="#slideshow" role="button" data-bs-slide="next">
-					<span class="carousel-control-next-icon" ariahidden="true"></span>
-					<span class="visually-hidden">Next</span>
-				</a>
+						<th:block th:each="parent : ${listCategoryParents}">
+							<li class="breadcrumb-item">
+								<a th:href="@{'/category/'+ ${parent.alias}}">[[${parent.name}]]</a>
+							</li>
+						</th:block>
+					</ol>
+				</nav>
 			</div>
-		</div>
-		<div class="col-md-4" style="margin-top: 30px;margin-bottom: 30px;">
-			<!-- Hình ảnh cố định -->
-			<img th:src="@{/img/chinhsach.jpg}" class="img-fluid" alt="Tấm hình cố định">
 		</div>
 	</div>
 	<div class="container mt-4">
-		<h2>Tất cả sản phẩm</h2>
 		<div class="row product-list">
 			<th:block th:each="product : ${listProducts}">
 				<div class="col-md-4">
@@ -87,8 +67,9 @@
 		</div>
 	</div>
 
-	<div th:replace="navigation :: footer_menu"></div>
-<style>
+	<div th:replace="fragments :: pagination('/category/' + ${category.alias} ,'product')"></div>
+	<div th:replace="navigation :: footer_menu" style="margin-top: 20px;"></div>
+	<style>
 		.card {
 			height: 100%;
 			/* Đặt chiều cao cố định cho tất cả các khối */
