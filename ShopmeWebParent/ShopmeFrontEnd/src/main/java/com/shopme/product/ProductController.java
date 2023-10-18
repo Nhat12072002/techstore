@@ -26,7 +26,7 @@ public class ProductController {
 	}
 	@GetMapping("/category/{category_alias}/page/{pageNum}")
 	public String viewCategoryByPage(@PathVariable("category_alias") String alias, @PathVariable("pageNum") int pageNum,Model model) {
-		List<Category> listCategories= categoryService.listNoChildrenCategories();
+		List<Category> listCategories= categoryService.listParentCategories();
 		Category category=categoryService.getCategory(alias);
 		if(category == null) {
 			return "error/404";

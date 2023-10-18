@@ -42,4 +42,15 @@ public class CategoryService {
 			listParents.add(child);
 			return listParents;
 		}
+		public List<Category> listParentCategories() {
+		    List<Category> parentCategories = new ArrayList<>();
+		    List<Category> listEnabledCategories = repo.findAllEnabled();
+		    
+		    listEnabledCategories.forEach(category -> {
+		        if (category.getParent() == null) {
+		            parentCategories.add(category);
+		        }
+		    });
+		    return parentCategories;
+		}
 }

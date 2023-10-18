@@ -17,11 +17,13 @@ public class MainController {
     private ProductService productService;
 	@GetMapping("")
     public String viewHomePage(Model model) {
-        List<Category> listCategories = categoryService.listNoChildrenCategories();
+        List<Category> listCategories = categoryService.listParentCategories();
         List<Product> listProducts = productService.listAll();
+        List<Category> listChildrenCategories = categoryService.listParentCategories();
 
         model.addAttribute("listCategories", listCategories);
         model.addAttribute("listProducts", listProducts);
+        model.addAttribute("listChildrenCategories", listChildrenCategories);
 
         return "index";
     }
