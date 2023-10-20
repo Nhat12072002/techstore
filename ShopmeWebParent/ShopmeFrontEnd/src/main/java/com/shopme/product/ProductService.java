@@ -24,4 +24,12 @@ public class ProductService {
 	public List<Product> listAll() {
         return (List<Product>) repo.findAll();
     }
+	
+	public Product getProduct(String alias) throws ProductNotFoundException {
+		Product product=repo.findbyAlias(alias);
+		if(product == null) {
+			throw new ProductNotFoundException("Could not find any product.");
+		}
+		return product;
+	}
 }
