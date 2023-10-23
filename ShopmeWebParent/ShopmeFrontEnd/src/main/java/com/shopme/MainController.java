@@ -23,8 +23,6 @@ public class MainController {
 
         model.addAttribute("listCategories", listCategories);
         model.addAttribute("listProducts", listProducts);
-        model.addAttribute("listChildrenCategories", listChildrenCategories);
-
         return "index";
     }
 }

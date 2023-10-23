@@ -11,8 +11,9 @@ import com.shopme.common.entity.Product;
 
 @Service
 public class ProductService {
-	public static final int PRODUCTS_PER_PAGE=4;
-	
+	public static final int PRODUCTS_PER_PAGE=6;
+	public static final int SEARCH_PRODUCTS_PER_PAGE=6;
+
 	@Autowired private ProductRepository repo;
 
 	public Page<Product> listByCategory(int pageNum,Integer categoryId){
@@ -31,5 +32,9 @@ public class ProductService {
 			throw new ProductNotFoundException("Could not find any product.");
 		}
 		return product;
+	}
+	public Page<Product> searchProduct(String keyword, int pageNum){
+		PageRequest pageable =PageRequest.of(pageNum-1,SEARCH_PRODUCTS_PER_PAGE );
+		return repo.search(keyword, pageable);
 	}
 }

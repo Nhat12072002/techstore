@@ -77,10 +77,12 @@
 				<div class="col-md-4" style="margin-top: 20px;">
 					<div class="card">
 						<a th:href="@{'/product/'+${product.alias}}">
-						<img th:src="@{${product.mainImagePath}}" width="150px" height="300px" class="card-img-top"
-							alt="[[${product.name}]]"></a>
+							<img th:src="@{${product.mainImagePath}}" width="150px" height="300px" class="card-img-top"
+								alt="[[${product.name}]]"></a>
 						<div class="card-body" style="text-align: center;">
-							<a th:href="@{'/product/'+${product.alias}}"><h5 class="card-title" th:text="${product.name}"></h5></a>
+							<a th:href="@{'/product/'+${product.alias}}">
+								<h5 class="card-title" th:text="${product.name}"></h5>
+							</a>
 							<div th:if="${product.discountPercent<=0}">
 								<span>[[${product.price}]] triệu VND</span>
 							</div>

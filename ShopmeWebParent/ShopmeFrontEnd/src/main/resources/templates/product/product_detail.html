@@ -39,11 +39,13 @@
 			<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
 				<div class="carousel-inner">
 					<div class="carousel-item active" style="text-align: center;">
-						<img id="bigImage" th:src="@{${product.mainImagePath}}" height="300px" width="300px" class="img-fluid" />
+						<img id="bigImage" th:src="@{${product.mainImagePath}}" height="300px" width="300px"
+							class="img-fluid" />
 					</div>
 					<th:block th:each="extraImage : ${product.images}">
 						<div class="carousel-item" style="text-align: center;">
-							<img id="bigImage" th:src="@{${extraImage.imagePath}}" height="300px" width="300px" class="img-fluid" />
+							<img id="bigImage" th:src="@{${extraImage.imagePath}}" height="300px" width="300px"
+								class="img-fluid" />
 						</div>
 					</th:block>
 				</div>
@@ -136,7 +138,7 @@
 		}
 	</style>
 	<script type="text/javascript">
-		
+
 	</script>
 </body>
 

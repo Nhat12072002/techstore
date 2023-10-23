@@ -27,8 +27,16 @@
 					<li class="nav-item">
 						<a class="nav-link" style="color: black; font-weight: bold;" href="#">Liên Hệ</a>
 					</li>
+					<li class="nav-item" style="margin-left: 100px; text-align: center;">
+						<form class="input-group" th:action="@{/search}" method="get">
+							<input type="search" name="keyword" class="form-control" placeholder="Thông tin tìm kiếm" required
+							th:value="${keyword}"/>
+							<input type="submit" class="btn btn-success" value="Tìm Kiếm" />
+						</form>
+					</li>
 				</ul>
 			</div>
+
 			<div class="collapse navbar-collapse" id="navbarNav" style="margin-right: 20px;">
 				<ul class="navbar-nav ms-auto">
 					<li class="nav-item">
@@ -43,26 +51,26 @@
 	</div>
 	</nav>
 	</div>
-	<div th:fragment="footer_menu" style="margin-top: 20px;" >
+	<div th:fragment="footer_menu" style="margin-top: 20px;">
 		<div class="container-fluid">
-		<div class="row" style="background-color: black;color: white;">
-			<div class="col-md-6">
-				<h4 style="margin-left:20px;">TechStore</h4>
-				<p style="margin-left:20px;">Cửa hàng công nghệ hàng đầu Việt Nam.</p>
+			<div class="row" style="background-color: black;color: white;">
+				<div class="col-md-6">
+					<h4 style="margin-left:20px;">TechStore</h4>
+					<p style="margin-left:20px;">Cửa hàng công nghệ hàng đầu Việt Nam.</p>
+				</div>
+				<div class="col-md-6 text-md-center">
+					<p style="margin-left: 110px;">&copy; 2023 TechStore. All rights reserved.</p>
+					<a href="about-us.html" class="footer-link">Về chúng tôi</a>
+					&nbsp;
+					<a href="privacy-policy.html" class="footer-link">Thông báo bảo mật</a>
+					&nbsp;
+					<a href="return-policy.html" class="footer-link">Chính sách đổi trả</a>
+				</div>
 			</div>
-			<div class="col-md-6 text-md-center">
-				<p style="margin-left: 110px;">&copy; 2023 TechStore. All rights reserved.</p>
-				<a href="about-us.html" class="footer-link">Về chúng tôi</a>
-				&nbsp;
-				<a href="privacy-policy.html" class="footer-link">Thông báo bảo mật</a>
-				&nbsp;
-				<a href="return-policy.html" class="footer-link">Chính sách đổi trả</a>
-			</div>
-		</div>
 
+		</div>
 	</div>
-	</div>
-	
+
 </body>
 
 </html>
