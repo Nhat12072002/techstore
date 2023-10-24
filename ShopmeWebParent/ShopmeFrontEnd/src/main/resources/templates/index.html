@@ -7,7 +7,6 @@
 </head>
 
 <body>
-
 	<div th:replace="navigation::header_menu"></div>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 		<div class="container">
@@ -36,20 +35,17 @@
 		<div class="col-md-8">
 			<!-- Slideshow -->
 			<div id="slideshow" class="carousel slide" data-bs-ride="carousel" data-interval="5000"
-				style="margin-top: 30px;margin-bottom: 30px;">
+				style="margin-top: 30px;margin-bottom: 30px; margin-left: 10px;">
 				<div class="carousel-inner">
-					<div class="carousel-item active">
-						<img th:src="@{/img/techstore3.png}" height="300px" width="300px" class="d-block w-100"
-							alt="Hình ảnh 1">
+					<div class="carousel-inner">
+						<th:block th:each="thumbnail, iterStat : ${listThumbnails}">
+							<div th:classappend="${iterStat.first} ? 'carousel-item active' : 'carousel-item'">
+								<img th:src="@{${thumbnail.logoPath}}" height="300px" width="300px"
+									class="d-block w-100"/>
+							</div>
+						</th:block>
 					</div>
-					<div class="carousel-item">
-						<img th:src="@{/img/samsung.jpg}" height="300px" width="300px" class="d-block w-100"
-							alt="Hình ảnh 2">
-					</div>
-					<div class="carousel-item">
-						<img th:src="@{/img/apple.png}" height="300px" width="300px" class="d-block w-100"
-							alt="Hình ảnh 3">
-					</div>
+
 				</div>
 
 				<!-- Nút Previous -->

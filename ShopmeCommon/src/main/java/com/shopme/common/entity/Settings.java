@@ -21,8 +21,6 @@ public class Settings {
 	private String name;
 	@Column(nullable = false, length = 128)
 	private String logo;
-	@Column(name = "created_time")
-	private Date createdTime;
 	private boolean enabled;
 	public boolean isEnabled() {
 		return enabled;
@@ -48,16 +46,6 @@ public class Settings {
 	public void setLogo(String logo) {
 		this.logo = logo;
 	}
-	public Date getCreatedTime() {
-		return createdTime;
-	}
-	public void setCreatedTime(Date createdTime) {
-		this.createdTime = createdTime;
-	}
-	@PrePersist
-    protected void onCreate() {
-        createdTime = new Date();
-    }
 	@Transient
 	public String getLogoPath() {
 		if (this.id == null)

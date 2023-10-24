@@ -37,8 +37,8 @@
 	</nav>
 	<div th:replace="breadcrumb::content"></div>
 	<div class="row text-center">
-		<th:block th:each="cat : ${category.children}">
-			<div class="col" th:if="${cat.enabled ==true}">
+		<th:block th:each="cat : ${category.children}" >
+			<div class="col" th:if="${cat.enabled ==true}" style="margin-top: 10px;">
 				<a th:href="@{'/category/'+${cat.alias}}">
 					<img th:src="@{${cat.imagePath}}" height="100" />
 					<br />
