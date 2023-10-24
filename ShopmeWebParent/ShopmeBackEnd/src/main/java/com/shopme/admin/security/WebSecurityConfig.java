@@ -26,7 +26,7 @@ public class WebSecurityConfig{
 	        // Yêu cầu xác thực cho URL "/login".
 	            .requestMatchers("/users/**").hasAuthority("Admin")
 	            .requestMatchers("/categories/**","/brands/**").hasAnyAuthority("Admin","Editor")
-	            .requestMatchers("/productRs/new","/products/delete/**").hasAnyAuthority("Admin","Editor")
+	            .requestMatchers("/products/new","/products/delete/**").hasAnyAuthority("Admin","Editor")
 	            .requestMatchers("/products/edit/**","/products/save","/products/check_unique")
             	.hasAnyAuthority("Admin","Editor","Salesperson")
 
@@ -34,7 +34,8 @@ public class WebSecurityConfig{
 	            	.hasAnyAuthority("Admin","Editor","Salesperson","Shipper")
 	            	
 	            .requestMatchers("/products/**").hasAnyAuthority("Admin","Editor")
-	            
+	            .requestMatchers("/settings/**").hasAnyAuthority("Admin","Editor")
+
 	            .requestMatchers("/").authenticated()
 	            .requestMatchers("/users").authenticated()
 	            // Yêu cầu xác thực cho trang chủ.
