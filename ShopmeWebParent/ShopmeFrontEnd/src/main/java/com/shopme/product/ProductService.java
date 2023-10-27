@@ -12,6 +12,8 @@ import com.shopme.common.entity.Product;
 @Service
 public class ProductService {
 	public static final int PRODUCTS_PER_PAGE=6;
+	public static final int MAINPRODUCTS_PER_PAGE=9;
+
 	public static final int SEARCH_PRODUCTS_PER_PAGE=6;
 
 	@Autowired private ProductRepository repo;
@@ -22,8 +24,9 @@ public class ProductService {
 		
 		return repo.listByCategory(categoryId, categoryIdMatch, pageable);
 	}
-	public List<Product> listAll() {
-        return (List<Product>) repo.findAll();
+	public Page<Product> listAll(int pageNum) {
+		PageRequest pageable =PageRequest.of(pageNum-1,PRODUCTS_PER_PAGE );
+        return  repo.findAll(pageable);
     }
 	
 	public Product getProduct(String alias) throws ProductNotFoundException {
