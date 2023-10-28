@@ -155,4 +155,10 @@ public class Customer {
 			return "Customer [id=" + id + ", email=" + email + ", First Name=" + firstname + "Last Name="+ lastname +"]";
 		
 		}
+
+		public String setName(String firstname,String lastname) {
+			return firstname + " " + lastname;
+			
+		}
+
 	}
