@@ -41,7 +41,7 @@
 						<th:block th:each="thumbnail, iterStat : ${listThumbnails}">
 							<div th:classappend="${iterStat.first} ? 'carousel-item active' : 'carousel-item'">
 								<img th:src="@{${thumbnail.logoPath}}" height="300px" width="300px"
-									class="d-block w-100"/>
+									class="d-block w-100" />
 							</div>
 						</th:block>
 					</div>
@@ -98,7 +98,13 @@
 	</div>
 
 	<div th:replace="fragments :: pagination('' ,'product')"></div>
+	<div class="modal fade" id="registerModal">
+		<div class="modal-dialog modal-xl">
+			<div class="modal-content">
 
+			</div>
+		</div>
+	</div>
 	<div th:replace="navigation :: footer_menu"></div>
 	<style>
 		.card {
@@ -113,6 +119,15 @@
 			// Bắt đầu chạy slideshow tự động
 			$('#slideshow').carousel('cycle');
 		});
+
+		$("#link-register").on("click", function (e) {
+			e.preventDefault();
+			linkDataURL = $(this).attr("href");
+			console.log("Clicked on link-register");
+			$("#registerModal").modal("show").find(".modal-content").load(linkDataURL);
+		});
+
+
 	</script>
 </body>
 

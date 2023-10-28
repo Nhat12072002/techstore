@@ -32,8 +32,8 @@
 					</li>
 					<li class="nav-item" style="margin-left: 100px; text-align: center;">
 						<form class="input-group" th:action="@{/search}" method="get">
-							<input type="search" name="keyword" class="form-control" placeholder="Thông tin tìm kiếm" required
-							th:value="${keyword}"/>
+							<input type="search" name="keyword" class="form-control" placeholder="Thông tin tìm kiếm"
+								required th:value="${keyword}" />
 							<input type="submit" class="btn btn-success" value="Tìm Kiếm" />
 						</form>
 					</li>
@@ -46,7 +46,8 @@
 						<a class="nav-link" style="color: black; font-weight: bold;" href="#">Đăng Nhập</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" style="color: black; font-weight: bold;" href="#">Đăng Ký</a>
+						<a class="nav-link" id="link-register" style="color: black; font-weight: bold;"
+							th:href="@{'/register'}">Đăng Ký</a>
 					</li>
 				</ul>
 			</div>
@@ -70,10 +71,8 @@
 					<a href="return-policy.html" class="footer-link">Chính sách đổi trả</a>
 				</div>
 			</div>
-
 		</div>
 	</div>
-
 </body>
 
 </html>

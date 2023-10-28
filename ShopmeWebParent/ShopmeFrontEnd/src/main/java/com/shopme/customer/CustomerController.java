@@ -32,6 +32,7 @@ public class CustomerController {
 		model.addAttribute("customer", new Customer());
 
 		return "register/register_form";
+		
 	}
 
 //	@PostMapping("/create_customer")
