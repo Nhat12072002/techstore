@@ -1,8 +1,11 @@
 package com.shopme.customer;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +14,8 @@ import com.shopme.common.entity.Customer;
 import com.shopme.customer.CustomerNotFoundException;
 
 import net.bytebuddy.utility.RandomString;
-
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -20,7 +24,7 @@ public class CustomerService {
 
 	@Autowired private CustomerRepository customerRepo;
 	@Autowired PasswordEncoder passwordEncoder;
-
+	@Autowired JavaMailSender mailSender;
 
 
 	public boolean isEmailUnique(String email) {
@@ -28,7 +32,7 @@ public class CustomerService {
 		return customer == null;
 	}
 
-	public void registerCustomer(Customer customer) {
+	public Customer registerCustomer(Customer customer) {
 		encodePassword(customer);
 		customer.setEnabled(false);
 		customer.setCreatedTime(new Date());
@@ -37,10 +41,36 @@ public class CustomerService {
 		String randomCode = RandomString.make(64);
 		customer.setVerificationCode(randomCode);
 
-		customerRepo.save(customer);
+		return customerRepo.save(customer);
 
 	}
 
+	public void sendVerificationEmail(Customer customer, String siteURL) throws UnsupportedEncodingException, MessagingException {
+		String subject = "Please verify your registration";
+		String senderName ="TechStore";
+		String mailContent = "<p>Dear "+ customer.getFullName() + ", </p>";
+		mailContent += "<p>Quý khách vui lòng nhấn vào link bên dưới để xác thực tài khoản.";
+		String verifyURL = siteURL + "/verify?code=" + customer.getVerificationCode();
+
+		mailContent += "<h3><a href=\"" + verifyURL +"\">VERIFY </a></h3>";
+		mailContent += "<p>Thank you<br> TechStore Team</p>";
+
+		MimeMessage message = mailSender.createMimeMessage();
+	    MimeMessageHelper helper = new MimeMessageHelper(message);
+
+	    helper.setFrom("minhnhatnguyenphan1207@gmail.com", senderName);
+	    helper.setTo(customer.getEmail());
+	    helper.setSubject(subject);
+
+//	    mailSender = mailSender.replace("[[name]]", customer.getName());
+//	    String verifyURL = siteURL + "/verify?code=" + customer.getVerificationCode();
+//	     
+//	    mailSender = mailSender.replace("[[URL]]", verifyURL);
+//	     
+	    helper.setText(mailContent, true);
+
+	    mailSender.send(message);
+	}
 	public Customer getCustomerByEmail(String email) {
 		return customerRepo.findByEmail(email);
 	}

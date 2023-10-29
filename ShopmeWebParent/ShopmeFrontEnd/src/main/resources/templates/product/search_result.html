@@ -12,10 +12,10 @@
 
 	<div class="container mt-4">
 		<div th:if="${totalItems > 0}">
-		<h2>Kết quả tìm kiếm  <span style="color: darkred;">'[[${keyword}]]'</span></h2>
+			<h2>Kết quả tìm kiếm <span style="color: darkred;">'[[${keyword}]]'</span></h2>
 		</div>
 		<div th:unless="${totalItems > 0}">
-		<h2 style="color: red;">Không tìm thấy thông tin sản phẩm!!!</h2>
+			<h2 style="color: red;">Không tìm thấy thông tin sản phẩm!!!</h2>
 		</div>
 		<div class="row product-list">
 			<th:block th:each="product : ${listResult}">
@@ -45,8 +45,10 @@
 			</th:block>
 		</div>
 	</div>
-	
+
 	<div th:if="" th:replace="fragments :: pagination('/search','product')"></div>
+	<div th:replace="navigation :: register_form"></div>
+
 	<div th:replace="navigation :: footer_menu"></div>
 	<style>
 		.card {
@@ -60,6 +62,12 @@
 			$('#slideshow').carousel();
 			// Bắt đầu chạy slideshow tự động
 			$('#slideshow').carousel('cycle');
+		});
+		$("#link-register").on("click", function (e) {
+			e.preventDefault();
+			linkDataURL = $(this).attr("href");
+			console.log("Clicked on link-register");
+			$("#registerModal").modal("show").find(".modal-content").load(linkDataURL);
 		});
 	</script>
 </body>

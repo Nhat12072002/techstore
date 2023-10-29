@@ -2,10 +2,7 @@ package com.shopme.customer;
 
 import java.io.UnsupportedEncodingException;
 
-import org.aspectj.apache.bcel.classfile.Utility;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.authentication.RememberMeAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
@@ -17,6 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.shopme.common.entity.Customer;
 import com.shopme.security.CustomerUserDetails;
+import com.shopme.settings.Utilities;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -24,27 +22,25 @@ import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 public class CustomerController {
-	@Autowired private CustomerService customerService;
-
+	@Autowired
+	private CustomerService customerService;
 	@GetMapping("/register")
 	public String showRegisterForm(Model model) {
 		model.addAttribute("pageTitle", "Customer Registration");
 		model.addAttribute("customer", new Customer());
 
 		return "register/register_form";
-		
+
 	}
 
-//	@PostMapping("/create_customer")
-//	public String createCustomer(Customer customer, Model model,
-//			HttpServletRequest request) throws UnsupportedEncodingException, MessagingException {
-//		customerService.registerCustomer(customer);
-//		sendVerificationEmail(request, customer);
-//		
-//		model.addAttribute("pageTitle", "Registration Succeeded!");
-//		
-//		return "register/register_success";
-//	}
+	@PostMapping("/create_customer")
+	public String createCustomer(Customer customer, Model model, HttpServletRequest request) 
+			throws UnsupportedEncodingException, MessagingException {
+		customerService.registerCustomer(customer);
+		String siteURL = Utilities.getSiteURL(request);
+		customerService.sendVerificationEmail(customer, siteURL);
+		return "register/register_success";
+	}
 
 //	private void sendVerificationEmail(HttpServletRequest request, Customer customer) 
 //			throws UnsupportedEncodingException, MessagingException {
@@ -52,8 +48,8 @@ public class CustomerController {
 //		JavaMailSenderImpl mailSender = Utility.prepareMailSender(emailSettings);
 //		
 //		String toAddress = customer.getEmail();
-//		String subject = emailSettings.getCustomerVerifySubject();
-//		String content = emailSettings.getCustomerVerifyContent();
+//	String subject = emailSettings.getCustomerVerifySubject();
+//	String content = emailSettings.getCustomerVerifyContent();
 //		
 //		MimeMessage message = mailSender.createMimeMessage();
 //		MimeMessageHelper helper = new MimeMessageHelper(message);
@@ -64,7 +60,7 @@ public class CustomerController {
 //		
 //		content = content.replace("[[name]]", customer.getFullName());
 //		
-//		String verifyURL = Utility.getSiteURL(request) + "/verify?code=" + customer.getVerificationCode();
+//		String verifyURL = Utilities.getSiteURL(request) + "/verify?code=" + customer.getVerificationCode();
 //		
 //		content = content.replace("[[URL]]", verifyURL);
 //		
@@ -134,16 +130,16 @@ public class CustomerController {
 //		}		
 //	}
 
-	private CustomerUserDetails getCustomerUserDetailsObject(Object principal) {
-		CustomerUserDetails userDetails = null;
-		if (principal instanceof UsernamePasswordAuthenticationToken) {
-			UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken) principal;
-			userDetails = (CustomerUserDetails) token.getPrincipal();
-		} else if (principal instanceof RememberMeAuthenticationToken) {
-			RememberMeAuthenticationToken token = (RememberMeAuthenticationToken) principal;
-			userDetails = (CustomerUserDetails) token.getPrincipal();
-		}
-
-		return userDetails;
-	}
+//	private CustomerUserDetails getCustomerUserDetailsObject(Object principal) {
+//		CustomerUserDetails userDetails = null;
+//		if (principal instanceof UsernamePasswordAuthenticationToken) {
+//			UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken) principal;
+//			userDetails = (CustomerUserDetails) token.getPrincipal();
+//		} else if (principal instanceof RememberMeAuthenticationToken) {
+//			RememberMeAuthenticationToken token = (RememberMeAuthenticationToken) principal;
+//			userDetails = (CustomerUserDetails) token.getPrincipal();
+//		}
+//
+//		return userDetails;
+//	}
 }

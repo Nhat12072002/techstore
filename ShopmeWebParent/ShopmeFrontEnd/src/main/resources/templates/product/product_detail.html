@@ -121,6 +121,7 @@
 			</th:block>
 		</div>
 	</div>
+	<div th:replace="navigation :: register_form"></div>
 
 	<footer th:replace="navigation :: footer_menu" style="margin-top: 20px;"></footer>
 
@@ -138,7 +139,14 @@
 		}
 	</style>
 	<script type="text/javascript">
-
+		$(document).ready(function () {
+			$("#link-register").on("click", function (e) {
+				e.preventDefault();
+				linkDataURL = $(this).attr("href");
+				console.log("Clicked on link-register");
+				$("#registerModal").modal("show").find(".modal-content").load(linkDataURL);
+			});
+			})
 	</script>
 </body>
 

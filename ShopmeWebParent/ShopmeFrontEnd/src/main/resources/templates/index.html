@@ -98,13 +98,7 @@
 	</div>
 
 	<div th:replace="fragments :: pagination('' ,'product')"></div>
-	<div class="modal fade" id="registerModal">
-		<div class="modal-dialog modal-xl">
-			<div class="modal-content">
-
-			</div>
-		</div>
-	</div>
+	<div th:replace="navigation :: register_form"></div>
 	<div th:replace="navigation :: footer_menu"></div>
 	<style>
 		.card {

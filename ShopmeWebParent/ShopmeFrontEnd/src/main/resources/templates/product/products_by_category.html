@@ -37,7 +37,7 @@
 	</nav>
 	<div th:replace="breadcrumb::content"></div>
 	<div class="row text-center">
-		<th:block th:each="cat : ${category.children}" >
+		<th:block th:each="cat : ${category.children}">
 			<div class="col" th:if="${cat.enabled ==true}" style="margin-top: 10px;">
 				<a th:href="@{'/category/'+${cat.alias}}">
 					<img th:src="@{${cat.imagePath}}" height="100" />
@@ -79,6 +79,8 @@
 	</div>
 
 	<div th:replace="fragments :: pagination('/category/' + ${category.alias} ,'product')"></div>
+	<div th:replace="navigation :: register_form"></div>
+
 	<div th:replace="navigation :: footer_menu" style="margin-top: 20px;"></div>
 	<style>
 		.card {
@@ -93,6 +95,12 @@
 			// Bắt đầu chạy slideshow tự động
 			$('#slideshow').carousel('cycle');
 		});
+		$("#link-register").on("click", function (e) {
+				e.preventDefault();
+				linkDataURL = $(this).attr("href");
+				console.log("Clicked on link-register");
+				$("#registerModal").modal("show").find(".modal-content").load(linkDataURL);
+			});
 	</script>
 </body>
 
