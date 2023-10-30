@@ -97,15 +97,14 @@ public class CustomerService {
 		}
 	}
 
-	public void addNewCustomerUponOAuthLogin(String firstname,String lastname, String email, String countryCode,
-			AuthenticationType authenticationType) {
+	public void addNewCustomerUponOAuthLogin(String firstname,String lastname, String email) {
 		Customer customer = new Customer();
 		customer.setEmail(email);
 		setName(firstname,lastname, customer);
 
 		customer.setEnabled(true);
 		customer.setCreatedTime(new Date());
-		customer.setAuthenticationType(authenticationType);
+		customer.setAuthenticationType(AuthenticationType.GOOGLE);
 		customer.setPassword("");
 		customer.setAddress("");
 		customer.setPhoneNumber("");		

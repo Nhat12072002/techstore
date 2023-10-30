@@ -1,0 +1,33 @@
+<div class="modal-header">
+	<h1 class="modal-title" id="modal-Title"
+		style="text-align: center; font-family: 'Poppins', sans-serif; font-size: 2rem; font-weight: 700;">ĐĂNG NHẬP
+	</h1>
+	<button type="button" class="close" style="font-size: 30px; border: none; background-color: white;"
+		data-bs-dismiss="modal">&times;</button>
+</div>
+<form th:action="@{/login}" method="post"
+	style="max-width: 350px; margin: 0 auto; font-family: 'Open Sans', sans-serif; font-size: 1rem;">
+	<div th:if="${param.error}">
+		<p class="text-danger" style="color: red;">[[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]</p>
+	</div>
+	<div th:if="${param.logout}">
+		<p class="text-danger" style="color: red;">You have been logged out.</p>
+	</div>
+			<p style="margin-top: 10px;">
+				<input type="email" name="email" class="form-control" placeholder="E-mail" required />
+			</p>
+			<p>
+				<input type="password" name="password" class="form-control" placeholder="Password" required />
+			</p>
+			<p style="text-align: center;">
+				<input type="checkbox" name="remember-me"/>&nbsp;Remember me
+			</p>
+			<p style="text-align: center;">
+				<input type="submit" value="Login" class="btn btn-primary login-btn" style="width: 100px; font-weight: bold; color: black ; border: black 1px;" />
+			</p>			
+</form>
+<div class="modal-footer">
+	<div class="col-sm-12 text-center" style="font-family: 'Open Sans', sans-serif; font-size: 1rem;">
+		<b>Đăng nhập để nhận những ưu đãi hấp dẫn từ chúng tôi!</b>
+	</div>
+</div>

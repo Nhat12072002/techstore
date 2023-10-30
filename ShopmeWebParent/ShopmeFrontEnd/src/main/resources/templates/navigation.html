@@ -43,8 +43,13 @@
 			<div class="collapse navbar-collapse" id="navbarNav" style="margin-right: 20px;">
 				<ul class="navbar-nav ms-auto">
 					<li class="nav-item">
-						<a class="nav-link" style="color: black; font-weight: bold;" href="#">Đăng Nhập</a>
+						<a th:href="@{/login}"id="link-login"style="color: black; font-weight: bold;" class="nav-link">Đăng Nhập</a>
 					</li>
+					<th:block sec:authorize="isAuthenticated()">
+						<li class="nav-item">
+							<a class="nav-link" href="javascript: document.logoutForm.submit()">Đăng Xuất</a>
+						</li>
+					</th:block>
 					<li class="nav-item">
 						<a class="nav-link" id="link-register" style="color: black; font-weight: bold;"
 							th:href="@{'/register'}">Đăng Ký</a>
@@ -75,14 +80,23 @@
 	</div>
 	<div th:fragment="register_form">
 		<div class="modal fade" id="registerModal">
-		<div class="modal-dialog modal-xl">
-			<div class="modal-content">
+			<div class="modal-dialog modal-xl">
+				<div class="modal-content">
 
+				</div>
 			</div>
 		</div>
 	</div>
+	<div th:fragment="login_form">
+		<div class="modal fade" id="loginModal">
+			<div class="modal-dialog">
+				<div class="modal-content">
+
+				</div>
+			</div>
+		</div>
 	</div>
-		<div th:fragment="header">
+	<div th:fragment="header">
 		<form th:action="@{/logout}" method="post" th:hidden="true" name="LogoutForm">
 			<input type="submit" />
 		</form>
