@@ -52,4 +52,7 @@ public class CustomerUserDetails implements UserDetails {
 	public String getFullName() {
 		return customer.getFullName();
 	}
+	public Customer getCustomer() {
+		return this.customer;
+	}
 }

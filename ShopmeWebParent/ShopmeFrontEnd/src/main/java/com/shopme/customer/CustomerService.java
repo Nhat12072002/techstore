@@ -97,10 +97,10 @@ public class CustomerService {
 		}
 	}
 
-	public void addNewCustomerUponOAuthLogin(String firstname,String lastname, String email) {
+	public void addNewCustomerUponOAuthLogin(String name, String email) {
 		Customer customer = new Customer();
 		customer.setEmail(email);
-		setName(firstname,lastname, customer);
+		setName(name, customer);
 
 		customer.setEnabled(true);
 		customer.setCreatedTime(new Date());
@@ -111,9 +111,21 @@ public class CustomerService {
 		customerRepo.save(customer);
 	}	
 
-	private void setName(String firstname,String lastname, Customer customer) {
-			customer.setName(firstname,lastname);	
-	}
+
+		private void setName(String name, Customer customer) {
+			String[] nameArray = name.split(" ");
+			if (nameArray.length < 2) {
+				customer.setFirstname(name);
+				customer.setLastname("");
+			} else {
+				String firstName = nameArray[0];
+				customer.setFirstname(firstName);
+				
+				String lastName = name.replaceFirst(firstName + " ", "");
+				customer.setLastname(lastName);
+			}
+		}
+
 
 	public void update(Customer customerInForm) {
 		Customer customerInDB = customerRepo.findById(customerInForm.getId()).get();
