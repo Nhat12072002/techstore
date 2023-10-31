@@ -27,4 +27,14 @@ spring:
             enable: true
     username: "minhnhatnguyenphan1207@gmail.com\t"
  
-    
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 165363165853-9befafd48s4q21641uqo58o5dgv8perj.apps.googleusercontent.com
+            client-secret: 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
+            scope:
+            - email
+            - profile
+  
