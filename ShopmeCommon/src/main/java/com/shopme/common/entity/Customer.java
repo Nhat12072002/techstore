@@ -145,7 +145,7 @@ public class Customer {
 
 		@Transient
 		public String getFullName() {
-			return firstname + " " + lastname;
+			return firstname + "  " + lastname;
 		}
 		@Override
 		public String toString() {

@@ -48,7 +48,7 @@
 					</li>
 					<th:block sec:authorize="isAuthenticated()">
 						<li class="nav-item">
-							<a class="nav-link" th:href="@{/account_details}"style="color: black; font-weight: bold;"
+							<a class="nav-link" id="detail_account" th:href="@{/account_details}"style="color: black; font-weight: bold;"
 								sec:authentication="principal.fullName"></a>
 						</li>
 						<li class="nav-item">
@@ -87,15 +87,6 @@
 	<div th:fragment="register_form">
 		<div class="modal fade" id="registerModal">
 			<div class="modal-dialog modal-xl">
-				<div class="modal-content">
-
-				</div>
-			</div>
-		</div>
-	</div>
-	<div th:fragment="login_form">
-		<div class="modal fade" id="loginModal">
-			<div class="modal-dialog">
 				<div class="modal-content">
 
 				</div>

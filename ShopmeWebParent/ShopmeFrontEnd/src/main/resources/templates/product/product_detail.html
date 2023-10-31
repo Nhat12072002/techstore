@@ -9,7 +9,11 @@
 
 <body>
 	<header th:replace="navigation::header_menu"></header>
-
+	<th:block sec:authorize="isAuthenticated()">
+		<form th:action="@{/logout}" method="post" th:hidden="true" name="logoutForm">
+			<input type="submit" value="Logout" />
+		</form>
+	</th:block>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 		<div class="container">
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -122,7 +126,6 @@
 		</div>
 	</div>
 	<div th:replace="navigation :: register_form"></div>
-	<div th:replace="navigation :: login_form"></div>
 
 	<footer th:replace="navigation :: footer_menu" style="margin-top: 20px;"></footer>
 
@@ -147,13 +150,7 @@
 				console.log("Clicked on link-register");
 				$("#registerModal").modal("show").find(".modal-content").load(linkDataURL);
 			});
-			})
-			$("#link-login").on("click", function (e) {
-			e.preventDefault();
-			linkDataURL = $(this).attr("href");
-			console.log("Clicked on link-register");
-			$("#loginModal").modal("show").find(".modal-content").load(linkDataURL);
-		});
+		})
 	</script>
 </body>
 

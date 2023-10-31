@@ -9,7 +9,11 @@
 <body>
 
 	<div th:replace="navigation::header_menu"></div>
-
+	<th:block sec:authorize="isAuthenticated()">
+		<form th:action="@{/logout}" method="post" th:hidden="true" name="logoutForm">
+			<input type="submit" value="Logout" />
+		</form>
+	</th:block>
 	<div class="container mt-4">
 		<div th:if="${totalItems > 0}">
 			<h2>Kết quả tìm kiếm <span style="color: darkred;">'[[${keyword}]]'</span></h2>
@@ -48,7 +52,6 @@
 
 	<div th:if="" th:replace="fragments :: pagination('/search','product')"></div>
 	<div th:replace="navigation :: register_form"></div>
-	<div th:replace="navigation :: login_form"></div>
 
 	<div th:replace="navigation :: footer_menu"></div>
 	<style>
@@ -69,12 +72,6 @@
 			linkDataURL = $(this).attr("href");
 			console.log("Clicked on link-register");
 			$("#registerModal").modal("show").find(".modal-content").load(linkDataURL);
-		});
-		$("#link-login").on("click", function (e) {
-			e.preventDefault();
-			linkDataURL = $(this).attr("href");
-			console.log("Clicked on link-register");
-			$("#loginModal").modal("show").find(".modal-content").load(linkDataURL);
 		});
 	</script>
 </body>

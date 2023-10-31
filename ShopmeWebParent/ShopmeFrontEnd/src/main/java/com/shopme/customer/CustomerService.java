@@ -116,12 +116,12 @@ public class CustomerService {
 			String[] nameArray = name.split(" ");
 			if (nameArray.length < 2) {
 				customer.setFirstname(name);
-				customer.setLastname("");
+				customer.setLastname(" ");
 			} else {
 				String firstName = nameArray[0];
 				customer.setFirstname(firstName);
 				
-				String lastName = name.replaceFirst(firstName + " ", "");
+				String lastName = name.replaceFirst(firstName + " ", " ");
 				customer.setLastname(lastName);
 			}
 		}
