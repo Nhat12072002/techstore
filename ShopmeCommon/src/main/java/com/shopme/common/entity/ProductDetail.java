@@ -22,14 +22,13 @@ public class ProductDetail {
 
 	@Column(unique = false, length = 255)
 	private String value;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "product_id")
 	private Product product;
 
-	
 	public ProductDetail() {
-	
+
 	}
 
 	public ProductDetail(Integer id, String name, String value, Product product) {
@@ -77,6 +76,5 @@ public class ProductDetail {
 	public void setProduct(Product product) {
 		this.product = product;
 	}
-	
-	
+
 }

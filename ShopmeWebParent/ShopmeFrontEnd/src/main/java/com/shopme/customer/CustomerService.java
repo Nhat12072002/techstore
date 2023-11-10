@@ -179,4 +179,27 @@ public class CustomerService {
 
 		customerRepo.save(customer);
 	}
+	public void getEmailSettings(Customer customer, String siteURL) throws UnsupportedEncodingException, MessagingException {
+		String subject = "Reset Your Password";
+		String senderName ="TechStore";
+		String content = "<p>Xin chào,</p>"
+				+ "<p>Bạn vừa gửi yêu cầu đổi mật khẩu.</p>"
+				+ "Nhấn vào link dưới để đổi mật khẩu:</p>"
+				+ "<p><a href=\"" + siteURL + "\">Change my password</a></p>"
+				+ "<br>"
+				+ "<p>Bỏ qua email này nếu bạn đã nhớ mật khẩu, "
+				+ "hoặc không gửi bất kỳ yêu cầu nào.</p>";
+		String verifyURL = siteURL + "/verify?code=" + customer.getVerificationCode();
+		MimeMessage message = mailSender.createMimeMessage();
+	    MimeMessageHelper helper = new MimeMessageHelper(message);
+
+	    helper.setFrom("minhnhatnguyenphan1207@gmail.com", senderName);
+	    helper.setTo(customer.getEmail());
+	    helper.setSubject(subject);
+
+	    helper.setText(content, true);
+	    mailSender.send(message);
+
+
+	}
 }
