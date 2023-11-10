@@ -14,7 +14,7 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
         format_sql: true
-    show-sql: true
+    show-sql: false
   mail:
     host: smtp.gmail.com
     password: kcme hhsx clkl deri
@@ -37,4 +37,10 @@ spring:
             scope:
             - email
             - profile
+          facebook:
+            client-id: 1516291665862734
+            client-secret: 1b683b352ddedfc8598a34a3b76dfd88
+            scope:
+            - email
+            - public_profile
   
