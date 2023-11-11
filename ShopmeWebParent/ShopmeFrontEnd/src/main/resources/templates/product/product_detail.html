@@ -96,11 +96,11 @@
 		</div>
 		<div class="col-sm-2">
 			<div>
-				<span th:if="${product.inStock}" class="text-success"><b>Còn Hàng</b></span>
-				<span th:unless="${product.inStock}" class="text-danger"><b>Hết Hàng</b></span>
+				<span th:if="${product.inStock}" class="text-success" style="margin-left: 40px;"><b>Còn Hàng</b></span>
+				<span th:unless="${product.inStock}" class="text-danger" style="margin-left: 40px;"><b>Hết Hàng</b></span>
 			</div>
 			<div class="mt-2">
-				<input type="text" size="5" />
+			<div th:replace="cart/quantity_control :: quantity_control(1, ${product.id})"></div>
 			</div>
 			<div class="mt-3">
 				<button class="btn" style="text-align: center; background-color: #FFCA68;">Thêm vào giỏ hàng</button>

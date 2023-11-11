@@ -91,6 +91,14 @@ public class Product {
 		this.details.add(new ProductDetail(id, name, value, this));
 	}
 
+	public Product() {
+		
+	}
+
+	public Product(Integer id) {
+		this.id = id;
+	}
+
 	public Integer getId() {
 		return id;
 	}
