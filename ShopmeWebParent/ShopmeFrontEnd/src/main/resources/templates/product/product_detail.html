@@ -97,14 +97,19 @@
 		<div class="col-sm-2">
 			<div>
 				<span th:if="${product.inStock}" class="text-success" style="margin-left: 40px;"><b>Còn Hàng</b></span>
-				<span th:unless="${product.inStock}" class="text-danger" style="margin-left: 40px;"><b>Hết Hàng</b></span>
+				<span th:unless="${product.inStock}" class="text-danger" style="margin-left: 40px;"><b>Hết
+						Hàng</b></span>
 			</div>
-			<div class="mt-2">
-			<div th:replace="cart/quantity_control :: quantity_control(1, ${product.id})"></div>
-			</div>
-			<div class="mt-3">
-				<button class="btn" style="text-align: center; background-color: #FFCA68;">Thêm vào giỏ hàng</button>
-			</div>
+			<th:block th:if="${product.inStock}">
+				<div class="mt-2">
+					<div th:replace="cart/quantity_control :: quantity_control(1, ${product.id})"></div>
+				</div>
+				<div class="mt-3">
+					<button class="btn" id="buttonAdd2Cart" style="text-align: center; background-color: #FFCA68;">Thêm
+						vào giỏ
+						hàng</button>
+				</div>
+			</th:block>
 		</div>
 	</div>
 
@@ -125,6 +130,23 @@
 			</th:block>
 		</div>
 	</div>
+	<div class="modal fade text-center" id="modal-Dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="modal-Title">Warning</h4>
+					<button type="button" class="close" style="font-size: 30px; border: none; background-color: white;"
+						data-bs-dismiss="modal">&times;</button>
+				</div>
+				<div class="modal-body">
+					<span id="modal-Body"></span>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
 	<div th:replace="navigation :: register_form"></div>
 
 	<footer th:replace="navigation :: footer_menu" style="margin-top: 20px;"></footer>
@@ -143,6 +165,10 @@
 		}
 	</style>
 	<script type="text/javascript">
+		contextPath = "[[@{/}]]"
+		productId = "[[${product.id}]]"
+		var csrfHeaderName = "[[${_csrf.headerName}]]"
+		var csrfValue="[[${_csrf.token}]]"
 		$(document).ready(function () {
 			$("#link-register").on("click", function (e) {
 				e.preventDefault();
@@ -151,6 +177,53 @@
 				$("#registerModal").modal("show").find(".modal-content").load(linkDataURL);
 			});
 		})
+		$(document).ready(function () {
+			$(".linkMinus").on("click", function (evt) {
+				evt.preventDefault();
+				productId = $(this).attr("pid")
+				quantityInput = $("#quantity" + productId)
+				newQuantity = parseInt(quantityInput.val()) - 1;
+
+				if (newQuantity > 0) {
+					quantityInput.val(newQuantity);
+				} else {
+					showModalDialog("Warning", "Số lượng nhỏ nhất là 1");
+				}
+			})
+			$(".linkPlus").on("click", function (evt) {
+				evt.preventDefault();
+				productId = $(this).attr("pid")
+				quantityInput = $("#quantity" + productId)
+				newQuantity = parseInt(quantityInput.val()) + 1;
+				quantityInput.val(newQuantity);
+			})
+		})
+		function showModalDialog(title, message) {
+			$("#modal-Title").text(title);
+			$("#modal-Body").text(message);
+			$("#modal-Dialog").modal("show");
+		}
+		$(document).ready(function () {
+			$("#buttonAdd2Cart").on("click", function (e) {
+				addToCart();
+			})
+		})
+		function addToCart() {
+			quantity= $("#quantity" +productId).val()
+			url =contextPath + "cart/add/" + productId + "/" + quantity
+			
+			$.ajax({
+				type: "POST",
+				url: url,
+				beforeSend: function(xhr){
+					xhr.setRequestHeader(csrfHeaderName, csrfValue);
+				}
+			}).done(function(response){
+				showModalDialog("Thông báo", response);
+			}).fail(function(){
+				showModalDialog("Lỗi", "Lỗi khi thêm sản phẩm vào giỏ.");
+			})
+		}
 	</script>
 </body>
 
