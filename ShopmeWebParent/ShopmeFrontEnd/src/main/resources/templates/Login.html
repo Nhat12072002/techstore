@@ -34,15 +34,18 @@
 			<div style="text-align: center;">
 				<input type="submit" value="Đăng Nhập" class="btn" style="background-color:rgb(255, 202, 104);" />
 			</div>
-			<div style="text-align: center; margin-top: 10px;">
+			<div style="text-align: center;margin-top: 10px;">
+			<span style="text-align: center; margin-top: 10px;">
 				<a th:href="@{/oauth2/authorization/google}" class="btn btn-danger">
-					Tiếp tục đăng nhập với Google
+					<span class="fab fa-google"></span> 
 				</a>
-			</div>
-			<div style="text-align: center; margin-top: 10px;">
+			</span>
+
+			<span style="text-align: center; margin-top: 10px;">
 				<a th:href="@{/oauth2/authorization/facebook}" class="btn btn-primary">
-					Tiếp tục đăng nhập với Facebook
+					<span class="fab fa-facebook"></span> 
 				</a>
+			</span>
 			</div>
 			<div style="text-align: center; margin-top: 10px;">
 				or <a th:href="@{/forgot_password}">Forgot Password</a>

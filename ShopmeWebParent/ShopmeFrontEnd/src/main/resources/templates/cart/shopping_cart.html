@@ -71,9 +71,22 @@
 						</th:block>
 					</div>
 					<div class="col-md-4" th:unless="${#lists.isEmpty(cartItems)}">
-						<h2 class="text-center mt-4">Tổng tiền</h2>
-						<!-- Thêm mã HTML cho phần hiển thị thành tiền ở đây -->
-						<div>[[${estimatedTotal}]]</div>
+						<h2 class="text-center mt-4">Tổng tiền
+							<h2></h2>
+							<th:block th:each="item, status : ${cartItems}">
+								<div style="text-align: center;">
+									<div>
+										[[${item.subtotal}]] triệu VND
+									</div>
+								</div>
+
+							</th:block>
+							<hr class="my-2" style="width: 50%; margin: auto;">
+							<div style="font-size: larger; color: darkred; text-align: center; font-weight: bold;">
+								[[${estimatedTotal}]] triệu VND</div>
+							<div style="text-align: center;">
+								<div class="btn btn-danger mt-3">Thanh Toán</div>
+							</div>
 					</div>
 				</div>
 			</div>
