@@ -23,7 +23,7 @@ public class ShoppingCartRestController {
 	public String addProductToCart(@PathVariable("productId") Integer productId,
 			@PathVariable("quantity") Integer quantity, HttpServletRequest request) {
 		try {
-			Customer customer = getAutehnticatedCustomer(request);
+			Customer customer = getAuthenticatedCustomer(request);
 			Integer updatedQuantity =cartService.addProduct(productId, quantity, customer);
 			return updatedQuantity +" " + "sản phẩm đã được thêm vào giỏ hàng của bạn";
 		} catch (CustomerNotFoundException ex) {
@@ -31,7 +31,7 @@ public class ShoppingCartRestController {
 		}
 	}
 
-	private Customer getAutehnticatedCustomer(HttpServletRequest request) throws CustomerNotFoundException {
+	private Customer getAuthenticatedCustomer(HttpServletRequest request) throws CustomerNotFoundException {
 		String email = Utilities.getEmailOfAuthenticatedCustomer(request);
 		if (email == null) {
 			throw new CustomerNotFoundException("No authenticated customer");
