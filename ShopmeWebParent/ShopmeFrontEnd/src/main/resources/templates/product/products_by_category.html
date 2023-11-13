@@ -73,8 +73,8 @@
 								<div style="font-size: larger;color: darkred;">[[${product.discountPrice}]] triệu VND
 								</div>
 							</div>
-							<button class="btn " style="text-align: center; background-color:rgb(255, 202, 104);">Thêm
-								vào giỏ hàng</button>
+							<a  th:href="@{'/product/'+${product.alias}}" class="btn " style="text-align: center; background-color:rgb(255, 202, 104);">Thêm
+								vào giỏ hàng</a>
 						</div>
 					</div>
 				</div>

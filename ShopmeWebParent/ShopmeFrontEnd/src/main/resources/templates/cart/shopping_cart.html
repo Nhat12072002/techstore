@@ -57,7 +57,8 @@
 									</div>
 									<div>
 										<div>
-											Tổng cộng: [[${item.subtotal}]] triệu VND
+											Tổng cộng: <span th:id="'subtotal'+${product.id}"
+												class="subtotal">[[${item.subtotal}]]</span> triệu VND
 										</div>
 									</div>
 
@@ -76,14 +77,16 @@
 							<th:block th:each="item, status : ${cartItems}">
 								<div style="text-align: center;">
 									<div>
-										[[${item.subtotal}]] triệu VND
+										<span>
+											[[${item.subtotal}]]
+										</span> triệu VND
 									</div>
 								</div>
 
 							</th:block>
 							<hr class="my-2" style="width: 50%; margin: auto;">
 							<div style="font-size: larger; color: darkred; text-align: center; font-weight: bold;">
-								[[${estimatedTotal}]] triệu VND</div>
+								<span id="total"> [[${estimatedTotal}]]</span> triệu VND</div>
 							<div style="text-align: center;">
 								<div class="btn btn-danger mt-3">Thanh Toán</div>
 							</div>
@@ -96,9 +99,86 @@
 		<h2 class="text-center" style="color: darkred;">Bạn không có sản phẩm nào trong giỏ hàng.</h2>
 		<!-- Thêm mã HTML cho phần hiển thị thành tiền ở đây -->
 	</div>
+	<div class="modal fade text-center" id="modal-Dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="modal-Title">Warning</h4>
+					<button type="button" class="close" style="font-size: 30px; border: none; background-color: white;"
+						data-bs-dismiss="modal">&times;</button>
+				</div>
+				<div class="modal-body">
+					<span id="modal-Body"></span>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
 	<footer th:replace="navigation :: footer_menu" style="margin-top: 20px;"></footer>
 
 
 </body>
+<script>
+	contextPath = "[[@{/}]]"
+	var csrfHeaderName = "[[${_csrf.headerName}]]"
+	var csrfValue = "[[${_csrf.token}]]"
+	$(document).ready(function () {
+		$(".linkMinus").on("click", function (evt) {
+			evt.preventDefault();
+			productId = $(this).attr("pid")
+			quantityInput = $("#quantity" + productId)
+			newQuantity = parseInt(quantityInput.val()) - 1;
+
+			if (newQuantity > 0) {
+				quantityInput.val(newQuantity);
+				updateQuantity(productId, newQuantity)
+			} else {
+				showModalDialog("Warning", "Số lượng nhỏ nhất là 1");
+			}
+		})
+		$(".linkPlus").on("click", function (evt) {
+			evt.preventDefault();
+			productId = $(this).attr("pid")
+			quantityInput = $("#quantity" + productId)
+			newQuantity = parseInt(quantityInput.val()) + 1;
+			quantityInput.val(newQuantity);
+			updateQuantity(productId, newQuantity)
+
+		})
+	})
+	function updateQuantity(productId, quantity) {
+		url = contextPath + "cart/update/" + productId + "/" + quantity
+
+		$.ajax({
+			type: "POST",
+			url: url,
+			beforeSend: function (xhr) {
+				xhr.setRequestHeader(csrfHeaderName, csrfValue);
+			}
+		}).done(function (UpdatedSubtotal) {
+			updateSubtotal(UpdatedSubtotal, productId)
+			updateTotal()
+		}).fail(function () {
+			showModalDialog("Lỗi", "Lỗi khi thay đổi thông tin sản phẩm trong giỏ.");
+		})
+	}
+	function showModalDialog(title, message) {
+		$("#modal-Title").text(title);
+		$("#modal-Body").text(message);
+		$("#modal-Dialog").modal("show");
+	}
+	function updateSubtotal(updateSubtotal, productId) {
+		$("#subtotal" + productId).text(updateSubtotal)
+	}
+	function updateTotal() {
+		total = 0.0
+		$(".subtotal").each(function (index, element) {
+			total += parseFloat(element.innerHTML)
+		})
+		$("#total").text(total)
+	}
+</script>
 
 </html>
