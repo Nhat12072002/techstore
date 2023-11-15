@@ -4,7 +4,6 @@
 <head th:replace="fragments :: page_head('Giỏ hàng - TechStore','none')" />
 <meta charset="UTF-8">
 <title>Giỏ hàng - TechStore</title>
-<link rel="stylesheet" href="your-styles.css">
 </head>
 
 <body>
@@ -22,9 +21,10 @@
 				<div class="row">
 					<div class="col-md-8">
 						<th:block th:each="item, status : ${cartItems}">
-							<div class="row border rounded mb-3 p-2" th:with="product=${item.product}">
+							<div class="row border rounded mb-3 p-2" th:with="product=${item.product}"
+								th:id="'row'+${status.count}">
 								<div class="col-1">
-									<div class="text-center">[[${status.count}]]</div>
+									<div class="divCount text-center">[[${status.count}]]</div>
 								</div>
 								<div class="col-3">
 									<img th:src="@{${product.mainImagePath}}" class="img-fluid" alt="Product Image" />
@@ -65,28 +65,20 @@
 
 								</div>
 								<div class="col-2 text-right">
-									<a class="fas fa-trash" href=""
+									<a class="fas fa-trash link-remove" th:href="@{'/cart/remove/'+${product.id}}"
+										th:rownumber="${status.count}"
 										style="margin-left: 70px; text-decoration: none;"></a>
 								</div>
 							</div>
 						</th:block>
 					</div>
-					<div class="col-md-4" th:unless="${#lists.isEmpty(cartItems)}">
+					<div class="col-md-4" th:unless="${#lists.isEmpty(cartItems)}" id="sectionTotal">
 						<h2 class="text-center mt-4">Tổng tiền
 							<h2></h2>
-							<th:block th:each="item, status : ${cartItems}">
-								<div style="text-align: center;">
-									<div>
-										<span>
-											[[${item.subtotal}]]
-										</span> triệu VND
-									</div>
-								</div>
-
-							</th:block>
 							<hr class="my-2" style="width: 50%; margin: auto;">
 							<div style="font-size: larger; color: darkred; text-align: center; font-weight: bold;">
-								<span id="total"> [[${estimatedTotal}]]</span> triệu VND</div>
+								<span id="total"> [[${estimatedTotal}]]</span> triệu VND
+							</div>
 							<div style="text-align: center;">
 								<div class="btn btn-danger mt-3">Thanh Toán</div>
 							</div>
@@ -95,7 +87,7 @@
 			</div>
 		</div>
 	</div>
-	<div th:if="${#lists.isEmpty(cartItems)}">
+	<div id="sectionEmptyCartMessage" th:class="'text-center' + ${#lists.isEmpty(cartItems) ? '' : ' d-none'}">
 		<h2 class="text-center" style="color: darkred;">Bạn không có sản phẩm nào trong giỏ hàng.</h2>
 		<!-- Thêm mã HTML cho phần hiển thị thành tiền ở đây -->
 	</div>
@@ -148,6 +140,11 @@
 
 		})
 	})
+	$(".link-remove").on("click", function (evt) {
+		evt.preventDefault();
+		removeProduct($(this))
+
+	})
 	function updateQuantity(productId, quantity) {
 		url = contextPath + "cart/update/" + productId + "/" + quantity
 
@@ -174,10 +171,50 @@
 	}
 	function updateTotal() {
 		total = 0.0
+		productCount = 0
 		$(".subtotal").each(function (index, element) {
+			productCount++;
 			total += parseFloat(element.innerHTML)
 		})
-		$("#total").text(total)
+		console.log("Initial productCount:", productCount);
+
+		if (productCount < 1) {
+			showEmptyShoppingCart()
+		} else {
+			$("#total").text(total.toFixed(2)); // Fix for displaying total with 2 decimal places
+			// $("#sectionTotal").show(); // Make sure the total section is visible
+		}
+	}
+	function showEmptyShoppingCart() {
+		$("#sectionTotal").hide()
+		$("#sectionEmptyCartMessage").removeClass("d-none")
+	}
+	function removeProduct(link) {
+		url = link.attr("href");
+		$.ajax({
+			type: "DELETE",
+			url: url,
+			beforeSend: function (xhr) {
+				xhr.setRequestHeader(csrfHeaderName, csrfValue);
+			}
+		}).done(function (response) {
+
+			rowNumber = link.attr("rowNumber")
+			removeProductHTML(rowNumber)
+			updateTotal()
+			updateCountNumbers()
+			showModalDialog("Thông báo", response)
+		}).fail(function () {
+			showModalDialog("Lỗi", "Lỗi khi xóa sản phẩm trong giỏ.");
+		})
+	}
+	function removeProductHTML(rowNumber) {
+		$("#row" + rowNumber).remove();
+	}
+	function updateCountNumbers() {
+		$(".divCount").each(function (index, element) {
+			element.innerHTML = " " + (index + 1)
+		})
 	}
 </script>
 
