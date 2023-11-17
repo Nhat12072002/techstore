@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -50,7 +51,7 @@ public class Order {
 	@JoinColumn(name ="customer_id")
 	private Customer customer;
 	
-	@OneToMany(mappedBy ="order")
+	@OneToMany(mappedBy ="order", cascade= CascadeType.ALL)
 	private Set<OrderDetail> orderDetails =new HashSet<>();
 
 	public Integer getId() {
@@ -189,5 +190,17 @@ public class Order {
 		this.orderDetails = orderDetails;
 	}
 	
+	public void copyAddressFromCustomer() {
+		setFirstname(customer.getFirstname());
+		setLastname(customer.getLastname());
+		setPhoneNumber(customer.getPhoneNumber());
+		setAddress(customer.getAddress());
+	}
+
+	@Override
+	public String toString() {
+		return "Order [id=" + id + ", subtotal=" + subtotal + ", paymentMethod=" + paymentMethod + ", orderStatus="
+				+ orderStatus + ", customer=" + customer + "]";
+	}
 	
 }

@@ -35,7 +35,7 @@ public class WebSecurityConfig{
 	            	
 	            .requestMatchers("/products/**").hasAnyAuthority("Admin","Editor")
 	            .requestMatchers("/settings/**").hasAnyAuthority("Admin","Editor")
-	            .requestMatchers("/customers/**").hasAnyAuthority("Admin","Salesperson")
+	            .requestMatchers("/customers/**","/orders/**").hasAnyAuthority("Admin","Salesperson")
 	            .requestMatchers("/").authenticated()
 	            .requestMatchers("/users").authenticated()
 	            // Yêu cầu xác thực cho trang chủ.

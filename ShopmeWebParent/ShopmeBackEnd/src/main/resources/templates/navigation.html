@@ -39,11 +39,6 @@
 							<a class="nav-link" style="color: black; font-weight: bold;font-family: Georgia, 'Times New Roman', Times, serif;" th:href="@{/customers}">Customers</a>
 						</li>
 					</th:block>
-					<th:block sec:authorize="hasAnyAuthority('Admin','Salesperson')">
-						<li class="nav-item">
-							<a class="nav-link" style="color: black; font-weight: bold;font-family: Georgia, 'Times New Roman', Times, serif;" th:href="@{/shipping}">Shipping</a>
-						</li>
-					</th:block>
 					<th:block sec:authorize="hasAnyAuthority('Admin','Salesperson','Shipper')">
 						<li class="nav-item">
 							<a class="nav-link" style="color: black; font-weight: bold;font-family: Georgia, 'Times New Roman', Times, serif;" th:href="@{/orders}">Orders</a>
