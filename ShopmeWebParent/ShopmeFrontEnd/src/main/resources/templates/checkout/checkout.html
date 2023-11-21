@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments :: page_head('Thanh toán - TechStore','none')" />
+<meta charset="UTF-8">
+<title>Thanh toán - TechStore</title>
+</head>
+
+<body>
+	<header th:replace="navigation::header_menu"></header>
+	<th:block sec:authorize="isAuthenticated()">
+		<form th:action="@{/logout}" method="post" th:hidden="true" name="logoutForm">
+			<input type="submit" value="Logout" />
+		</form>
+	</th:block>
+
+	<div class="container-fluid">
+		<h1 style="text-align: center; margin-top: 20px;">XÁC NHẬN THÔNG TIN ĐƠN HÀNG</h1>
+		<div class="row">
+			<div class="col-md-8" style="margin-left: 50px;">
+				<div class="border border-secondary rounded p-3">
+					<form th:object="${customer}">
+						<div class="form-group row">
+							<label class="col-sm-4 col-form-label">First Name:</label>
+							<div class="col-sm-8">
+								<input type="text" th:field="*{firstname}" class="form-control" readonly="readonly" />
+							</div>
+						</div>
+						<div class="form-group row mt-2">
+							<label class="col-sm-4 col-form-label">Last Name:</label>
+							<div class="col-sm-8">
+								<input type="text" th:field="*{lastname}" class="form-control" readonly="readonly" />
+							</div>
+						</div>
+
+						<div class="form-group row mt-2">
+							<label class="col-sm-4 col-form-label">Số điện thoại:</label>
+							<div class="col-sm-8">
+								<input type="text" th:field="*{phoneNumber}" class="form-control" readonly="readonly" />
+							</div>
+						</div>
+
+						<div class="form-group row mt-2">
+							<label class="col-sm-4 col-form-label">Địa chỉ:</label>
+							<div class="col-sm-8">
+								<input type="text" th:field="*{address}" class="form-control" readonly="readonly" />
+							</div>
+						</div>
+
+						<div class="mt-2">
+							<select class="form-select" id="quan" name="quan" required>
+								<option value="">Chọn quận</option>
+								<option th:each="district : ${districts}" th:value="${district.name}"
+									th:text="${district.name}"></option>
+							</select>
+						</div>
+
+						<div class="mt-2">
+							<label for="thanhPho" class="form-label">Thành phố:</label>
+							<span><b> Hồ Chí Minh</b></span>
+						</div>
+
+						<div class="mb-2">
+							<label for="ghiChu" class="form-label">Ghi chú:</label>
+							<textarea class="form-control" id="ghiChu" name="ghiChu"></textarea>
+						</div>
+
+						<div class="mb-2">
+							<label for="paymentMethod" class="form-label">Hình thức thanh toán:</label>
+							<select class="form-select" id="paymentMethod" name="paymentMethod" required>
+								<option value="">Chọn hình thức thanh toán</option>
+								<option value="bankTransfer">Thanh toán bằng chuyển khoản</option>
+								<option value="payAtDelivery">Thanh toán tại điểm giao hàng (COD)</option>
+							</select>
+						</div>
+						<div style="text-align: center;">
+							<button type="submit" class="btn btn-primary">Thanh toán</button>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="col-md-3">
+				<div th:object="${customer}" class="border border-secondary rounded p-3">
+					<h4>Giỏ hàng của bạn</h4>
+					<table class="table table-striped">
+						<thead style="text-align: center;">
+							<tr>
+								<th>Sản phẩm</th>
+								<th>Số lượng</th>
+								<th>Giá</th>
+							</tr>
+						</thead>
+						<tbody style="text-align: center;">
+							<tr th:each="cartItem : ${cartItems}">
+								<td><b>[[${cartItem.product.name}]]</b></td>
+								<td>[[${cartItem.quantity}]]</td>
+								<td>
+									<div>
+										<span th:if="${cartItem.product.discountPercent <= 0}"><b>[[${cartItem.product.price}]]
+												triệu VND</b></span>
+									</div>
+									<div th:if="${cartItem.product.discountPercent > 0}">
+										<div>
+											<b>[[${cartItem.product.discountPrice}]] triệu VND</b>
+										</div>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<div>
+						<span>Tổng cộng:</span>
+						<span>
+							<b id="total"> [[${estimatedTotal}]]</b> triệu VND
+						</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<footer th:replace="navigation :: footer_menu" style="margin-top: 20px;"></footer>
+
+</body>
+<style>
+	.table {
+		width: 100%;
+	}
+
+	.table th,
+	.table td {
+		padding: 0.8rem;
+	}
+</style>
+
+</html>

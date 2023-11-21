@@ -80,7 +80,9 @@
 								<span id="total"> [[${estimatedTotal}]]</span> triệu VND
 							</div>
 							<div style="text-align: center;">
-								<div class="btn btn-danger mt-3">Thanh Toán</div>
+								<form th:action="@{/checkout}">
+								<button type="submit" class="btn btn-danger mt-3">Thanh Toán</button>
+								</form>
 							</div>
 					</div>
 				</div>

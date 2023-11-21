@@ -25,7 +25,14 @@ public class CartItem {
 	private Product product;
 	
 	private int quantity;
-	
+	private float shippingCost;
+	@Transient
+	public float getShippingCost() {
+		return shippingCost;
+	}
+	public void setShippingCost(float shippingCost) {
+		this.shippingCost = shippingCost;
+	}
 	public CartItem() {
 
 	}
