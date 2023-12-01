@@ -39,8 +39,17 @@
 			<tbody>
 				<tr th:each="order : ${listOrders}">
 					<td>[[${order.id}]]</td>
-					<td><a class="linkCustomerDetail"
-							th:href="@{'/customers/detail/'+ ${order.customer.id}}">[[${order.customer.firstname}]] [[${order.customer.lastname}]]</a>
+					<td>
+						<th:block th:if="${order.customer != null}">
+							<a class="linkCustomerDetail" th:href="@{'/customers/detail/' + order.customer.id}">
+								[[${order.customer.firstname}]] [[${order.customer.lastname}]]
+							</a>
+						</th:block>
+						<th:block th:if="${order.customer == null}">
+							Customer Not Available
+						</th:block>
+
+
 					</td>
 					<td>[[${order.total}]]</td>
 					<td><span th:text="${#dates.format(order.orderTime,'HH:mm:ss dd/MM/yyyy')}"></span>

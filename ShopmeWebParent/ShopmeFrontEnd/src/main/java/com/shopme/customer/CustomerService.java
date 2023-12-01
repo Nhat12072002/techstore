@@ -2,6 +2,7 @@ package com.shopme.customer;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -73,6 +74,9 @@ public class CustomerService {
 	}
 	public Customer getCustomerByEmail(String email) {
 		return customerRepo.findByEmail(email);
+	}
+	public Optional<Customer> getCustomerById(Integer id) {
+		return customerRepo.findById(id);
 	}
 
 	private void encodePassword(Customer customer) {

@@ -67,14 +67,21 @@
 
 						<div class="mb-2">
 							<label for="paymentMethod" class="form-label">Hình thức thanh toán:</label>
-							<select class="form-select" id="paymentMethod" name="paymentMethod" required>
-								<option value="">Chọn hình thức thanh toán</option>
-								<option value="bankTransfer">Thanh toán bằng chuyển khoản</option>
-								<option value="payAtDelivery">Thanh toán tại điểm giao hàng (COD)</option>
-							</select>
+							<div>
+								<input type="radio">Thanh toán bằng chuyển khoản</input>
+							</div>
+							<div>
+								<form th:action="@{/place_order}" method="post">
+									<input type="radio" name="paymentMethod" id="radioCOD" value="COD">Thanh toán tại điểm giao hàng
+									(COD)</input>
+								</form>
+							</div>
 						</div>
 						<div style="text-align: center;">
-							<button type="submit" class="btn btn-primary">Thanh toán</button>
+								<form th:action="@{/place_order}" method="post">
+
+								<button type="submit" class="btn btn-danger mt-3">Thanh Toán</button>
+								</form>
 						</div>
 					</form>
 				</div>
