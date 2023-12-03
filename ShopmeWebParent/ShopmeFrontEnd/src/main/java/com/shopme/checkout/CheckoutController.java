@@ -1,5 +1,6 @@
 package com.shopme.checkout;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,12 +14,15 @@ import com.shopme.common.entity.CartItem;
 import com.shopme.common.entity.Customer;
 import com.shopme.common.entity.ShippingRate;
 import com.shopme.customer.CustomerService;
+import com.shopme.customer.EmailSender;
 import com.shopme.order.OrderService;
 import com.shopme.settings.Utilities;
 import com.shopme.shoppingcart.ShoppingCartService;
 import com.shopme.common.entity.District;
+import com.shopme.common.entity.Order;
 import com.shopme.common.entity.PaymentMethod;
 
+import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
@@ -33,6 +37,9 @@ public class CheckoutController {
 	private ShoppingCartService cartService;
 	@Autowired
 	private OrderService orderService;
+	@Autowired
+	private EmailSender emailService;
+
 	@GetMapping("/checkout")
 	public String showCheckoutPage(Model model, HttpServletRequest request) {
 		List<District> districts = checkoutService.getAllDistricts();
@@ -63,7 +70,7 @@ public class CheckoutController {
 	}
 
 	@PostMapping("/place_order")
-	public String showCheckoutSuccessPage(Model model, HttpServletRequest request) {
+	public String showCheckoutSuccessPage(Model model, HttpServletRequest request) throws UnsupportedEncodingException, MessagingException {
 		String paymentType= request.getParameter("paymentMethod");
 		PaymentMethod paymentMethod= PaymentMethod.COD;
 		String email = Utilities.getEmailOfAuthenticatedCustomer(request);
@@ -72,10 +79,19 @@ public class CheckoutController {
 		Customer customer = customerService.getCustomerByEmail(email);
 		Optional<Customer> customer1=customerService.getCustomerById(customer.getId());
 		List<CartItem> cartItems = cartService.listCartItems(customer);
-		
-		orderService.createOrder1(customer, customer.getAddress(), cartItems, paymentMethod);
+		float estimatedTotal = 0.0F;
+		Order createOrder=orderService.createOrder1(customer, customer.getAddress(), cartItems, paymentMethod,estimatedTotal);
 		cartService.deleteByCustomer(customer);
+		sendOrderConfirmationEmail(request, createOrder);
+		
 		return "checkout/checkout_success";
+	}
+
+	private void sendOrderConfirmationEmail(HttpServletRequest request, Order createOrder) throws UnsupportedEncodingException, MessagingException {
+	    String recipientEmail = Utilities.getEmailOfAuthenticatedCustomer(request);
+
+	    // Use the correct service and method
+	    emailService.sendOrderConfirmationEmail(recipientEmail, createOrder);
 	}
 }
 

@@ -50,7 +50,7 @@ public class OrderService {
 		}
 		return repo.save(newOrder);
 	}
-	public Order createOrder1(Customer customer, String address, List<CartItem> cartItems, PaymentMethod paymentMethod) {
+	public Order createOrder1(Customer customer, String address, List<CartItem> cartItems, PaymentMethod paymentMethod, float estimatedTotal) {
 		Order newOrder=new Order();
 		newOrder.setOrderTime(new Date());
 		newOrder.setOrderStatus(OrderStatus.NEW);
@@ -62,11 +62,12 @@ public class OrderService {
 		newOrder.setId(customer.getId());
 		newOrder.setShippingCost(0);
 		newOrder.setTax(0);
-		newOrder.setTotal(0);
+		
 		newOrder.setPaymentMethod(paymentMethod);
 		newOrder.setDeliverDays(3);
 		newOrder.setDeliverDate(new Date());
 		newOrder.setAddress(customer.getAddress());
+		newOrder.setCustomer(customer);
 		Set<OrderDetail> orderDetails = newOrder.getOrderDetails();
 		for (CartItem cartItem : cartItems) {
 			Product product = cartItem.getProduct();
@@ -80,6 +81,10 @@ public class OrderService {
 			orderDetail.setShippingCost(0);
 			orderDetails.add(orderDetail);
 		}
+		for (CartItem item : cartItems) {
+			estimatedTotal += item.getSubtotal();
+		}
+		newOrder.setTotal(estimatedTotal);
 		return repo.save(newOrder);
 		
 	}

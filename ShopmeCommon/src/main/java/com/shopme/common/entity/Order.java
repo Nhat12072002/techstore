@@ -202,5 +202,5 @@ public class Order {
 		return "Order [id=" + id + ", subtotal=" + subtotal + ", paymentMethod=" + paymentMethod + ", orderStatus="
 				+ orderStatus + ", customer=" + customer + "]";
 	}
-	
+
 }
