@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+	<div th:fragment="content" th:remove="tag">
+		<div>
+			<button class="btn btn button-sales-by-date m-1" period="last_7_days"
+				style="background-color: rgb(255, 202, 104)">Trong tuần vừa qua</button>
+			<button class="btn btn button-sales-by-date m-1" period="last_28_days"
+				style="background-color: rgb(255, 202, 104)">Trong 28 ngày qua</button>
+		</div>
+		<div id="chart_sales_by_date" class="mt-3"></div>
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-4"> <!-- Chia cột thành 2, chiếm 50% width -->
+					<div class="card">
+						<div class="card-header" style="text-align: center;"><b>Tổng doanh thu</b></div>
+						<div class="card-body">
+							<span class="h3" id="textTotalGrossSales"></span>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-4"> <!-- Chia cột thành 2, chiếm 50% width -->
+					<div class="card">
+						<div class="card-header" style="text-align: center;"><b>Trung bình doanh thu mỗi ngày</b></div>
+						<div class="card-body">
+							<span class="h3" id="textAverageGrossSales"></span>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-4"> <!-- Chia cột thành 2, chiếm 50% width -->
+					<div class="card">
+						<div class="card-header" style="text-align: center;"><b>Orders</b></div>
+						<div class="card-body">
+							<span class="h3" id="textTotalOrders"></span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	</div>
+</body>
+
+
+</html>

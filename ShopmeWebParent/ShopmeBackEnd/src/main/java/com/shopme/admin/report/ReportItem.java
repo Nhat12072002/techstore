@@ -63,7 +63,7 @@ public class ReportItem {
 		// TODO Auto-generated method stub
 		this.grossSales+= amount;
 	}
-	public void incraseOrdersCount() {
+	public void increaseOrdersCount() {
 		this.ordersCount++;
 	}
 	

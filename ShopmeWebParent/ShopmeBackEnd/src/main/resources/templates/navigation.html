@@ -46,17 +46,7 @@
 					</th:block>
 					<th:block sec:authorize="hasAnyAuthority('Admin','Salesperson')">
 						<li class="nav-item">
-							<a class="nav-link"  style="color: black; font-weight: bold;font-family: Georgia, 'Times New Roman', Times, serif;" th:href="@{/report}">Report</a>
-						</li>
-					</th:block>
-					<th:block sec:authorize="hasAnyAuthority('Admin','Editor')">
-						<li class="nav-item">
-							<a class="nav-link" style="color: black; font-weight: bold;font-family: Georgia, 'Times New Roman', Times, serif;" th:href="@{/articles}">Articles</a>
-						</li>
-					</th:block>
-					<th:block sec:authorize="hasAnyAuthority('Admin','Editor')">
-						<li class="nav-item">
-							<a class="nav-link" style="color: black; font-weight: bold;font-family: Georgia, 'Times New Roman', Times, serif;" th:href="@{/menus}">Menus</a>
+							<a class="nav-link"  style="color: black; font-weight: bold;font-family: Georgia, 'Times New Roman', Times, serif;" th:href="@{/reports}">Report</a>
 						</li>
 					</th:block>
 					<th:block sec:authorize="hasAnyAuthority('Admin')">

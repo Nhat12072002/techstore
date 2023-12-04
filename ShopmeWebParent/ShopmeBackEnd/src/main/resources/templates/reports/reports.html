@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments :: page_head('Sales Report - Shopme Admin','none')" />
+
+<body>
+	<div th:replace="navigation::menu"></div>
+	<div>
+		<h2 style="text-align: center; margin-top: 10px;">BÁO CÁO DOANH THU</h2>
+	</div>
+	<div>
+		<ul class="nav nav-tabs" id="reportTab" role="tablist">
+			<li class="nav-item1">
+				<a class="nav-link active" data-toggle="tab" href="#date" role="tab">Doanh thu theo ngày</a>
+			</li>
+			<li class="nav-item1">
+				<a class="nav-link" data-toggle="tab" href="#category" role="tab">Doanh thu theo danh mục sản phẩm</a>
+			</li>
+		</ul>
+	</div>
+	<div class="tab-content">
+		<div class="tab-pane active p-3" id="date" role="tabpanel">
+			<div th:replace="reports/sales_report_by_date::content"></div>
+		</div>
+		<div class="tab-pane  p-3" id="category" role="tabpanel">
+			<h2>Báo cáo doanh thu theo phân loại sản phẩm</h2>
+		</div>
+		<div class="tab-pane  p-3" id="product" role="tabpanel">
+			<h2>Báo cáo doanh thu theo sản phẩm</h2>
+		</div>
+	</div>
+	<div th:replace="fragments::footer"></div>
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	<!-- ... (các phần khác không thay đổi) ... -->
+
+	<script>
+		contextPath = "[[@{/}]]"
+		var data
+		var chartOptions
+		$('#reportTab a').on('click', function (e) {
+			e.preventDefault()
+			$(this).tab('show')
+		})
+		$(document).ready(function () {
+			google.charts.load('current', {'packages': ['corechart']})
+			google.charts.setOnLoadCallback(loadSalesReportByDate);
+			$(".button-sales-by-date").on("click", function () {
+				period = $(this).attr("period")
+				loadSalesReportByDate(period)
+			})
+		})
+		function loadSalesReportByDate(period) {
+			requestURL = contextPath + "reports/sales_by_date/" + period
+			$.get(requestURL, function (responseJSON) {
+				prepareChartData(responseJSON)
+				customizeChart(period)
+				drawChart(period)
+			})
+		}
+		function prepareChartData(responseJSON) {
+			data = new google.visualization.DataTable()
+			data.addColumn('string', 'Ngày')
+			data.addColumn('number', 'Tổng doang thu')
+			data.addColumn('number', 'Orders')
+			totalGrossSales = 0.0
+			totalOrders = 0.0
+			$.each(responseJSON, function (index, reportItem) {
+				data.addRow([reportItem.identifier, reportItem.grossSales, reportItem.ordersCount])
+				totalGrossSales += parseFloat(reportItem.grossSales)
+				totalOrders += parseFloat(reportItem.ordersCount)
+			})
+		}
+		function customizeChart(period) {
+			chartOptions = {
+				title: getChartTitle(period),
+				'height': 360,
+				legend: {position: 'top'},
+				series: {
+					0: {targetAxisIndex: 0},
+					1: {targetAxisIndex: 1},
+				},
+				vAxes: {
+					0: {title: 'Số tiền bán hàng (triệu VNĐ)'},
+					1: {title: 'Số đơn đặt hàng '},
+				}
+			}
+		}
+		function drawChart(period) {
+			var salesChart = new google.visualization.ColumnChart(document.getElementById('chart_sales_by_date'))
+			salesChart.draw(data, chartOptions)
+			days = getDays(period)
+			$("#textTotalGrossSales").text(totalGrossSales + " triệu VNĐ")
+			$("#textTotalOrders").text(totalOrders + " đơn hàng")
+			$("#textAverageGrossSales").text((totalGrossSales / days).toFixed(2) + " triệu VNĐ");
+
+		}
+		function getChartTitle(period) {
+			if (period == "last_7_days") return "Báo cáo doanh thu trong 7 ngày vừa qua"
+			if (period == "last_28_days") return "Báo cáo doanh thu trong 28 ngày vừa qua"
+
+			return "Báo cáo doanh thu trong 7 ngày vừa qua"
+		}
+		function getDays(period) {
+			if (period == "last_7_days") return 7
+			if (period == "last_28_days") return 28
+
+			return 7
+		}
+	</script>
+</body>
+
+</html>
+
+</body>
+
+</html>
