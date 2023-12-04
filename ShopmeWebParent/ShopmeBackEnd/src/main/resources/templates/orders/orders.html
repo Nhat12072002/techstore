@@ -63,6 +63,9 @@
 						<a class="fas fa-file-alt fa-2x link-details" th:href="@{'/orders/detail/'+${order.id}}"
 							title="View details of this order"></a>
 						&nbsp; &nbsp;
+						<a class="fa-solid fa-user-pen fa-2x" style="color: green; text-decoration: none;"
+							th:href="@{'/orders/edit/' + ${order.id}}" title="Edit this order"></a>
+
 						&nbsp;
 						<a href="" class="fa-solid fa-trash-can fa-2x link-delete"
 							style="color: red;text-decoration: none;" th:href="@{'/orders/delete/' + ${order.id}}"

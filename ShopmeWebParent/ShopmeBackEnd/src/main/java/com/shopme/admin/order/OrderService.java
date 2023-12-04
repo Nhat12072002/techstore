@@ -42,4 +42,8 @@ public class OrderService {
 		}
 		repo.deleteById(id);
 	}
+	public Order save(Order order) {
+		return repo.save(order);
+		
+	}
 }
