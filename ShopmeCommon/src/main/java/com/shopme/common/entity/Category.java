@@ -92,6 +92,8 @@ public Category() {
 		this(name);
 		this.parent= parent;
 	}
+	
+
 	public Integer getId() {
 		return id;
 	}

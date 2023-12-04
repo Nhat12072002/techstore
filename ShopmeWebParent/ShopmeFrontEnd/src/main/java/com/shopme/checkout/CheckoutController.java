@@ -74,8 +74,7 @@ public class CheckoutController {
 		String paymentType= request.getParameter("paymentMethod");
 		PaymentMethod paymentMethod= PaymentMethod.COD;
 		String email = Utilities.getEmailOfAuthenticatedCustomer(request);
-		ShippingRate shippingRate = null;
-		
+		ShippingRate shippingRate = null;	
 		Customer customer = customerService.getCustomerByEmail(email);
 		Optional<Customer> customer1=customerService.getCustomerById(customer.getId());
 		List<CartItem> cartItems = cartService.listCartItems(customer);
@@ -83,7 +82,6 @@ public class CheckoutController {
 		Order createOrder=orderService.createOrder1(customer, customer.getAddress(), cartItems, paymentMethod,estimatedTotal);
 		cartService.deleteByCustomer(customer);
 		sendOrderConfirmationEmail(request, createOrder);
-		
 		return "checkout/checkout_success";
 	}
 

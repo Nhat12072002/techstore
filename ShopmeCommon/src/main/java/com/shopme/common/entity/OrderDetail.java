@@ -75,5 +75,22 @@ public class OrderDetail {
 	public void setOrder(Order order) {
 		this.order = order;
 	}
+	public OrderDetail() {
+		
+	}
+	public OrderDetail(String categoryName, int quantity, float subtotal, Product product) {
+		this.product =new Product();
+		this.product.setCategory(new Category(categoryName));
+		this.quantity = quantity;
+		this.subtotal = subtotal;
+		this.product = product;
+	}
+	public OrderDetail( int quantity,String productName, float subtotal, Product product) {
+		this.product =new Product(productName);
+		this.quantity = quantity;
+		this.subtotal = subtotal;
+		this.product = product;
+	}
+	
 	
 }

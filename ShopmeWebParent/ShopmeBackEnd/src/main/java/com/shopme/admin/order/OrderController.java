@@ -103,7 +103,7 @@ public class OrderController {
 	    Order existingOrder = service.get(order.getId());
 	    existingOrder.setPaymentMethod(order.getPaymentMethod());
 	    existingOrder.setOrderStatus(order.getOrderStatus());
-
+	    existingOrder.setDeliverDays(order.getDeliverDays());
 	    // Lưu lại đối tượng Order
 	    service.save(existingOrder);
 

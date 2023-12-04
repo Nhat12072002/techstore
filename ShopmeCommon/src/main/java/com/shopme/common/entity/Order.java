@@ -23,16 +23,16 @@ public class Order {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	@Column(length=45, nullable=false, name ="first_name")
+	@Column(length = 45, nullable = false, name = "first_name")
 	private String firstname;
-	@Column(length=45, nullable=false, name ="last_name")
+	@Column(length = 45, nullable = false, name = "last_name")
 	private String lastname;
 	@Column(name = "phone_number", nullable = false, length = 15)
 	private String phoneNumber;
 
 	@Column(name = "address", length = 64)
 	private String address;
-	
+
 	private Date orderTime;
 	private float shippingCost;
 	private float productCost;
@@ -41,18 +41,18 @@ public class Order {
 	private float total;
 	private int deliverDays;
 	private Date deliverDate;
-	
+
 	@Enumerated(EnumType.STRING)
 	private PaymentMethod paymentMethod;
 	@Enumerated(EnumType.STRING)
 	private OrderStatus orderStatus;
-	
+
 	@ManyToOne
-	@JoinColumn(name ="customer_id")
+	@JoinColumn(name = "customer_id")
 	private Customer customer;
-	
-	@OneToMany(mappedBy ="order", cascade= CascadeType.ALL)
-	private Set<OrderDetail> orderDetails =new HashSet<>();
+
+	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+	private Set<OrderDetail> orderDetails = new HashSet<>();
 
 	public Integer getId() {
 		return id;
@@ -189,7 +189,7 @@ public class Order {
 	public void setOrderDetails(Set<OrderDetail> orderDetails) {
 		this.orderDetails = orderDetails;
 	}
-	
+
 	public void copyAddressFromCustomer() {
 		setFirstname(customer.getFirstname());
 		setLastname(customer.getLastname());
@@ -201,6 +201,17 @@ public class Order {
 	public String toString() {
 		return "Order [id=" + id + ", subtotal=" + subtotal + ", paymentMethod=" + paymentMethod + ", orderStatus="
 				+ orderStatus + ", customer=" + customer + "]";
+	}
+
+	public Order() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public Order(Integer id, Date orderTime, float total) {
+		this.orderTime = orderTime;
+		
+		this.total = total;
+		this.id = id;
 	}
 
 }
