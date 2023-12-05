@@ -19,7 +19,7 @@
 		<div class="row">
 			<div class="col-md-8" style="margin-left: 50px;">
 				<div class="border border-secondary rounded p-3">
-					<form th:object="${customer}">
+					<form th:object="${customer}" th:action="@{/place_order}" method="post">
 						<div class="form-group row">
 							<label class="col-sm-4 col-form-label">First Name:</label>
 							<div class="col-sm-8">
@@ -47,13 +47,6 @@
 							</div>
 						</div>
 
-						<div class="mt-2">
-							<select class="form-select" id="quan" name="quan" required>
-								<option value="">Chọn quận</option>
-								<option th:each="district : ${districts}" th:value="${district.name}"
-									th:text="${district.name}"></option>
-							</select>
-						</div>
 
 						<div class="mt-2">
 							<label for="thanhPho" class="form-label">Thành phố:</label>
@@ -67,21 +60,30 @@
 
 						<div class="mb-2">
 							<label for="paymentMethod" class="form-label">Hình thức thanh toán:</label>
-							<div>
-								<input type="radio">Thanh toán bằng chuyển khoản</input>
+							<select class="form-select" id="paymentMethod" onchange="handlePaymentMethodChange()"
+								name="paymentMethod" required>
+								<option value="COD">Thanh toán tại điểm giao hàng (COD)</option>
+								<option value="TRANSFER">Thanh toán bằng chuyển khoản</option>
+							</select>
+							<div id="bankTransferInfo" style="display: none;">
+								<div class="mb-3">
+									<h4>Thông tin chuyển khoản ngân hàng:</h4>
+									<p>
+										<strong>Tên tài khoản:</strong> TechStore
+									</p>
+									<p>
+										<strong>Số tài khoản:</strong> 1234567890 - TechStore Bank
+									</p>
+								</div>
 							</div>
-							<div>
-								<form th:action="@{/place_order}" method="post">
-									<input type="radio" name="paymentMethod" id="radioCOD" value="COD">Thanh toán tại điểm giao hàng
-									(COD)</input>
-								</form>
-							</div>
+
 						</div>
+
 						<div style="text-align: center;">
-								<form th:action="@{/place_order}" method="post">
+							<form th:action="@{/place_order}" method="post">
 
 								<button type="submit" class="btn btn-danger mt-3">Thanh Toán</button>
-								</form>
+							</form>
 						</div>
 					</form>
 				</div>
@@ -138,5 +140,18 @@
 		padding: 0.8rem;
 	}
 </style>
+<script>
+	function handlePaymentMethodChange() {
+		var paymentMethodSelect = document.getElementById('paymentMethod');
+		var bankTransferInfo = document.getElementById('bankTransferInfo');
+
+		// Hiển thị hoặc ẩn thông tin thanh toán bằng chuyển khoản tùy thuộc vào lựa chọn
+		if (paymentMethodSelect.value === 'TRANSFER') {
+			bankTransferInfo.style.display = 'block';
+		} else {
+			bankTransferInfo.style.display = 'none';
+		}
+	}
+</script>
 
 </html>

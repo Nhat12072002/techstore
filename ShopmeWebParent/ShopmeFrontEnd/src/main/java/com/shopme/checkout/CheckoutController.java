@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.shopme.common.entity.CartItem;
 import com.shopme.common.entity.Customer;
@@ -44,7 +45,6 @@ public class CheckoutController {
 	public String showCheckoutPage(Model model, HttpServletRequest request) {
 		List<District> districts = checkoutService.getAllDistricts();
 		String email = Utilities.getEmailOfAuthenticatedCustomer(request);
-		ShippingRate shippingRate = null;
 //		if(shippingRate.getdistrict()!=null) {
 //			shippingRate=shipService.setShippingCost(shippingRate.getRate());
 //		} else {
@@ -70,16 +70,21 @@ public class CheckoutController {
 	}
 
 	@PostMapping("/place_order")
-	public String showCheckoutSuccessPage(Model model, HttpServletRequest request) throws UnsupportedEncodingException, MessagingException {
+	public String showCheckoutSuccessPage(@RequestParam("paymentMethod") String paymentMethod,Model model, HttpServletRequest request) throws UnsupportedEncodingException, MessagingException {
 		String paymentType= request.getParameter("paymentMethod");
-		PaymentMethod paymentMethod= PaymentMethod.COD;
+		 PaymentMethod selectedPaymentMethod = null;
+		    if ("TRANSFER".equals(paymentMethod)) {
+		        selectedPaymentMethod = PaymentMethod.CREDIT_CARD;
+		    } else if ("COD".equals(paymentMethod)) {
+		        selectedPaymentMethod = PaymentMethod.COD;
+		    } 
 		String email = Utilities.getEmailOfAuthenticatedCustomer(request);
 		ShippingRate shippingRate = null;	
 		Customer customer = customerService.getCustomerByEmail(email);
 		Optional<Customer> customer1=customerService.getCustomerById(customer.getId());
 		List<CartItem> cartItems = cartService.listCartItems(customer);
 		float estimatedTotal = 0.0F;
-		Order createOrder=orderService.createOrder1(customer, customer.getAddress(), cartItems, paymentMethod,estimatedTotal);
+		Order createOrder=orderService.createOrder1(customer, customer.getAddress(), cartItems, selectedPaymentMethod,estimatedTotal);
 		cartService.deleteByCustomer(customer);
 		sendOrderConfirmationEmail(request, createOrder);
 		return "checkout/checkout_success";
@@ -92,5 +97,4 @@ public class CheckoutController {
 	    emailService.sendOrderConfirmationEmail(recipientEmail, createOrder);
 	}
 }
-
 
