@@ -1,5 +1,8 @@
 package com.shopme.admin.report;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +24,18 @@ public class ReportRestController {
 			return masterOrderReportService.getReportDataLast28Days();
 		case "last_6_months":
 			return masterOrderReportService.getReportDataLast6Months();
+		case "last_12_months":
+			return masterOrderReportService.getReportDataLast12Months();
 		default:
 			return masterOrderReportService.getReportDataLast7Days();
 		}
+		
+	}
+	@GetMapping("/reports/sales_by_date/{startDate}/{endDate}")
+	public List<ReportItem> getReportDataByDatePeriods(@PathVariable("startDate")String startDate,@PathVariable("endDate")String endDate) throws ParseException{
+		SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+		Date startTime =dateFormatter.parse(startDate);
+		Date endTime =dateFormatter.parse(startDate);
+		return masterOrderReportService.getReportDataByDateRange(startTime, endTime);
 	}
 }

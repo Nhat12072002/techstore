@@ -42,8 +42,13 @@ public class MasterOrderReportService {
 
 		return getReportDataByDateRange(startTime, endTime, "days");
 	}
+	public List<ReportItem> getReportDataByDateRange(Date startTime, Date endTime) {
+		dateFormatter= new SimpleDateFormat("yyyy-MM-dd");
+		return getReportDataByDateRange(startTime, endTime, "day");
+	}
 
 	private List<ReportItem> getReportDataByDateRange(Date startTime, Date endTime, String period) {
+		
 		List<Order> listOrders = repo.findByOrderTimeDone(startTime, endTime);
 		printRawData(listOrders);
 
@@ -137,5 +142,10 @@ public class MasterOrderReportService {
 		dateFormatter = new SimpleDateFormat("yyyy-MM");
 
 		return getReportDataByDateRange(startTime, endTime, "months");
+	}
+
+	public List<ReportItem> getReportDataLast12Months() {
+		// TODO Auto-generated method stub
+		return getReportDataLastXMonths(12);
 	}
 }
