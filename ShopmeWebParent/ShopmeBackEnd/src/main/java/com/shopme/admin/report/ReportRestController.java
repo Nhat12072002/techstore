@@ -19,15 +19,15 @@ public class ReportRestController {
 	public List<ReportItem> getReportDataByDatePeriod(@PathVariable("period")String period){
 		switch (period) {
 		case "last_7_days":
-			return masterOrderReportService.getReportDataLast7Days();
+			return masterOrderReportService.getReportDataLast7Days(ReportType.DAY);
 		case "last_28_days":
-			return masterOrderReportService.getReportDataLast28Days();
+			return masterOrderReportService.getReportDataLast28Days(ReportType.DAY);
 		case "last_6_months":
-			return masterOrderReportService.getReportDataLast6Months();
+			return masterOrderReportService.getReportDataLast6Months(ReportType.MONTH);
 		case "last_12_months":
-			return masterOrderReportService.getReportDataLast12Months();
+			return masterOrderReportService.getReportDataLast12Months(ReportType.MONTH);
 		default:
-			return masterOrderReportService.getReportDataLast7Days();
+			return masterOrderReportService.getReportDataLast7Days(ReportType.DAY);
 		}
 		
 	}
@@ -35,7 +35,7 @@ public class ReportRestController {
 	public List<ReportItem> getReportDataByDatePeriods(@PathVariable("startDate")String startDate,@PathVariable("endDate")String endDate) throws ParseException{
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
 		Date startTime =dateFormatter.parse(startDate);
-		Date endTime =dateFormatter.parse(startDate);
-		return masterOrderReportService.getReportDataByDateRange(startTime, endTime);
+		Date endTime =dateFormatter.parse(endDate);
+		return masterOrderReportService.getReportDataByDateRange(startTime, endTime, ReportType.DAY);
 	}
 }

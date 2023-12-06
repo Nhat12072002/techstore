@@ -14,45 +14,18 @@ import com.shopme.admin.order.OrderRepository;
 import com.shopme.common.entity.Order;
 
 @Service
-public class MasterOrderReportService {
+public class MasterOrderReportService extends AbstractReportService{
 	@Autowired
 	private OrderRepository repo;
-	private DateFormat dateFormatter;
 
-	public List<ReportItem> getReportDataLast7Days() {
-		System.out.println("getReportDataLast7Days...");
-		return getReportDataLastXDays(7);
-	}
+	
 
-	public List<ReportItem> getReportDataLast28Days() {
-		System.out.println("getReportDataLast7Days...");
-		return getReportDataLastXDays(28);
-	}
-
-	private List<ReportItem> getReportDataLastXDays(int days) {
-		Date endTime = new Date();
-		Calendar cal = Calendar.getInstance();
-		cal.add(Calendar.DAY_OF_MONTH, -(days - 1));
-		Date startTime = cal.getTime();
-
-		System.out.println("Start time: " + startTime);
-		System.out.println("End time: " + endTime);
-
-		dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
-
-		return getReportDataByDateRange(startTime, endTime, "days");
-	}
-	public List<ReportItem> getReportDataByDateRange(Date startTime, Date endTime) {
-		dateFormatter= new SimpleDateFormat("yyyy-MM-dd");
-		return getReportDataByDateRange(startTime, endTime, "day");
-	}
-
-	private List<ReportItem> getReportDataByDateRange(Date startTime, Date endTime, String period) {
+	protected List<ReportItem> getReportDataByDateRangeInternal(Date startTime, Date endTime, ReportType reportType) {
 		
 		List<Order> listOrders = repo.findByOrderTimeDone(startTime, endTime);
 		printRawData(listOrders);
 
-		List<ReportItem> listReportItems = createReportData(startTime, endTime, period);
+		List<ReportItem> listReportItems = createReportData(startTime, endTime, reportType);
 
 		System.out.println();
 
@@ -88,7 +61,7 @@ public class MasterOrderReportService {
 
 	}
 
-	private List<ReportItem> createReportData(Date startTime, Date endTime, String period) {
+	private List<ReportItem> createReportData(Date startTime, Date endTime, ReportType reportType) {
 		List<ReportItem> listReportItems = new ArrayList<>();
 
 		Calendar startDate = Calendar.getInstance();
@@ -103,9 +76,9 @@ public class MasterOrderReportService {
 		listReportItems.add(new ReportItem(dateString));
 
 		do {
-			if (period.equals("days")) {
+			if (reportType.equals(ReportType.DAY)) {
 				startDate.add(Calendar.DAY_OF_MONTH, 1);
-			} else if (period.equals("months")) {
+			} else if (reportType.equals(ReportType.MONTH)) {
 				startDate.add(Calendar.MONTH, 1);
 			}
 			currentDate = startDate.getTime();
@@ -125,27 +98,5 @@ public class MasterOrderReportService {
 		});
 	}
 
-	public List<ReportItem> getReportDataLast6Months() {
 
-		return getReportDataLastXMonths(6);
-	}
-
-	private List<ReportItem> getReportDataLastXMonths(int months) {
-		Date endTime = new Date();
-		Calendar cal = Calendar.getInstance();
-		cal.add(Calendar.MONTH, -(months - 1));
-		Date startTime = cal.getTime();
-
-		System.out.println("Start time: " + startTime);
-		System.out.println("End time: " + endTime);
-
-		dateFormatter = new SimpleDateFormat("yyyy-MM");
-
-		return getReportDataByDateRange(startTime, endTime, "months");
-	}
-
-	public List<ReportItem> getReportDataLast12Months() {
-		// TODO Auto-generated method stub
-		return getReportDataLastXMonths(12);
-	}
 }
