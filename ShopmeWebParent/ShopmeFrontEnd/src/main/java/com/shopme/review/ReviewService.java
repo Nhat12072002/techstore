@@ -8,6 +8,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.shopme.common.entity.Customer;
+import com.shopme.common.entity.Product;
 import com.shopme.common.entity.Review;
 
 @Service
@@ -36,5 +37,10 @@ public class ReviewService {
 			throw new ReviewNotFoundException("Customer doesn not have any reviews with ID " + reviewId);
 
 		return review;
+	}
+	public Page<Review> list3MostRecentReviewsByProduct(Product product){
+		Sort sort=Sort.by("reviewTime").descending();
+		Pageable pageable = PageRequest.of(0, 3,sort);
+		return repo.findByProduct(product,pageable);
 	}
 }

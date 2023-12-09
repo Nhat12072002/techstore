@@ -317,5 +317,8 @@ public class Product {
 		}
 		return this.price;
 	}
-
+	@Transient
+	public String getURI() {
+		return "/product/" + this.alias + "/";
+	}
 }

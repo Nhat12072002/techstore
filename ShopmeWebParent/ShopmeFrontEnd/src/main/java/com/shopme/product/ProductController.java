@@ -13,9 +13,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import com.shopme.category.CategoryNotFoundException;
 import com.shopme.category.CategoryService;
 import com.shopme.product.ProductService;
-
+import com.shopme.review.ReviewService;
 import com.shopme.common.entity.Category;
 import com.shopme.common.entity.Product;
+import com.shopme.common.entity.Review;
 
 @Controller
 public class ProductController {
@@ -23,6 +24,8 @@ public class ProductController {
 	private CategoryService categoryService;
 	@Autowired
 	private ProductService productService;
+	@Autowired
+	private ReviewService reviewService;
 
 	@GetMapping("/category/{category_alias}")
 	public String viewCategoryFirstPage(@PathVariable("category_alias") String alias, Model model) {
@@ -69,10 +72,13 @@ public class ProductController {
 		try {
 			Product product=productService.getProduct(alias);
 			List<Category> listCategoryParents = categoryService.getCategoryParents(product.getCategory());
+			Page<Review> listReviews = reviewService.list3MostRecentReviewsByProduct(product);
 			model.addAttribute("listCategoryParents", listCategoryParents);
 			model.addAttribute("product", product);
 			model.addAttribute("pageTitle", product.getName());
 			model.addAttribute("listCategoryParents", listCategoryParents);
+			model.addAttribute("listReviews", listReviews);
+
 			model.addAttribute("listCategories", listCategories);
 
 			return "product/product_detail";
