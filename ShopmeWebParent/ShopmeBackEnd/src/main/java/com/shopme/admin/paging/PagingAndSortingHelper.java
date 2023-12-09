@@ -25,6 +25,7 @@ public class PagingAndSortingHelper {
 	}
 
 	public void updateModelAttributes(int pageNum, Page<?> page) {
+		
 		List<?> listItems = page.getContent();
 		int pageSize = page.getSize();
 

@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class ReportRestController {
 
 	@Autowired private MasterOrderReportService masterOrderReportService;
-	
 	@GetMapping("/reports/sales_by_date/{period}")
 	public List<ReportItem> getReportDataByDatePeriod(@PathVariable("period")String period){
 		switch (period) {
@@ -38,4 +37,5 @@ public class ReportRestController {
 		Date endTime =dateFormatter.parse(endDate);
 		return masterOrderReportService.getReportDataByDateRange(startTime, endTime, ReportType.DAY);
 	}
+	
 }

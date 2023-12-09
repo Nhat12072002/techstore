@@ -20,7 +20,7 @@
 	</div>
 	<div class="tab-content">
 		<div class="tab-pane active p-3" id="date" role="tabpanel">
-			<div th:replace="reports/sales_report_by_date::content"></div>
+			<div th:replace="reports/sales_report_fragment::content('_date')"></div>
 		</div>
 		<div class="tab-pane  p-3" id="category" role="tabpanel">
 			<h2>Báo cáo doanh thu theo phân loại sản phẩm</h2>
@@ -45,12 +45,13 @@
 			$(this).tab('show')
 		})
 		$(document).ready(function () {
-			divCustomDateRange = $("#divCustomDateRange")
-			startDateField = document.getElementById("startDate")
-			endDateField = document.getElementById("endDate")
+			divCustomDateRange = $("#divCustomDateRange_date")
+			startDateField = document.getElementById("startDate_date");
+			endDateField = document.getElementById("endDate_date");
+
 			google.charts.load('current', {'packages': ['corechart']})
 			google.charts.setOnLoadCallback(loadSalesReportByDate);
-			$(".button-sales-by-date").on("click", function () {
+			$(".button-sales-by_date").on("click", function () {
 				period = $(this).attr("period")
 				if (period) {
 					loadSalesReportByDate(period)
@@ -61,7 +62,7 @@
 
 			})
 			initCustomDateRange()
-			$("#buttonViewReportByDateRange").on("click", function (e) {
+			$("#buttonViewReportByDateRange_date").on("click", function (e) {
 				validateDateRange()
 			})
 		})
@@ -89,8 +90,8 @@
 
 		function loadSalesReportByDate(period) {
 			if (period == "custom") {
-				startDate = $("#startDate").val()
-				endDate = $("#endDate").val()
+				startDate = $("#startDate_date").val()
+				endDate = $("#endDate_date").val()
 				console.log("StartDate:", startDate);
 				console.log("EndDate:", endDate);
 				requestURL = contextPath + "reports/sales_by_date/" + startDate + "/" + endDate
@@ -137,9 +138,10 @@
 			var salesChart = new google.visualization.ColumnChart(document.getElementById('chart_sales_by_date'))
 			salesChart.draw(data, chartOptions)
 			days = getDays(period)
-			$("#textTotalGrossSales").text(totalGrossSales + " triệu VNĐ")
-			$("#textTotalOrders").text(totalOrders + " đơn hàng")
-			$("#textAverageGrossSales").text((totalGrossSales / days).toFixed(2) + " triệu VNĐ");
+			$("#textTotalGrossSales_date").text(totalGrossSales + " triệu VNĐ")
+			$("#textTotalOrders_date").text(totalOrders + " đơn hàng")
+			$("#labelTotalItems_date").text("Tổng số đơn hàng")
+			$("#textAverageGrossSales_date").text((totalGrossSales / days).toFixed(2) + " triệu VNĐ");
 
 		}
 		function getChartTitle(period) {

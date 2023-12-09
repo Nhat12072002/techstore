@@ -76,7 +76,8 @@ public class Product {
 	
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL,orphanRemoval= true)
 	private List<ProductDetail> details = new ArrayList<>();
-	
+	private int reviewCount;
+	private float averageRating;
 	public List<ProductDetail> getDetails() {
 		return details;
 	}
@@ -289,6 +290,22 @@ public class Product {
 		}
 		return false;
 	}
+	public int getReviewCount() {
+		return reviewCount;
+	}
+
+	public void setReviewCount(int reviewCount) {
+		this.reviewCount = reviewCount;
+	}
+
+	public float getAverageRating() {
+		return averageRating;
+	}
+
+	public void setAverageRating(float averageRating) {
+		this.averageRating = averageRating;
+	}
+
 	@PrePersist
     protected void onCreate() {
         createdTime = new Date();

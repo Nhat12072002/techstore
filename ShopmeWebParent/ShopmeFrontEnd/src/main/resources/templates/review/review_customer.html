@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments :: page_head('Đánh giá của tôi', 'none')">
+	<link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+
+<body>
+	<div th:replace="navigation :: header_menu"></div>
+	<th:block sec:authorize="isAuthenticated()">
+		<form th:action="@{/logout}" method="post" th:hidden="true" name="logoutForm">
+			<input type="submit" value="Logout" />
+		</form>
+	</th:block>
+	<div class="text-center" style="margin-top: 20px;">
+		<h2>LỊCH SỬ ĐÁNH GIÁ</h2>
+	</div>
+	<div class="full-details">
+		<table class="table table-bordered table-striped table-hover table-responsive-xl">
+			<thead class="thead-dark">
+				<tr>
+					<th>ID</th>
+					<th>Sản phẩm</th>
+					<th>Tiêu đề</th>
+					<th>Đánh giá</th>
+					<th>Thời gian đánh giá</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="review : ${listReviews}">
+					<td>[[${review.id}]]</td>
+					<td>
+						<a th:href="@{'/product/' + ${review.product.alias}}" target="_blank">
+							[[${review.product.name}]]
+						</a>
+					</td>
+					<td>[[${review.headline}]]</td>
+					<td>[[${review.rating}]] <i class="far fa-star"></i></td>
+					<td>[[${review.reviewTime}]]</td>
+					<td>
+						<a class="btn btn-success link-detail-review" th:href="@{'/reviews/detail/' + ${review.id}}"
+							title="View details of this review">
+							<i class="fas fa-file-alt"></i> View Details
+						</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<div class="modal fade" id="detailModal">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				
+			</div>
+		</div>
+	</div>
+
+	<div th:replace="navigation :: footer_menu"></div>
+	<script type="text/javascript">
+		moduleURL = "[[@{/reviews}]]";
+		$(".link-detail-review").on("click", function (e) {
+			e.preventDefault()
+			linkDataURL = $(this).attr("href")
+			$("#detailModal").modal("show").find(".modal-content").load(linkDataURL)
+		})
+		
+	</script>
+	<style>
+		/* style.css */
+
+		/* Add your custom styles here */
+		.table th,
+		.table td {
+			text-align: center;
+		}
+
+		.btn-link {
+			color: #007bff;
+		}
+
+		.btn-link:hover {
+			text-decoration: none;
+			color: #0056b3;
+		}
+
+		/* Add more styles as needed */
+	</style>
+</body>
+
+</html>

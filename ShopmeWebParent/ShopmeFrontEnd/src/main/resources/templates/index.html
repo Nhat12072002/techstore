@@ -93,7 +93,8 @@
 								<div style="font-size: larger;color: darkred;">[[${product.discountPrice}]] triệu VND
 								</div>
 							</div>
-							<a class="btn " th:href="@{'/product/'+${product.alias}}" style="text-align: center; background-color:rgb(255, 202, 104);">Thêm
+							<a class="btn " th:href="@{'/product/'+${product.alias}}"
+								style="text-align: center; background-color:rgb(255, 202, 104);">Thêm
 								vào giỏ hàng</a>
 						</div>
 					</div>
@@ -126,8 +127,8 @@
 			console.log("Clicked on link-register");
 			$("#registerModal").modal("show").find(".modal-content").load(linkDataURL);
 		});
-		
-   
+
+
 
 
 
