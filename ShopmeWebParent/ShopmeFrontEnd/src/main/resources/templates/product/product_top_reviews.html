@@ -19,7 +19,7 @@
 			<div class="col-xs ml-1 mt-3"><span id="ratingNumber">[[${product.averageRating}]]</span> / 5<i class="fa-solid fa-star"></i></div>
 		</div>
 		<div class="row m-1 ml-3">
-			<a href="">Xem tất cả [[${product.reviewCount}]] bình luận</a>
+			<a th:href="@{'/ratings/'+ ${product.alias}}">Xem tất cả [[${product.reviewCount}]] bình luận</a>
 		</div>
 		<div class="row">
 			<div class="col">

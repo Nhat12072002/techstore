@@ -49,8 +49,11 @@ public class ReviewService {
 	public void delete(Integer id) throws ReviewNotFoundException{
 		if(!repo.existsById(id)) {
 			throw new ReviewNotFoundException("Could not find any reviews with ID "+id);
+
 			
 		}
+		productRepo.updateReviewCountAndAverageRating(id);
+
 		repo.deleteById(id);
 	}
 	public List<Review> listAll() {

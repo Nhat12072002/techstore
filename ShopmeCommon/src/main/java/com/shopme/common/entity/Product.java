@@ -78,6 +78,25 @@ public class Product {
 	private List<ProductDetail> details = new ArrayList<>();
 	private int reviewCount;
 	private float averageRating;
+	private boolean customerCanReview;
+	private boolean reviewedByCustomer;
+
+	public boolean isCustomerCanReview() {
+		return customerCanReview;
+	}
+
+	public void setCustomerCanReview(boolean customerCanReview) {
+		this.customerCanReview = customerCanReview;
+	}
+
+	public boolean isReviewedByCustomer() {
+		return reviewedByCustomer;
+	}
+
+	public void setReviewedByCustomer(boolean reviewedByCustomer) {
+		this.reviewedByCustomer = reviewedByCustomer;
+	}
+
 	public List<ProductDetail> getDetails() {
 		return details;
 	}
