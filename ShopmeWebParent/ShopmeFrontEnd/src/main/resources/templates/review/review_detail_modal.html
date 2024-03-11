@@ -1,0 +1,60 @@
+<div class="modal-header">
+	<h4 class="modal-title" id="modal-Title">Chi tiết đánh giá:</h4>
+	<button type="button" class="close" style="font-size: 30px; border: none; background-color: white;"
+		data-bs-dismiss="modal">&times;</button>
+</div>
+
+<div class="modal-body">
+	<div class="form-group row mt-2">
+		<label class="col-sm-2 col-form-label">ID:</label>
+		<div class="col-sm-10">
+			<input type="text" readonly class="form-control" th:value="${review.id}" />
+		</div>
+	</div>
+
+	<div class="form-group row mt-2">
+		<label class="col-sm-2 col-form-label">Sản phẩm:</label>
+		<div class="col-sm-10">
+			<input type="text" readonly class="form-control" th:value="${review.product.name}" />
+		</div>
+	</div>
+
+	<div class="form-group row mt-2">
+		<label class="col-sm-2 col-form-label">Khách hàng:</label>
+		<div class="col-sm-10">
+			<input type="text" readonly class="form-control" th:value="${review.customer.fullName}" />
+		</div>
+	</div>
+
+	<div class="form-group row mt-2">
+		<label class="col-sm-2 col-form-label">Tiêu đề:</label>
+		<div class="col-sm-10">
+			<input type="text" readonly class="form-control" th:value="${review.headline}" />
+		</div>
+	</div>
+
+	<div class="form-group row mt-2">
+		<label class="col-sm-2 col-form-label">Đánh giá:</label>
+		<div class="col-sm-10">
+			<input type="text" readonly class="form-control" th:value="${review.rating}" />
+		</div>
+	</div>
+
+	<div class="form-group row mt-2">
+		<label class="col-sm-2 col-form-label">Bình luận:</label>
+		<div class="col-sm-10">
+			<textarea rows="3" class="form-control" readonly>[[${review.comment}]]</textarea>
+		</div>
+	</div>
+
+	<div class="form-group row mt-2">
+		<label class="col-sm-4 col-form-label">Thời gian đánh giá:</label>
+		<div class="col-sm-8">
+			<span style="margin-top: 5px;" th:text="${#dates.format(review.reviewTime, 'yyyy-MM-dd HH:mm:ss')}"></span>
+		</div>
+	</div>
+</div>
+
+<div class="modal-footer">
+	<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+</div>

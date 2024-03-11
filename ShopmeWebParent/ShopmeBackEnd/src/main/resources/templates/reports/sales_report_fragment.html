@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+	<div th:fragment="content(reportType)" th:remove="tag">
+		<div th:with="buttonClass = 'button-sales-by'+ ${reportType}">
+			<button class="btn btn  m-1" th:classappend="${buttonClass}" period="last_7_days"
+				style="background-color: rgb(255, 202, 104)">Trong tuần vừa qua</button>
+			<button class="btn btn  m-1" th:classappend="${buttonClass}" period="last_28_days"
+				style="background-color: rgb(255, 202, 104)">Trong 28 ngày qua</button>
+			<button class="btn btn  m-1" th:classappend="${buttonClass}" period="last_6_months"
+				style="background-color: rgb(255, 202, 104)">Trong 6 tháng qua</button>
+			<button class="btn btn  m-1" th:classappend="${buttonClass}" period="last_12_months"
+				style="background-color: rgb(255, 202, 104)">Trong 12 tháng qua</button>
+			<button class="btn btn  m-1" th:classappend="${buttonClass}"
+				style="background-color: rgb(255, 202, 104)">Thống kê theo ngày tự chọn</button>
+		</div>
+		<form style="margin-top:20px ;">
+			<div th:id="'divCustomDateRange'+${reportType}" class="d-none">
+				Từ ngày: <input type="date" th:id="'startDate'+${reportType}"> &nbsp;
+				Đến ngày: <input type="date" th:id="'endDate'+${reportType}"> &nbsp;
+				<button type="button" class="btn btn-primary"
+					th:id="'buttonViewReportByDateRange'+${reportType}">Xem</button>
+			</div>
+		</form>
+		<div th:id="'chart_sales_by'+${reportType}" class="mt-3"></div>
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-4"> <!-- Chia cột thành 2, chiếm 50% width -->
+					<div class="card">
+						<div class="card-header" style="text-align: center;"><b>Tổng doanh thu</b></div>
+						<div class="card-body">
+							<span class="h3" th:id="'textTotalGrossSales'+${reportType}"></span>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-4"> <!-- Chia cột thành 2, chiếm 50% width -->
+					<div class="card">
+						<div class="card-header" style="text-align: center;"><b>Trung bình doanh thu mỗi ngày/tháng</b>
+						</div>
+						<div class="card-body">
+							<span class="h3" th:id="'textAverageGrossSales'+${reportType}"></span>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-4"> <!-- Chia cột thành 2, chiếm 50% width -->
+					<div class="card">
+						<div class="card-header" style="text-align: center;"><b><span th:id="'labelTotalItems'+${reportType}"></span></b></div>
+						<div class="card-body">
+							<span class="h3" th:id="'textTotalOrders'+${reportType}"></span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	</div>
+</body>
+
+
+</html>

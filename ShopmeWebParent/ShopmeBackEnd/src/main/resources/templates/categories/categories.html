@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: page_head('Categories - Shopme Admin','none')"/>
+
+<body>
+		<div th:replace="navigation::menu"></div>
+		<div style="margin-left: 20px;text-align: center;">
+			<h2>Manage Categories</h2>
+			<a th:href="@{/categories/new}" style="color:black; text-decoration: none;" class=" fas fa-solid fa-user-plus fa-2x icon-dark mr-2"></a>
+			&nbsp;|&nbsp;
+			<a th:href="@{/categories/export/csv}" style="color:black; text-decoration: none;" class="fa-solid fa-file-csv fa-2x icon-dark mr-2 "></a>
+		</div>
+	<div th:if="${message != null}" class="alert alert-success text-center">
+		[[${message}]]
+	</div>
+	<div th:replace="fragments::search_form('/categories/page/1')"></div>
+	<div class="full-details">
+		<table class="table table-bordered table-striped table-hover table-responsive-xl">
+			<thead class="table-dark text-center">
+				<tr>
+					<th>ID</th>
+					<th>Category Image</th>
+					<th>
+						<a class="text-white text-decoration-none" th:href="@{'/categories?sortDir='+${reverseSortDir}}">Category Name</a>
+							<span th:class="${reverseSortDir == 'desc' ? 'fas fa-sort-up' : 'fas fa-sort-down'}" ></span>
+					</th>
+					<th>Alias</th>
+					<th>Enabled</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="cat : ${listCategories}">
+					<td>[[${cat.id}]]</td>
+					<td class="text-center">
+						<img th:src="@{${cat.imagePath}}" style="width: 200px;" class="img-fluid"/>
+					 </td>
+					<td>[[${cat.name}]]</td>
+					<td>[[${cat.alias}]]</td>
+					<td class="text-center">
+						<a th:if="${cat.enabled==true}" th:href="@{'/categories/' + ${cat.id} + '/enabled/false'}"  class="fa-sharp fa-regular fa-circle-check fa-2x"style= "color: green;text-decoration:none" title="Disable this category"></a>
+						<a th:if="${cat.enabled==false}" th:href="@{'/categories/'+${cat.id}+'/enabled/true'}" class="fa-regular fa-circle-xmark fa-2x"style= "color: red; text-decoration:none;"title="Enable this category"></a>
+					</td>
+					<td class="">
+						<a class="fa-solid fa-user-pen fa-2x"style= "color: green; text-decoration: none;" th:href="@{'/categories/edit/' + ${cat.id}}" title="Edit this user"></a>
+						 &nbsp;
+						 <th:block th:if="${cat.hasChildren==false}">
+						 <a href="" class="fa-solid fa-trash-can fa-2x link-delete"style= "color: red;text-decoration: none;"th:href="@{'/categories/delete/' + ${cat.id}}" th:categoryId="${cat.id}" title="Delete this category"></a> 
+						 </th:block>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div th:replace="fragments::pagination('/categories','top-levels categories')"></div>
+	
+	<div class="modal fade text-center" id="Confirm-Modal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="Delete Confirmation">Delete Confirmation</h4>
+					<button type="button" class="close" style="font-size: 30px; border: none; background-color: white;" data-bs-dismiss="modal">&times;</button>
+				</div>
+				<div class="modal-body">
+					<span id="modal-Body"></span>
+				</div>
+				<div class="modal-footer">
+					<a class="btn btn-success" href=""id="yesButton">Yes</a>
+					<button type="button" class="btn btn-danger"data-bs-dismiss="modal" >No</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:replace="fragments::footer"></div>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$(".link-delete").on("click", function(e){
+				e.preventDefault();
+				link = $(this);
+				categoryId= link.attr("categoryId");
+				$("#yesButton").attr("href",link.attr("href"));
+				//alert($(this).attr("href"));
+				$("#modal-Body").text("Are you sure you want to delete this category ID " +categoryId+"?");
+				$("#Confirm-Modal").modal("show");
+			});
+		});
+		function clearFilter(){
+			window.location ="[[@{/categories}]]";
+		}
+		$(document).ready(function(){
+			$("#LogoutLink").on("click",function(e){
+				e.preventDefault();
+				document.LogoutForm.submit();
+			})
+			 customizeDropdownMenu()
+		});
+		function customizeDropdownMenu(){
+		$(".navbar .dropdown").hover(
+			function(){
+				$(this).find('.dropdown-menu').first().stop(true, true).delay(250).slideDown();
+			},
+			function(){
+				$(this).find('.dropdown-menu').first().stop(true, true).delay(100).slideUp();
+			}
+		);
+		$(".dropdown > a").click(function(){
+			location.href = this.href;
+		});
+	}
+	</script>
+</body>
+</html>

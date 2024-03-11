@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+	<head th:replace="fragments :: page_head('Viết bình luận','tag')" />
+	<link th:href="@{/star-rating/css/star-rating.css}" media="all" rel="stylesheet" type="text/css" />
+	<script th:src="@{/star-rating/js/star-rating.js}" type="text/javascript"></script>
+	<link th:href="@{/star-rating/theme/krajee-svg/theme.css}" media="all" rel="stylesheet" type="text/css" />
+	<script th:src="@{/star-rating/theme/krajee-svg/theme.js}"></script>
+</head>
+
+<body>
+	<header th:replace="navigation::header_menu"></header>
+	<th:block sec:authorize="isAuthenticated()">
+		<form th:action="@{/logout}" method="post" th:hidden="true" name="logoutForm">
+			<input type="submit" value="Logout" />
+		</form>
+	</th:block>
+	<div class="container-fluid text-center">
+		<div>
+			<h2>Viết đánh giá sản phẩm</h2>
+		</div>
+		<div>
+			<img th:src="@{${review.product.mainImagePath}}" style="height: 200px;" />
+		</div>
+		<div>
+			<div>
+				<h4>[[${review.product.name}]]</h4>
+			</div>
+			<div>&nbsp;</div>
+			<div>
+				<span class="h4 text-success">Bình luận của bạn đã được đăng.</span>
+			</div>
+		</div>
+		<div class="border border-secondary rounded p-3">
+			<p>
+				<input type="text" th:field="${review.rating}" class="product-rating-star" dir="ltr" data-size="md"/>
+			</p>
+			<p>
+				<input type="text" th:field="${review.headline}" class="form-control" readonly="readonly"/>
+			</p>
+			<p>
+				<textarea  rows="3" cols="10" class="form-control"readonly="readonly">[[${review.comment}]]</textarea>
+			</p>
+			<p>
+				<input type="submit" value="Đăng" class="btn btn" style="background-color:rgb(255, 202, 104);" />
+			</p>
+		</div>
+		</form>
+	</div>
+	<footer th:replace="navigation :: footer_menu" style="margin-top: 20px;"></footer>
+	<script>
+		$(".product-rating-star").rating({
+			displayOnly: true,
+			hoverOnClear: false,
+			showCaption: false,
+			theme: 'krajee-svg'
+		})
+	</script>
+</body>
+
+</html>

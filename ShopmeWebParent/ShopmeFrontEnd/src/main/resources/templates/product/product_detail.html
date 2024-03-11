@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+	<head th:replace="fragments :: page_head(${pageTitle},'tag')" />
+	<link th:href="@{/star-rating/css/star-rating.css}" media="all" rel="stylesheet" type="text/css" />
+	<script th:src="@{/star-rating/js/star-rating.js}" type="text/javascript"></script>
+	<link th:href="@{/star-rating/theme/krajee-svg/theme.css}" media="all" rel="stylesheet" type="text/css" />
+	<script th:src="@{/star-rating/theme/krajee-svg/theme.js}"></script>
+</head>
+<meta charset="UTF-8">
+<title>Welcome to TechStore</title>
+<link rel="stylesheet" href="your-styles.css">
+</head>
+
+<body>
+	<header th:replace="navigation::header_menu"></header>
+	<th:block sec:authorize="isAuthenticated()">
+		<form th:action="@{/logout}" method="post" th:hidden="true" name="logoutForm">
+			<input type="submit" value="Logout" />
+		</form>
+	</th:block>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		<div class="container">
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+				aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav">
+					<li class="nav-item">
+						<a class="nav-link" th:href="@{/}" style="font-weight: bold; color: #FFCA68;">Tất cả</a>
+					</li>
+					<th:block th:each="cat: ${listCategories}">
+						<li class="nav-item" style="font-weight: bold;">
+							<a class="nav-link" style="color: #FFCA68;" th:href="@{'/category/'+${cat.alias}}"
+								th:text="${cat.name}"></a>
+						</li>
+					</th:block>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<div th:replace="breadcrumb::content"></div>
+
+	<div class="row mt-2">
+		<div class="col-sm">
+			<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+				<div class="carousel-inner">
+					<div class="carousel-item active" style="text-align: center;">
+						<img id="bigImage" th:src="@{${product.mainImagePath}}" height="300px" width="300px"
+							class="img-fluid" />
+					</div>
+					<th:block th:each="extraImage : ${product.images}">
+						<div class="carousel-item" style="text-align: center;">
+							<img id="bigImage" th:src="@{${extraImage.imagePath}}" height="300px" width="300px"
+								class="img-fluid" />
+						</div>
+					</th:block>
+				</div>
+				<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+					data-bs-slide="prev">
+					<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+					<span class="visually-hidden">Previous</span>
+				</button>
+				<button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+					data-bs-slide="next">
+					<span class="carousel-control-next-icon" aria-hidden="true"></span>
+					<span class="visually-hidden">Next</span>
+				</button>
+			</div>
+			<div class="row mt-2" style="margin-left: 20px;">
+				<div class="col-auto p-1">
+					<img class="image-thumbnail" th:src="@{${product.mainImagePath}}" height="50" />
+				</div>
+				<th:block th:each="extraImage : ${product.images}">
+					<div class="col-auto p-1 " style="margin-left: 5px;">
+						<img class="image-thumbnail" th:src="@{${extraImage.imagePath}}" height="50" />
+					</div>
+				</th:block>
+			</div>
+		</div>
+		<div class="col-sm">
+			<div>
+				<h1 th:text="${product.name}"></h1>
+			</div>
+			<div class="row ml-1">
+				<div class="col">
+					<input type="text" class="product-detail-rating-star" dir="ltr" data-size="md"
+						th:value="${product.averageRating}" />
+				</div>
+				<div class="col mt-3" style="margin-right:100px">
+					<b>[[${product.reviewCount}]] lượt đánh giá</b>
+				</div>
+			</div>
+
+			<div>
+				<span><b>Brand:</b> <span th:text="${product.brand.name}"></span></span>
+			</div>
+			<div>
+				<span th:if="${product.discountPercent <= 0}"><b>Price:</b> [[${product.price}]] triệu VND</span>
+				<del th:if="${product.discountPercent > 0}"><b>Price:</b> [[${product.price}]] triệu VND</del>
+			</div>
+			<div th:if="${product.discountPercent > 0}">
+				<div style="font-size: larger; color: darkred;"><b>Price:</b>[[${product.discountPrice}]] triệu VND
+				</div>
+				(Giảm [[${product.discountPercent}]]%)
+			</div>
+			<div>&nbsp;</div>
+			<div th:utext="${product.shortDescription}"></div>
+		</div>
+		<div class="col-sm-2">
+			<div>
+				<span th:if="${product.inStock}" class="text-success" style="margin-left: 40px;"><b>Còn Hàng</b></span>
+				<span th:unless="${product.inStock}" class="text-danger" style="margin-left: 40px;"><b>Hết
+						Hàng</b></span>
+			</div>
+			<th:block th:if="${product.inStock}">
+				<div class="mt-2">
+					<div th:replace="cart/quantity_control :: quantity_control(1, ${product.id})"></div>
+				</div>
+				<div class="mt-3">
+					<button class="btn" id="buttonAdd2Cart" style="text-align: center; background-color: #FFCA68;">Thêm
+						vào giỏ
+						hàng</button>
+				</div>
+			</th:block>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-sm" style="margin-left: 20px;">
+			<hr />
+			<h3>Mô tả sản phẩm:</h3>
+			<div th:utext="${product.fullDescription}"></div>
+		</div>
+		<div class="col-sm">
+			<hr />
+			<h3>Chi tiết thông tin sản phẩm:</h3>
+			<th:block th:each="detail :${product.details}">
+				<div>
+					<b th:text="${detail.name}">Product Detail</b>:
+					<span th:text="${detail.value}">Value</span>
+				</div>
+			</th:block>
+		</div>
+	</div>
+	<div th:replace="product/product_top_reviews :: content"></div>
+	<div class="modal fade text-center" id="modal-Dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="modal-Title">Warning</h4>
+					<button type="button" class="close" style="font-size: 30px; border: none; background-color: white;"
+						data-bs-dismiss="modal">&times;</button>
+				</div>
+				<div class="modal-body">
+					<span id="modal-Body"></span>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:replace="navigation :: register_form"></div>
+
+	<footer th:replace="navigation :: footer_menu" style="margin-top: 20px;"></footer>
+
+	<style>
+		.carousel-control-prev-icon,
+		.carousel-control-next-icon {
+			background-color: #000;
+			/* Đặt màu nền của biểu tượng thành màu đen */
+			color: #fff;
+			/* Đặt màu chữ của biểu tượng thành màu trắng */
+			border-radius: 40%;
+			/* Đặt độ cong của biểu tượng */
+			padding: 10px;
+			/* Đặt khoảng cách nội dung bên trong biểu tượng */
+		}
+	</style>
+	<script type="text/javascript">
+		contextPath = "[[@{/}]]"
+		productId = "[[${product.id}]]"
+		var csrfHeaderName = "[[${_csrf.headerName}]]"
+		var csrfValue = "[[${_csrf.token}]]"
+		$(document).ready(function () {
+			$("#link-register").on("click", function (e) {
+				e.preventDefault();
+				linkDataURL = $(this).attr("href");
+				console.log("Clicked on link-register");
+				$("#registerModal").modal("show").find(".modal-content").load(linkDataURL);
+			});
+		})
+		$(document).ready(function () {
+			$(".linkMinus").on("click", function (evt) {
+				evt.preventDefault();
+				productId = $(this).attr("pid")
+				quantityInput = $("#quantity" + productId)
+				newQuantity = parseInt(quantityInput.val()) - 1;
+
+				if (newQuantity > 0) {
+					quantityInput.val(newQuantity);
+				} else {
+					showModalDialog("Warning", "Số lượng nhỏ nhất là 1");
+				}
+			})
+			$(".linkPlus").on("click", function (evt) {
+				evt.preventDefault();
+				productId = $(this).attr("pid")
+				quantityInput = $("#quantity" + productId)
+				newQuantity = parseInt(quantityInput.val()) + 1;
+				quantityInput.val(newQuantity);
+			})
+		})
+		function showModalDialog(title, message) {
+			$("#modal-Title").text(title);
+			$("#modal-Body").text(message);
+			$("#modal-Dialog").modal("show");
+		}
+		$(document).ready(function () {
+			$("#buttonAdd2Cart").on("click", function (e) {
+				addToCart();
+			})
+		})
+		function addToCart() {
+			quantity = $("#quantity" + productId).val()
+			url = contextPath + "cart/add/" + productId + "/" + quantity
+
+			$.ajax({
+				type: "POST",
+				url: url,
+				beforeSend: function (xhr) {
+					xhr.setRequestHeader(csrfHeaderName, csrfValue);
+				}
+			}).done(function (response) {
+				showModalDialog("Thông báo", response);
+			}).fail(function () {
+				showModalDialog("Lỗi", "Lỗi khi thêm sản phẩm vào giỏ.");
+			})
+		}
+
+		$(".product-detail-rating-star").rating({
+			displayOnly: true,
+			hoverOnClear: false,
+			showCaption: false,
+			theme: 'krajee-svg'
+		})
+	</script>
+</body>
+
+</html>

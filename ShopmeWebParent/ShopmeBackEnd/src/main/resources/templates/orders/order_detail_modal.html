@@ -1,0 +1,112 @@
+<div class="modal-header">
+	<h4 class="modal-title" id="modal-Title">Order Detail</h4>
+	<button type="button" class="close" style="font-size: 30px; border: none; background-color: white;"
+		data-bs-dismiss="modal">&times;</button>
+</div>
+<div>
+	<ul class="nav nav-tabs" id="myTab" role="tablist">
+		<li class="nav-item1">
+			<a class="nav-link active" data-toggle="tab" href="#overview" role="tab">Overview</a>
+		</li>
+		<li class="nav-item1">
+			<a class="nav-link" data-toggle="tab" href="#product" role="tab">Product</a>
+		</li>
+		<li class="nav-item1">
+			<a class="nav-link" data-toggle="tab" href="#shipping" role="tab">Shipping</a>
+		</li>
+	</ul>
+
+	<!-- Tab panes -->
+	<div class="tab-content">
+		<div class="tab-pane active p-3" id="overview" role="tabpanel">
+			<div class="form-group row p-1">
+				<label class="col-sm-2 col-form-label">Order ID:</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" th:value="${order.id}" readonly />
+				</div>
+			</div>
+			<div class="form-group row p-1">
+				<label class="col-sm-2 col-form-label">Customer:</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control"
+						th:value="${order.customer.firstname}+' '+${order.customer.lastname}" readonly />
+				</div>
+			</div>
+			<div class="form-group row p-1">
+				<label class="col-sm-2 col-form-label">Address:</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" th:value="${order.customer.address}" readonly />
+				</div>
+			</div>
+			<div class="form-group row p-1">
+				<label class="col-sm-2 col-form-label">Total:</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" th:value="${order.total}" readonly />
+				</div>
+			</div>
+			<div class="form-group row p-1">
+				<label class="col-sm-2 col-form-label">Payment Method:</label>
+				<div class="col-sm-10"> [[${order.paymentMethod}]]
+				</div>
+			</div>
+			<div class="form-group row p-1">
+				<label class="col-sm-2 col-form-label">Status:</label>
+				<div class="col-sm-10"> [[${order.orderStatus}]]
+				</div>
+			</div>
+		</div>
+		<div class="tab-pane p-3" id="product" role="tabpanel">
+			<th:block th:each="detail, status : ${order.orderDetails}">
+				<div class="row border rounded mb-3 p-2" th:with="product=${detail.product}">
+					<div class="col-1">[[${status.count}]]</div>
+					<div class="col-3">
+						<img th:src="@{${product.mainImagePath}}" width="100px" class="img-fluid" alt="Product Image" />
+					</div>
+					<div class="col-6">
+						<!-- Add details about the product, e.g., item.product.name, item.product.price, etc. -->
+						<div>
+							<span><b>[[${product.name}]] </b> <span style="margin-left: 50px;">Quantity:
+									[[${detail.quantity}]]</span></span>
+						</div>
+						<div>
+							<div>
+								<span th:if="${product.discountPercent <= 0}"><b>Price:</b>
+									[[${product.price}]] triệu VND</span>
+							</div>
+							<div th:if="${product.discountPercent > 0}">
+								<div>
+									<b>Price:</b>[[${product.discountPrice}]] triệu VND
+								</div>
+								(Giảm [[${product.discountPercent}]]%)
+							</div>
+						</div>
+					</div>
+				</div>
+			</th:block>
+		</div>
+		<div class="tab-pane p-3" id="shipping" role="tabpanel">
+			<div class="form-group row p-1">
+				<label class="col-sm-2 col-form-label">Deliver day:</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" th:value="${order.deliverDays}" readonly />
+				</div>
+			</div>
+			<div class="form-group row p-1">
+				<label class="col-sm-2 col-form-label">Expected Deliver day:</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control"
+						th:value="${#dates.format(order.deliverDate, 'E, dd MMM yyyy')}" readonly />
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+	</div>
+	<script>
+		$('#myTab a').on('click', function (e) {
+			e.preventDefault()
+			$(this).tab('show')
+		})
+	</script>

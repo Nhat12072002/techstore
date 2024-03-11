@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	   xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head th:replace="fragments :: page_head('Products - Shopme Admin','none')"/>
+
+<body>
+	
+		<div th:replace="navigation::menu"></div>
+		<div style="margin-left: 20px;text-align: center;">
+			<h2>Manage Products</h2>
+			<th:block sec:authorize="hasAnyAuthority('Admin','Editor')">
+			<a th:href="@{/products/new}" style="color:black; text-decoration: none;" class=" fas fa-solid fa-user-plus fa-2x icon-dark mr-2"></a>
+			&nbsp;|&nbsp;
+			<a th:href="@{/products/export/csv}" style="color:black; text-decoration: none;" class="fa-solid fa-file-csv fa-2x icon-dark mr-2 "></a>
+			</th:block>
+		</div>
+
+	<div th:if="${message != null}" class="alert alert-success text-center">
+		[[${message}]]
+	</div>
+	<div th:replace="fragments::search_form('/products/page/1')"></div>
+	<div class="full-details">
+		<table class="table table-bordered table-striped table-hover table-responsive-xl">
+			<thead class="table-dark text-center">
+				<tr>
+					<th th:replace="~{fragments:: column_link('/products','id','Product ID', 'none')}"/></th>
+					<th>Main Image</th>
+					<th th:replace="~{fragments:: column_link('/products','name','Product Name', 'none')}"/></th>
+					<th th:replace="~{fragments:: column_link('/products','brand','Brand', 'none')}"/></th>
+					<th th:replace="~{fragments:: column_link('/products','category','Category', 'none')}"/></th>
+				<th:block sec:authorize="hasAnyAuthority('Admin','Editor')">
+					<th>Enabled</th>
+				</th:block>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="product : ${listProducts}">
+					<td>[[${product.id}]]</td>
+					<td class="text-center">
+						<img th:src="@{${product.mainImagePath}}" style="width: 120px;" class="img-fluid"/>
+					 </td>
+					<td><a class="link-details" style="font-size: 24;" th:href="@{'/products/detail/'+${product.id}}" title="View details of this product">[[${product.name}]]</a></td>
+					<td>[[${product.brand.name}]]</td>
+					<td >[[${product.category.name}]]</td>
+					
+				<th:block sec:authorize="hasAnyAuthority('Admin','Editor')">
+					<td class="text-center">
+						<a th:if="${product.enabled==true}" th:href="@{'/products/' + ${product.id} + '/enabled/false'}"  class="fa-sharp fa-regular fa-circle-check fa-2x"style= "color: green;text-decoration:none" title="Disable this Product"></a>
+						<a th:if="${product.enabled==false}" th:href="@{'/products/'+${product.id}+'/enabled/true'}" class="fa-regular fa-circle-xmark fa-2x"style= "color: red; text-decoration:none;"title="Enable this Product"></a>
+					</td>
+				</th:block>
+					<td class="text-center">
+						<a class="fas fa-file-alt fa-2x link-details" th:href="@{'/products/detail/'+${product.id}}" title="View details of this product"></a>
+					<th:block sec:authorize="hasAnyAuthority('Admin','Editor','Salesperson')">
+						 &nbsp;  &nbsp;
+						<a class="fa-solid fa-user-pen fa-2x"style= "color: green; text-decoration: none;" th:href="@{'/products/edit/' + ${product.id}}" title="Edit this product"></a>
+					</th:block>	
+					<th:block sec:authorize="hasAnyAuthority('Admin','Editor')">
+						 &nbsp;
+						 <a href="" class="fa-solid fa-trash-can fa-2x link-delete"style= "color: red;text-decoration: none;"th:href="@{'/products/delete/' + ${product.id}}" th:productId="${product.id}" title="Delete this product"></a> 
+					</th:block>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	
+	<!--<div th:replace="fragments::pagination('/products','product')"></div>-->
+	
+	<div class="modal fade text-center" id="Confirm-Modal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="Delete Confirmation">Delete Confirmation</h4>
+					<button type="button" class="close" style="font-size: 30px; border: none; background-color: white;" data-bs-dismiss="modal">&times;</button>
+				</div>
+				<div class="modal-body">
+					<span id="modal-Body"></span>
+				</div>
+				<div class="modal-footer">
+					<a class="btn btn-success" href=""id="yesButton">Yes</a>
+					<button type="button" class="btn btn-danger"data-bs-dismiss="modal" >No</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="detailModal">
+		<div class="modal-dialog modal-xl">
+			<div class="modal-content">
+				
+			</div>
+		</div>
+	</div>
+	<div th:replace="fragments::pagination('/products','products')"></div>
+
+	<div th:replace="fragments::footer"></div>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$(".link-delete").on("click", function(e){
+				e.preventDefault();
+				link = $(this);
+				productId= link.attr("productId");
+				$("#yesButton").attr("href",link.attr("href"));
+				//alert($(this).attr("href"));
+				$("#modal-Body").text("Are you sure you want to delete this product ID " +productId+"?");
+				$("#Confirm-Modal").modal("show");
+			});
+		});
+		function clearFilter(){
+			window.location ="[[@{/products}]]";
+		}
+		$(document).ready(function(){
+			$("#LogoutLink").on("click",function(e){
+				e.preventDefault();
+				document.LogoutForm.submit();
+			})
+			 customizeDropdownMenu()
+		});
+		$(".link-details").on("click",function(e){
+			e.preventDefault()
+			linkDataURL=$(this).attr("href")
+			$("#detailModal").modal("show").find(".modal-content").load(linkDataURL)
+		})
+		function customizeDropdownMenu(){
+		$(".navbar .dropdown").hover(
+			function(){
+				$(this).find('.dropdown-menu').first().stop(true, true).delay(250).slideDown();
+			},
+			function(){
+				$(this).find('.dropdown-menu').first().stop(true, true).delay(100).slideUp();
+			}
+		);
+		$(".dropdown > a").click(function(){
+			location.href = this.href;
+		});
+	}
+			$(document).ready(function(){
+			$(".link-delete").on("click", function(e){
+				e.preventDefault();
+				link = $(this);
+				productId= link.attr("productId");
+				$("#yesButton").attr("href",link.attr("href"));
+				//alert($(this).attr("href"));
+				$("#modal-Body").text("Are you sure you want to delete this product ID " +productId+"?");
+				$("#Confirm-Modal").modal("show");
+			});
+		});
+		function clearFilter(){
+			window.location ="[[@{/products}]]";
+		}
+	</script>
+</body>
+</html>

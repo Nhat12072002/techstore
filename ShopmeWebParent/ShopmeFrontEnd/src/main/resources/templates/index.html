@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+	<head th:replace="fragments :: page_head('TechStore - Trang chủ','tag')" />
+	<link th:href="@{/star-rating/css/star-rating.css}" media="all" rel="stylesheet" type="text/css" />
+	<script th:src="@{/star-rating/js/star-rating.js}" type="text/javascript"></script>
+	<link th:href="@{/star-rating/theme/krajee-svg/theme.css}" media="all" rel="stylesheet" type="text/css" />
+	<script th:src="@{/star-rating/theme/krajee-svg/theme.js}"></script>
+</head>
+<meta charset="ISO-8859-1">
+<title>Welcome to TechStore</title>
+</head>
+
+<body>
+	<div th:replace="navigation::header_menu"></div>
+	<th:block sec:authorize="isAuthenticated()">
+		<form th:action="@{/logout}" method="post" th:hidden="true" name="logoutForm">
+			<input type="submit" value="Logout" />
+		</form>
+	</th:block>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		<div class="container">
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+				aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav">
+					<li class="nav-item">
+						<a class="nav-link" href="#" style="font-weight: bold; color: rgb(255, 202, 104);">Tất cả</a>
+					</li>
+					<!-- Duyệt qua danh mục từ danh sách cat.name -->
+					<div th:each="cat: ${listCategories}">
+						<li class="nav-item" style="font-weight: bold;">
+							<a class="nav-link" style="color: rgb(255, 202, 104);"
+								th:href="@{'/category/'+${cat.alias}}" th:text="${cat.name}"></a>
+						</li>
+					</div>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<div class="row">
+		<div class="col-md-8">
+			<!-- Slideshow -->
+			<div id="slideshow" class="carousel slide" data-bs-ride="carousel" data-interval="5000"
+				style="margin-top: 30px;margin-bottom: 30px; margin-left: 10px;">
+				<div class="carousel-inner">
+					<div class="carousel-inner">
+						<th:block th:each="thumbnail, iterStat : ${listThumbnails}">
+							<div th:classappend="${iterStat.first} ? 'carousel-item active' : 'carousel-item'">
+								<img th:src="@{${thumbnail.logoPath}}" height="300px" width="300px"
+									class="d-block w-100" />
+							</div>
+						</th:block>
+					</div>
+
+				</div>
+
+				<!-- Nút Previous -->
+				<a class="carousel-control-prev" href="#slideshow" role="button" data-bs-slide="prev">
+					<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+					<span class="visually-hidden">Previous</span>
+				</a>
+
+				<!-- Nút Next -->
+				<a class="carousel-control-next" href="#slideshow" role="button" data-bs-slide="next">
+					<span class="carousel-control-next-icon" ariahidden="true"></span>
+					<span class="visually-hidden">Next</span>
+				</a>
+			</div>
+		</div>
+		<div class="col-md-4" style="margin-top: 30px;margin-bottom: 30px;">
+			<!-- Hình ảnh cố định -->
+			<img th:src="@{/img/chinhsach.jpg}" class="img-fluid" alt="Tấm hình cố định">
+		</div>
+	</div>
+	<div class="container mt-4">
+		<h2>Tất cả sản phẩm</h2>
+		<div class="row product-list">
+			<th:block th:each="product : ${listProducts}">
+				<div class="col-md-4" style="margin-top: 20px;">
+					<div class="card">
+						<a th:href="@{'/product/'+${product.alias}}">
+							<img th:src="@{${product.mainImagePath}}" width="150px" height="300px" class="card-img-top"
+								alt="[[${product.name}]]"></a>
+						<div class="card-body" style="text-align: center;">
+							<a th:href="@{'/product/'+${product.alias}}">
+								<h5 class="card-title" th:text="${product.name}"></h5>
+							</a>
+							<div class="row ml-1">
+								<div class="col">
+									<input type="text" class="product-detail-rating-star" dir="ltr" data-size="md"
+										th:value="${product.averageRating}" />
+								</div>
+							</div>
+							<div class="row ml-1 ">
+								<div class="col">
+									<b>[[${product.reviewCount}]] lượt đánh giá</b>
+								</div>
+							</div>
+							<div th:if="${product.discountPercent<=0}">
+								<span>[[${product.price}]] triệu VND</span>
+							</div>
+							<div th:if="${product.discountPercent>0}">
+
+								<del><span>[[${product.price}]] triệu VND</span></del>
+								<div style="font-size: larger;color: darkred;">[[${product.discountPrice}]] triệu VND
+								</div>
+							</div>
+							<a class="btn " th:href="@{'/product/'+${product.alias}}"
+								style="text-align: center; background-color:rgb(255, 202, 104);">Thêm
+								vào giỏ hàng</a>
+						</div>
+					</div>
+				</div>
+			</th:block>
+		</div>
+	</div>
+
+	<div th:replace="fragments :: pagination('' ,'product')"></div>
+	<div th:replace="navigation :: register_form"></div>
+
+	<div th:replace="navigation :: footer_menu"></div>
+	<style>
+		.card {
+			height: 100%;
+			/* Đặt chiều cao cố định cho tất cả các khối */
+		}
+	</style>
+	<script>
+		$(document).ready(function () {
+			// Tự động bật carousel khi trang đã tải
+			$('#slideshow').carousel();
+			// Bắt đầu chạy slideshow tự động
+			$('#slideshow').carousel('cycle');
+		});
+
+		$("#link-register").on("click", function (e) {
+			e.preventDefault();
+			linkDataURL = $(this).attr("href");
+			console.log("Clicked on link-register");
+			$("#registerModal").modal("show").find(".modal-content").load(linkDataURL);
+		});
+
+		$(".product-detail-rating-star").rating({
+			displayOnly: true,
+			hoverOnClera: false,
+			showCaption: false,
+			theme: 'krajee-svg'
+		})
+
+
+
+
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,56 @@
+@media screen and (max-width:768px){
+	/*small screen*/
+	div.full-details{display:none}
+	div.less-details{display: block}
+	div {text-align: center;}
+}
+@media screen and (min-width:768px) and (max-width:1024px){
+	/*medium screen*/
+	div.full-details{display:block;}
+	div.less-details{display: none}
+ .hideable-column{display: none}
+}
+@media screen and (min-width:1024px){
+	/*large screen*/
+	div.less-details{display: none}
+	.hideable-column{display: table-cell}
+}
+*.icon-silver{color:silver}
+    /* Thêm hiệu ứng màu nền khi di chuột qua mục menu */
+    /* Hiệu ứng scale khi hover */
+    .nav-item a {
+        transition: transform 0.3s; /* Hiệu ứng chuyển đổi */
+    }
+
+    .nav-item a:hover {
+        transform: scale(1.2); /* Tăng kích thước khi hover */
+    }
+    .no-hover:hover {
+        background-color: transparent !important; /* Màu nền trong suốt */
+        color: red !important; /* Màu chữ mặc định (ví dụ: màu xanh) */
+         text-align: center;
+         font-weight: bold;
+    }
+    
+
+    #logoshop:hover {
+        transform: scale(1.1); /* Phóng to hình ảnh khi hover */
+    }
+.sidebar {
+    width: 250px; /* Độ rộng của thanh sidebar */
+    float: left; /* Dịch chuyển nó sang trái */
+    background-color: #333; /* Màu nền của sidebar */
+    color: white; /* Màu chữ trong sidebar */
+    padding: 20px; /* Khoảng cách bên trong sidebar */
+}
+
+/* CSS cho nội dung bên phải (content) */
+.content {
+    margin-left: 270px; /* Khoảng cách bên trái của nội dung so với sidebar */
+    padding: 20px; /* Khoảng cách bên trong nội dung */
+}
+
+
+
+
+

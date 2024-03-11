@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+<head th:replace="fragments :: page_head('Reviews - TechStore Admin','none')" />
+
+<body>
+
+	<div th:replace="navigation::menu"></div>
+	<div style="margin-left: 20px;text-align: center;">
+		<h2>Manage Reviews</h2>
+	</div>
+
+	<div th:if="${message != null}" class="alert alert-success text-center">
+		[[${message}]]
+	</div>
+	<div th:replace="fragments::search_form('/reviews/page/1')"></div>
+	<div class="full-details">
+		<table class="table table-breviewed table-striped table-hover table-responsive-xl">
+			<thead class="table-dark text-center">
+				<tr>
+					<th th:replace="~{fragments:: column_link('/reviews','id','ID', 'none')}" />
+					</th>
+					<th th:replace="~{fragments:: column_link('/reviews','product','Product', 'none')}" />
+					</th>
+					<th th:replace="~{fragments:: column_link('/reviews','customer','Customer', 'none')}" />
+					</th>
+					<th th:replace="~{fragments:: column_link('/reviews','rating','Rating', 'none')}" />
+					</th>
+					<th th:replace="~{fragments:: column_link('/reviews','reviewTime','Review Time', 'none')}" />
+					</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="review : ${listreviews}">
+					<td>[[${review.id}]]</td>
+					<td>
+						<a class="linkProductDetail"style="text-decoration: none; color: black; font-weight: bold;" >
+							[[${review.product.name}]]
+						</a>
+					</td>
+					<td>
+						<th:block th:if="${review.customer != null}">
+							<a class="linkCustomerDetail" style="text-decoration: none; color: black; font-weight: bold;">
+								[[${review.customer.firstname}]] [[${review.customer.lastname}]]
+							</a>
+						</th:block>
+						<th:block th:if="${review.customer == null}">
+							Customer Not Available
+						</th:block>
+
+
+					</td>
+
+					<td>[[${review.rating}]]<i class="far fa-star"></i></td>
+					<td>[[${review.reviewTime}]]</td>
+
+
+					<td class="text-center">
+						<a class="fas fa-file-alt fa-2x link-details" th:href="@{'/reviews/detail/'+${review.id}}"
+							title="View details of this review"></a>
+						&nbsp; &nbsp;
+
+						&nbsp;
+						<a href="" class="fa-solid fa-trash-can fa-2x link-delete"
+							style="color: red;text-decoration: none;" th:href="@{'/reviews/delete/' + ${review.id}}"
+							th:reviewId="${review.id}" title="Delete this review"></a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<!--<div th:replace="fragments::pagination('/products','product')"></div>-->
+
+	<div class="modal fade text-center" id="Confirm-Modal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="Delete Confirmation">Delete Confirmation</h4>
+					<button type="button" class="close" style="font-size: 30px; border: none; background-color: white;"
+						data-bs-dismiss="modal">&times;</button>
+				</div>
+				<div class="modal-body">
+					<span id="modal-Body"></span>
+				</div>
+				<div class="modal-footer">
+					<a class="btn btn-success" href="" id="yesButton">Yes</a>
+					<button type="button" class="btn btn-danger" data-bs-dismiss="modal">No</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="detailModal">
+		<div class="modal-dialog modal-xl">
+			<div class="modal-content">
+
+			</div>
+		</div>
+	</div>
+	<div th:replace="fragments::pagination('/reviews','reviews')"></div>
+
+	<div th:replace="fragments::footer"></div>
+	<script type="text/javascript">
+		$(document).ready(function () {
+			$(".link-delete").on("click", function (e) {
+				e.preventDefault();
+				link = $(this);
+				reviewId = link.attr("reviewId");
+				$("#yesButton").attr("href", link.attr("href"));
+				//alert($(this).attr("href"));
+				$("#modal-Body").text("Are you sure you want to delete this review ID " + reviewId + "?");
+				$("#Confirm-Modal").modal("show");
+			});
+		});
+		function clearFilter() {
+			window.location = "[[@{/reviews}]]";
+		}
+		$(document).ready(function () {
+			$("#LogoutLink").on("click", function (e) {
+				e.preventDefault();
+				document.LogoutForm.submit();
+			})
+			customizeDropdownMenu()
+		});
+		$(".link-details").on("click", function (e) {
+			e.preventDefault()
+			linkDataURL = $(this).attr("href")
+			$("#detailModal").modal("show").find(".modal-content").load(linkDataURL)
+		})
+		function customizeDropdownMenu() {
+			$(".navbar .dropdown").hover(
+				function () {
+					$(this).find('.dropdown-menu').first().stop(true, true).delay(250).slideDown();
+				},
+				function () {
+					$(this).find('.dropdown-menu').first().stop(true, true).delay(100).slideUp();
+				}
+			);
+			$(".dropdown > a").click(function () {
+				location.href = this.href;
+			});
+		}
+		$(document).ready(function () {
+			$(".link-delete").on("click", function (e) {
+				e.preventDefault();
+				link = $(this);
+				productId = link.attr("reviewId");
+				$("#yesButton").attr("href", link.attr("href"));
+				//alert($(this).attr("href"));
+				$("#modal-Body").text("Are you sure you want to delete this review ID " + reviewId + "?");
+				$("#Confirm-Modal").modal("show");
+			});
+		});
+		function clearFilter() {
+			window.location = "[[@{/reviews}]]";
+		}
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+<head th:replace="fragments :: page_head('Settings - Shopme Admin','none')" />
+
+<body>
+	<div th:replace="navigation::menu"></div>
+	<div style="margin-left: 20px;text-align: center;">
+		<h2>Manage Thumbnails Slideshow</h2>
+		<a th:href="@{/settings/new}" style="color:black; text-decoration: none;"
+			class=" fas fa-solid fa-user-plus fa-2x icon-dark mr-2"></a>
+	</div>
+
+	<div th:if="${message != null}" class="alert alert-success text-center">
+		[[${message}]]
+	</div>
+	<div class="full-details">
+		<table class="table table-bordered table-striped table-hover table-responsive-xl">
+			<thead class="table-dark text-center">
+				<tr>
+					<th>ID</th>
+					<th>Logo</th>
+					<th>Name</th>
+					<th>Enabled</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="settings : ${listSettings}">
+					<td>[[${settings.id}]]</td>
+					<td class="text-center">
+						<img th:src="@{${settings.logoPath}}" style="width: 200px;" class="img-fluid" />
+					</td>
+					<td>[[${settings.name}]]</td>
+					<td class="text-center">
+						<a th:if="${settings.enabled==true}" th:href="@{'/settings/' + ${settings.id} + '/enabled/false'}"
+							class="fa-sharp fa-regular fa-circle-check fa-2x" style="color: green;text-decoration:none"
+							title="Disable this thumbnail"></a>
+						<a th:if="${settings.enabled==false}" th:href="@{'/settings/'+${settings.id}+'/enabled/true'}"
+							class="fa-regular fa-circle-xmark fa-2x" style="color: red; text-decoration:none;"
+							title="Enable this thumbnail"></a>
+					</td>
+					<td class="">
+						<a class="fa-solid fa-user-pen fa-2x" style="color: green; text-decoration: none;"
+							th:href="@{'/settings/edit/' + ${settings.id}}" title="Edit this setting"></a>
+						&nbsp;
+						<a href="" class="fa-solid fa-trash-can fa-2x link-delete"
+							style="color: red;text-decoration: none;" th:href="@{'/settings/delete/' + ${settings.id}}"
+							th:settingId="${settings.id}" title="Delete this setting"></a>
+						</th:block>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="modal fade text-center" id="Confirm-Modal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="Delete Confirmation">Delete Confirmation</h4>
+					<button type="button" class="close" style="font-size: 30px; border: none; background-color: white;"
+						data-bs-dismiss="modal">&times;</button>
+				</div>
+				<div class="modal-body">
+					<span id="modal-Body"></span>
+				</div>
+				<div class="modal-footer">
+					<a class="btn btn-success" href="" id="yesButton">Yes</a>
+					<button type="button" class="btn btn-danger" data-bs-dismiss="modal">No</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div th:replace="fragments::footer"></div>
+</body>
+<script>
+		$(document).ready(function(){
+			$(".link-delete").on("click", function(e){
+				e.preventDefault();
+				link = $(this);
+				settingId= link.attr("settingId");
+				$("#yesButton").attr("href",link.attr("href"));
+				$("#modal-Body").text("Are you sure you want to delete this thumbnail ID " +settingId+"?");
+				$("#Confirm-Modal").modal("show");
+			});
+		});
+
+</script>
+</html>

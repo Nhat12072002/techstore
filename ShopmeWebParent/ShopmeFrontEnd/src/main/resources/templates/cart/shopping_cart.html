@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments :: page_head('Giỏ hàng - TechStore','none')" />
+<meta charset="UTF-8">
+<title>Giỏ hàng - TechStore</title>
+</head>
+
+<body>
+	<header th:replace="navigation::header_menu"></header>
+	<th:block sec:authorize="isAuthenticated()">
+		<form th:action="@{/logout}" method="post" th:hidden="true" name="logoutForm">
+			<input type="submit" value="Logout" />
+		</form>
+	</th:block>
+	<div class="container mt-4">
+		<div class="row">
+			<div class="col">
+				<h1 class="text-center">Giỏ hàng của bạn</h1>
+				<hr>
+				<div class="row">
+					<div class="col-md-8">
+						<th:block th:each="item, status : ${cartItems}">
+							<div class="row border rounded mb-3 p-2" th:with="product=${item.product}"
+								th:id="'row'+${status.count}">
+								<div class="col-1">
+									<div class="divCount text-center">[[${status.count}]]</div>
+								</div>
+								<div class="col-3">
+									<img th:src="@{${product.mainImagePath}}" class="img-fluid" alt="Product Image" />
+								</div>
+								<div class="col-6">
+									<!-- Add details about the product, e.g., item.product.name, item.product.price, etc. -->
+									<div>
+										<a th:href="@{'/product/' + ${product.alias}}" target="_blank"
+											style="font-size: 30px;"
+											th:title="${product.name}"><b>[[${product.name}]]</b></a>
+									</div>
+									<div>
+										<div>
+											<span th:if="${product.discountPercent <= 0}"><b>Price:</b>
+												[[${product.price}]] triệu VND</span>
+											<del th:if="${product.discountPercent > 0}"><b>Price:</b>
+												[[${product.price}]] triệu VND</del>
+										</div>
+										<div th:if="${product.discountPercent > 0}">
+											<div style="font-size: larger; color: darkred;">
+												<b>Price:</b>[[${product.discountPrice}]] triệu VND
+											</div>
+											(Giảm [[${product.discountPercent}]]%)
+										</div>
+									</div>
+									<div style="margin-top: 10px;">
+										<div
+											th:replace="cart/quantity_control :: quantity_control(${item.quantity}, ${product.id})">
+										</div>
+									</div>
+									<div>
+										<div>
+											Tổng cộng: <span th:id="'subtotal'+${product.id}"
+												class="subtotal">[[${item.subtotal}]]</span> triệu VND
+										</div>
+									</div>
+
+
+								</div>
+								<div class="col-2 text-right">
+									<a class="fas fa-trash link-remove" th:href="@{'/cart/remove/'+${product.id}}"
+										th:rownumber="${status.count}"
+										style="margin-left: 70px; text-decoration: none;"></a>
+								</div>
+							</div>
+						</th:block>
+					</div>
+					<div class="col-md-4" th:unless="${#lists.isEmpty(cartItems)}" id="sectionTotal">
+						<h2 class="text-center mt-4">Tổng tiền
+							<h2></h2>
+							<hr class="my-2" style="width: 50%; margin: auto;">
+							<div style="font-size: larger; color: darkred; text-align: center; font-weight: bold;">
+								<span id="total"> [[${estimatedTotal}]]</span> triệu VND
+							</div>
+							<div style="text-align: center;">
+								<form th:action="@{/checkout}">
+								<button type="submit" class="btn btn-danger mt-3">Thanh Toán</button>
+								</form>
+							</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="sectionEmptyCartMessage" th:class="'text-center' + ${#lists.isEmpty(cartItems) ? '' : ' d-none'}">
+		<h2 class="text-center" style="color: darkred;">Bạn không có sản phẩm nào trong giỏ hàng.</h2>
+		<!-- Thêm mã HTML cho phần hiển thị thành tiền ở đây -->
+	</div>
+	<div class="modal fade text-center" id="modal-Dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="modal-Title">Warning</h4>
+					<button type="button" class="close" style="font-size: 30px; border: none; background-color: white;"
+						data-bs-dismiss="modal">&times;</button>
+				</div>
+				<div class="modal-body">
+					<span id="modal-Body"></span>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<footer th:replace="navigation :: footer_menu" style="margin-top: 20px;"></footer>
+
+
+</body>
+<script>
+	contextPath = "[[@{/}]]"
+	var csrfHeaderName = "[[${_csrf.headerName}]]"
+	var csrfValue = "[[${_csrf.token}]]"
+	$(document).ready(function () {
+		$(".linkMinus").on("click", function (evt) {
+			evt.preventDefault();
+			productId = $(this).attr("pid")
+			quantityInput = $("#quantity" + productId)
+			newQuantity = parseInt(quantityInput.val()) - 1;
+
+			if (newQuantity > 0) {
+				quantityInput.val(newQuantity);
+				updateQuantity(productId, newQuantity)
+			} else {
+				showModalDialog("Warning", "Số lượng nhỏ nhất là 1");
+			}
+		})
+		$(".linkPlus").on("click", function (evt) {
+			evt.preventDefault();
+			productId = $(this).attr("pid")
+			quantityInput = $("#quantity" + productId)
+			newQuantity = parseInt(quantityInput.val()) + 1;
+			quantityInput.val(newQuantity);
+			updateQuantity(productId, newQuantity)
+
+		})
+	})
+	$(".link-remove").on("click", function (evt) {
+		evt.preventDefault();
+		removeProduct($(this))
+
+	})
+	function updateQuantity(productId, quantity) {
+		url = contextPath + "cart/update/" + productId + "/" + quantity
+
+		$.ajax({
+			type: "POST",
+			url: url,
+			beforeSend: function (xhr) {
+				xhr.setRequestHeader(csrfHeaderName, csrfValue);
+			}
+		}).done(function (UpdatedSubtotal) {
+			updateSubtotal(UpdatedSubtotal, productId)
+			updateTotal()
+		}).fail(function () {
+			showModalDialog("Lỗi", "Lỗi khi thay đổi thông tin sản phẩm trong giỏ.");
+		})
+	}
+	function showModalDialog(title, message) {
+		$("#modal-Title").text(title);
+		$("#modal-Body").text(message);
+		$("#modal-Dialog").modal("show");
+	}
+	function updateSubtotal(updateSubtotal, productId) {
+		$("#subtotal" + productId).text(updateSubtotal)
+	}
+	function updateTotal() {
+		total = 0.0
+		productCount = 0
+		$(".subtotal").each(function (index, element) {
+			productCount++;
+			total += parseFloat(element.innerHTML)
+		})
+		console.log("Initial productCount:", productCount);
+
+		if (productCount < 1) {
+			showEmptyShoppingCart()
+		} else {
+			$("#total").text(total.toFixed(2)); // Fix for displaying total with 2 decimal places
+			// $("#sectionTotal").show(); // Make sure the total section is visible
+		}
+	}
+	function showEmptyShoppingCart() {
+		$("#sectionTotal").hide()
+		$("#sectionEmptyCartMessage").removeClass("d-none")
+	}
+	function removeProduct(link) {
+		url = link.attr("href");
+		$.ajax({
+			type: "DELETE",
+			url: url,
+			beforeSend: function (xhr) {
+				xhr.setRequestHeader(csrfHeaderName, csrfValue);
+			}
+		}).done(function (response) {
+
+			rowNumber = link.attr("rowNumber")
+			removeProductHTML(rowNumber)
+			updateTotal()
+			updateCountNumbers()
+			showModalDialog("Thông báo", response)
+		}).fail(function () {
+			showModalDialog("Lỗi", "Lỗi khi xóa sản phẩm trong giỏ.");
+		})
+	}
+	function removeProductHTML(rowNumber) {
+		$("#row" + rowNumber).remove();
+	}
+	function updateCountNumbers() {
+		$(".divCount").each(function (index, element) {
+			element.innerHTML = " " + (index + 1)
+		})
+	}
+</script>
+
+</html>

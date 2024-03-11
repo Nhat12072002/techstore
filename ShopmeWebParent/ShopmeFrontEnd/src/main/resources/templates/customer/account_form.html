@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+	<head th:replace="fragments :: page_head('TechStore - Chi tiết tài khoản','none')" />
+	<meta charset="ISO-8859-1">
+	<title>Chi tiết tài khoản</title>
+</head>
+
+<body>
+	<header th:replace="navigation::header_menu"></header>
+	<th:block sec:authorize="isAuthenticated()">
+		<form th:action="@{/logout}" method="post" th:hidden="true" name="logoutForm">
+			<input type="submit" value="Logout" />
+		</form>
+	</th:block>
+	<div class="container-fluid">
+		<div>&nbsp;</div>
+
+		<div class="text-center">
+			<h2>CHI TIẾT THÔNG TIN TÀI KHOẢN</h2>
+		</div>
+		<div>&nbsp;</div>
+
+		<form th:action="@{/update_account_details}" method="post" th:object="${customer}"
+			style="max-width: 600px; margin: 0 auto">
+			<input type="hidden" th:field="*{id}" />
+			<div th:if="${message != null}" class="alert alert-success text-center">
+				Thông tin của quý khách đã được cập nhật lại.
+			</div>
+			<div class="border border-secondary rounded p-3">
+				<div class="form-group row">
+					<label class="col-sm-4 col-form-label">E-mail:</label>
+					<div class="col-sm-8">
+						<input type="text" th:field="*{email}" class="form-control" readonly="readonly" />
+					</div>
+				</div>
+
+				<div class="form-group row">
+					<label class="col-sm-4 col-form-label">First Name:</label>
+					<div class="col-sm-8">
+						<input type="text" th:field="*{firstname}" class="form-control" required="required"
+							maxlength="45" minlength="2" />
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-sm-4 col-form-label">Last Name:</label>
+					<div class="col-sm-8">
+						<input type="text" th:field="*{lastname}" class="form-control" required="required"
+							maxlength="45" minlength="2" />
+					</div>
+				</div>
+
+				<th:block th:if="${customer.authenticationType.name() == 'DATABASE'}">
+					<div class="form-group row">
+						<label class="col-sm-4 col-form-label">Password:</label>
+						<div class="col-sm-8">
+							<input type="password" th:field="*{password}" class="form-control" maxlength="15"
+								minlength="6"
+								oninput="checkPasswordMatch(document.getElementById('confirmPassword'))" />
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<label class="col-sm-4 col-form-label">Re-type Password:</label>
+						<div class="col-sm-8">
+							<input type="password" id="confirmPassword" class="form-control" maxlength="15"
+								minlength="6" oninput="checkPasswordMatch(this)" />
+						</div>
+					</div>
+				</th:block>
+
+				<div class="form-group row">
+					<label class="col-sm-4 col-form-label">Phone Number:</label>
+					<div class="col-sm-8">
+						<input type="text" th:field="*{phoneNumber}" class="form-control" required="required"
+							maxlength="15" minlength="8" />
+					</div>
+				</div>
+
+				<div class="form-group row">
+					<label class="col-sm-4 col-form-label">Address:</label>
+					<div class="col-sm-8">
+						<input type="text" th:field="*{address}" class="form-control" required="required" maxlength="64"
+							minlength="3" />
+					</div>
+				</div>
+
+
+				<div class="text-center">
+					<input type="submit" value="Update" class="btn" style="background-color: rgb(255, 202, 104);" />
+					<a th:href="@{/}" class="btn btn-danger">Cancel</a>
+
+				</div>
+			</div>
+		</form>
+
+	</div>
+	<div th:replace="navigation :: footer_menu"></div>
+	<style>
+		main {
+			max-width: 600px;
+			margin: 0 auto;
+		}
+
+		.form-group {
+			margin-bottom: 1rem;
+		}
+
+		.form-control {
+			width: 100%;
+			padding: 0.5rem;
+			border: 1px solid #ccc;
+			border-radius: 0.25rem;
+		}
+
+		.btn-primary {
+			background-color: #007bff;
+			color: white;
+			border: 1px solid #007bff;
+			border-radius: 0.25rem;
+		}
+	</style>
+</body>
+
+</html>

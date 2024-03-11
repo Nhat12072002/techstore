@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments :: page_head('Thanh toán - TechStore','none')" />
+<meta charset="UTF-8">
+<title>Thanh toán - TechStore</title>
+</head>
+
+<body>
+	<header th:replace="navigation::header_menu"></header>
+	<th:block sec:authorize="isAuthenticated()">
+		<form th:action="@{/logout}" method="post" th:hidden="true" name="logoutForm">
+			<input type="submit" value="Logout" />
+		</form>
+	</th:block>
+	<form style="max-width:500px ; margin: 0 auto">
+<div>
+	<h1 style="text-align: center;">TechStore cảm ơn quý khách đã trải nghiệm dịch vụ mua sắm tại cửa hàng!</h1>
+	<p style="text-align: center;color: darkred;">Chúng tôi sẽ liên hệ về thông tin giao hàng trong thời gian sớm nhất.</p>
+	<div style="text-align: center;"><a th:href="@{/}" class="btn btn-primary">Trở lại trang chủ</a></div>
+</div>
+</formstyle="max-width:500px ; margin: 0 auto">
+	<style>
+		.card {
+			height: 100%;
+			/* Đặt chiều cao cố định cho tất cả các khối */
+		}
+	</style>
+	<script>
+
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments :: page_head('TechStore','none')" />
+<meta charset="ISO-8859-1">
+<title>Welcome to TechStore</title>
+</head>
+
+<body>
+	<div th:replace="navigation::header"></div>
+<form style="max-width:500px ; margin: 0 auto">
+	<div>
+		<h1 style="text-align: center;color: darkred;">Đăng ký thành công!</h1>
+		<div style="text-align: center;">
+		<p>Quý khách đã đăng ký thành công tài khoản của mình.</p>
+		<p>Quý khách có thể đăng nhập bằng tài khoản của mình để bắt đầu sử dụng dịch vụ của chúng tôi.</p>
+		</div>
+		<div style="text-align: center;">
+		<a th:href="@{/}" class="btn btn-primary">Trở lại trang chủ</a>
+		<a th:href="@{/login}" class="btn btn-primary">Đăng Nhập</a>
+</div>
+	</div>
+	</form>
+	<style>
+		.card {
+			height: 100%;
+			/* Đặt chiều cao cố định cho tất cả các khối */
+		}
+	</style>
+	<script>
+
+	</script>
+</body>
+
+</html>

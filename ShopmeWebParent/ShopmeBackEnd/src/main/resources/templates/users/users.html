@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: page_head('User - Shopme Admin','none')"/>
+
+<body>
+		<div th:replace="navigation::menu"></div>
+		<div style="margin-left: 20px;text-align: center;">
+			<h2>Manage Users</h2>
+			<a th:href="@{/users/new}" style="color:black; text-decoration: none;" class=" fas fa-solid fa-user-plus fa-2x icon-dark mr-2"></a>
+			&nbsp;|&nbsp;
+			<a th:href="@{/users/export/csv}" style="color:black; text-decoration: none;" class="fa-solid fa-file-csv fa-2x icon-dark mr-2 "></a>
+			&nbsp;|&nbsp;
+			<a th:href="@{/users/export/excel}" style="color:black; text-decoration: none;" class="fa-solid fa-file-excel fa-2x icon-dark mr-2"></a>
+			&nbsp;|&nbsp;
+			<a th:href="@{/users/export/pdf}" style="color:black; text-decoration: none;" class="fa-solid fa-file-pdf fa-2x icon-dark mr-2"></a>
+		</div>
+
+	<div th:replace="fragments::search_form('/users/page/1')"></div>
+	<div class="full-details">
+		<table class="table table-bordered table-striped table-hover table-responsive-xl">
+			<thead class="table-dark ">
+				<tr>
+					<th class="hideable-column">
+					<th th:replace="~{fragments:: column_link('/users','id','User ID','tag')}"/>	</th>
+					<th>Photos</th>	
+					<th class="hideable-column">
+					<th th:replace="~{fragments:: column_link('/users','email','E-mail','tag')}"/>	</th>
+					<th th:replace="~{fragments:: column_link('/users','firstname','First Name','none')}"/>	
+					<th th:replace="~{fragments:: column_link('/users','lastname','Last Name','none')}"/>	
+					<th>Role</th>
+					<th th:replace="~{fragments:: column_link('/users','enabled','Enabled','none')}"/>	
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="users : ${listUsers}">
+					<td class="hideable-column">[[${users.id}]]</td>
+					<td class="text-center"><i th:if="${users.photos==null}"class="fa-solid fa-image-portrait fa-6x" style= "color: gray;"></i>
+											<img th:if="${users.photos!=null}" th:src="@{${users.photosImagePath}}" style="width: 100px; height: 100px;" />
+					 </td>
+					<td class="hideable-column">[[${users.email}]]</td>
+					<td>[[${users.firstname}]]</td>
+					<td>[[${users.lastname}]]</td>
+					<td>[[${users.roles}]]</td>
+					<td class="text-center">
+						<a th:if="${users.enabled==true}" th:href="@{'/users/' + ${users.id} + '/enabled/false'}"  class="fa-sharp fa-regular fa-circle-check fa-2x"style= "color: green;text-decoration:none" title="Disable this user"></a>
+						<a th:if="${users.enabled==false}" th:href="@{'/users/'+${users.id}+'/enabled/true'}" class="fa-regular fa-circle-xmark fa-2x"style= "color: red; text-decoration:none;"title="Enable this user"></a>
+					</td>
+					<td>
+						<a class="fa-solid fa-user-pen fa-2x"style= "color: green; text-decoration: none;" th:href="@{'/users/edit/' + ${users.id}}" title="Edit this user"></a>
+						 &nbsp;
+						 <a href="" class="fa-solid fa-trash-can fa-2x link-delete"style= "color: red;text-decoration: none;"th:href="@{'/users/delete/' + ${users.id}}" th:userId="${users.id}" title="Delete this user"></a> 
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="less-details">
+		<div th:each="users : ${listUsers}" class="row m-1">
+			<div class="col-4">
+				<i th:if="${users.photos==null}"class="fa-solid fa-image-portrait fa-6x" style= "color: gray;"></i>								
+				<img th:if="${users.photos!=null}" th:src="@{${users.photosImagePath}}" style="width: 100px; height: 100px;" />
+			</div>
+			<div class="col-8">
+				<div>[[${users.fullName}]]</div>
+				<div>[[${users.roles}]]</div>
+				<div class="mt-2">
+					<a th:if="${users.enabled==true}" th:href="@{'/users/' + ${users.id} + '/enabled/false'}"  class="fa-sharp fa-regular fa-circle-check fa-2x"style= "color: green;text-decoration:none" title="Disable this user"></a>
+						<a th:if="${users.enabled==false}" th:href="@{'/users/'+${users.id}+'/enabled/true'}" class="fa-regular fa-circle-xmark fa-2x"style= "color: red; text-decoration:none;"title="Enable this user"></a>
+						&nbsp;
+					<a class="fa-solid fa-user-pen fa-2x"style= "color: green; text-decoration: none;" th:href="@{'/users/edit/' + ${users.id}}" title="Edit this user"></a>
+						 &nbsp;
+					<a href="" class="fa-solid fa-trash-can fa-2x link-delete"style= "color: red;text-decoration: none;"th:href="@{'/users/delete/' + ${users.id}}" th:userId="${users.id}" title="Delete this user"></a> 
+				</div>
+			</div>
+			<div>&nbsp;</div>
+		</div>
+	
+		
+	</div>
+	<div th:replace="fragments::pagination('/users','users')"></div>
+	<div class="modal fade text-center" id="Confirm-Modal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="Delete Confirmation">Delete Confirmation</h4>
+					<button type="button" class="close" style="font-size: 30px; border: none; background-color: white;" data-bs-dismiss="modal">&times;</button>
+				</div>
+				<div class="modal-body">
+					<span id="modal-Body"></span>
+				</div>
+				<div class="modal-footer">
+					<a class="btn btn-success" href=""id="yesButton">Yes</a>
+					<button type="button" class="btn btn-danger"data-bs-dismiss="modal" >No</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:replace="fragments::footer"></div>
+	<script type="text/javascript">
+		modalURL="/users"
+		$(document).ready(function(){
+			$(".link-delete").on("click", function(e){
+				e.preventDefault();
+				link = $(this);
+				userId= link.attr("userId");
+				$("#yesButton").attr("href",link.attr("href"));
+				//alert($(this).attr("href"));
+				$("#modal-Body").text("Are you sure you want to delete this user ID " +userId+"?");
+				$("#Confirm-Modal").modal("show");
+			});
+		});
+		function clearFilter(){
+			window.location ="[[@{/users}]]";
+		}
+		 
+		 
+		$(document).ready(function(){
+			$("#LogoutLink").on("click",function(e){
+				e.preventDefault();
+				document.LogoutForm.submit();
+			})
+			 customizeDropdownMenu()
+		});
+		function customizeDropdownMenu(){
+		$(".navbar .dropdown").hover(
+			function(){
+				$(this).find('.dropdown-menu').first().stop(true, true).delay(250).slideDown();
+			},
+			function(){
+				$(this).find('.dropdown-menu').first().stop(true, true).delay(100).slideUp();
+			}
+		);
+
+		$(".dropdown > a").click(function(){
+			location.href = this.href;
+		});
+	}
+	
+	</script>
+</body>
+</html>

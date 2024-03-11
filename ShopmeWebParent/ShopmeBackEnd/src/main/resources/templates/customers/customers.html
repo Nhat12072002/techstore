@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments :: page_head('Customers - Shopme Admin','none')" />
+
+<body>
+	<div th:replace="navigation::menu"></div>
+	<div style="margin-left: 20px;text-align: center;">
+		<h2>Manage Customers</h2>
+	</div>
+	<div th:if="${message != null}" class="alert alert-success text-center">
+		[[${message}]]
+	</div>
+	<div th:replace="fragments::search_form('/customers/page/1')"></div>
+	<div class="full-details">
+		<table class="table table-bordered table-striped table-hover table-responsive-xl">
+			<thead class="table-dark text-center">
+				<tr>
+					<th>Customer ID</th>
+					<th>Last Name</th>
+					<th>First Name</th>
+					<th>Phone Number</th>
+					<th>Address</th>
+					<th style="text-align: center;">Enabled</th>
+					<th></th>
+				</tr>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="customer : ${listCustomers}">
+					<td>[[${customer.id}]]</td>
+					<td>[[${customer.lastname}]]</td>
+					<td>[[${customer.firstname}]]</td>
+					<td>[[${customer.phoneNumber}]]</td>
+					<td>[[${customer.address}]]</td>
+					<td class="text-center">
+						<a th:if="${customer.enabled==true}"
+							th:href="@{'/customers/' + ${customer.id} + '/enabled/false'}"
+							class="fa-sharp fa-regular fa-circle-check fa-2x" style="color: green;text-decoration:none"
+							title="Disable this customer"></a>
+						<a th:if="${customer.enabled==false}" th:href="@{'/customers/'+${customer.id}+'/enabled/true'}"
+							class="fa-regular fa-circle-xmark fa-2x" style="color: red; text-decoration:none;"
+							title="Enable this customer"></a>
+					</td>
+					<td class="text-center">
+
+						<a class="fas fa-file-alt fa-2x link-details" th:href="@{'/customers/detail/'+${customer.id}}"
+							title="View details of this customer"></a>
+							&nbsp;&nbsp;&nbsp;
+						<a href="" class="fa-solid fa-trash-can fa-2x link-delete"
+							style="color: red;text-decoration: none;" th:href="@{'/customers/delete/' + ${customer.id}}"
+							th:customerId="${customer.id}" title="Delete this category"></a>
+					</td>
+
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<!--<div th:replace="fragments::pagination('/customers','top-levels categories')"></div>-->
+	<div class="modal fade" id="detailModal">
+		<div class="modal-dialog modal-xl">
+			<div class="modal-content">
+
+			</div>
+		</div>
+	</div>
+	<div class="modal fade text-center" id="Confirm-Modal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="Delete Confirmation">Delete Confirmation</h4>
+					<button type="button" class="close" style="font-size: 30px; border: none; background-color: white;"
+						data-bs-dismiss="modal">&times;</button>
+				</div>
+				<div class="modal-body">
+					<span id="modal-Body"></span>
+				</div>
+				<div class="modal-footer">
+					<a class="btn btn-success" href="" id="yesButton">Yes</a>
+					<button type="button" class="btn btn-danger" data-bs-dismiss="modal">No</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:replace="fragments::footer"></div>
+	<script type="text/javascript">
+		$(document).ready(function () {
+			$(".link-delete").on("click", function (e) {
+				e.preventDefault();
+				link = $(this);
+				customerId = link.attr("customerId");
+				$("#yesButton").attr("href", link.attr("href"));
+				//alert($(this).attr("href"));
+				$("#modal-Body").text("Are you sure you want to delete this customer ID " + customerId + "?");
+				$("#Confirm-Modal").modal("show");
+			});
+		});
+		function clearFilter() {
+			window.location = "[[@{/customers}]]";
+		}
+		$(document).ready(function () {
+			$("#LogoutLink").on("click", function (e) {
+				e.preventDefault();
+				document.LogoutForm.submit();
+			})
+			customizeDropdownMenu()
+		});
+		function customizeDropdownMenu() {
+			$(".navbar .dropdown").hover(
+				function () {
+					$(this).find('.dropdown-menu').first().stop(true, true).delay(250).slideDown();
+				},
+				function () {
+					$(this).find('.dropdown-menu').first().stop(true, true).delay(100).slideUp();
+				}
+			);
+			$(".dropdown > a").click(function () {
+				location.href = this.href;
+			});
+		}
+		$(".link-details").on("click",function(e){
+			e.preventDefault()
+			linkDataURL=$(this).attr("href")
+			$("#detailModal").modal("show").find(".modal-content").load(linkDataURL)
+		})
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:fragment="page_head(title,remove)" th:remove="${remove}">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0">
+	<title>[[${title}]]</title>
+	<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/fontawesome/all.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/style.css}">
+	<script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+	<script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+	<script type="text/javascript" th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/common.js}"></script>
+</head>
+
+<body>
+	<div th:fragment="footer" class="text-center" style="font-weight: bold;font-family: Georgia, 'Times New Roman', Times, serif;">
+		<p>TECHSTORE - Copyright &copy; TechStore</p>
+	</div>
+	<th th:fragment="column_link(moduleURL,fieldName, columnLabel, removeTag)" th:remove="${removeTag}">
+		<a class="text-white  text-decoration-none"
+			th:href="@{${moduleURL}+'/page/' + ${currentPage} + '?sortField=' + ${fieldName}  +'&sortDir=' + ${sortField != fieldName ? sortDir : reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
+			[[${columnLabel}]]
+		</a>
+		<span th:if="${sortField == fieldName}"
+			th:class="${sortDir == 'asc' ? 'fas fa-sort-up' : 'fas fa-sort-down'}"></span>
+	</th>
+
+	<a th:fragment="page_link(moduleURL,pageNum, label)" class="page-link"
+		th:href="@{${moduleURL}+'/page/' + ${pageNum} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">[[${label}]]</a>
+
+	<!--MINH NHAT-->
+	<div th:fragment="pagination(moduleURL, entityName) " th:remove="tag">
+		<div class="text-center m-3" th:if="${totalItems>0}">
+			<span>Showing [[${entityName}]] #[[${startCount}]] to [[${endCount}]] of [[${totalItems}]] </span>
+		</div>
+		<div class="text-center m-3" th:unless="${totalItems>0}">
+			<span>No [[${entityName}]] found!!!</span>
+		</div>
+		<div th:if="${totalPage > 1}">
+			<nav>
+				<ul class="pagination justify-content-center flex-wrap ">
+					<li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled '}">
+						<a th:replace="~{fragments:: page_link(${moduleURL},'1','First Page')}"></a>
+					</li>
+					<li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled '}">
+						<a th:replace="~{fragments:: page_link(${moduleURL},${currentPage - 1},'Previous Page')}"></a>
+					</li>
+					<li th:class="${currentPage !=page ? 'page-item': 'page-item active'}"
+						th:each="page : ${#numbers.sequence(1, totalPage)}">
+						<a th:replace="~{fragments:: page_link(${moduleURL},${page},${page})}"></a>
+					</li>
+					<li th:class="${currentPage < totalPage ? 'page-item' : 'page-item disabled '}">
+						<a th:replace="~{fragments:: page_link(${moduleURL},${currentPage + 1},'Next Page')}"></a>
+					</li>
+					<li th:class="${currentPage < totalPage ? 'page-item' : 'page-item disabled '}">
+						<a th:replace="~{fragments:: page_link(${moduleURL},${totalPage},'Last Page')}"></a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+	<div th:fragment="search_form(moduleURL)">
+		<form th:action="@{${moduleURL}}" class="form-inline m-3" style="text-align: center;">
+                <input type="hidden" name="sortField" th:value="${sortField}" />
+                <input type="hidden" name="sortDir" th:value="${sortDir}" />
+                SEARCH:&nbsp;
+                <input type="search" name="keyword" th:value="${keyword}" class="form-control-inline"
+                    style="width: 70%; height: 30px;" required />
+           
+                <button type="submit" class="btn btn-primary mb-2"><i class="fa-solid fa-magnifying-glass"></i></button>
+        
+                <button type="button"  class="btn btn-secondary mb-2" onclick="clearFilter()" ><i class="fa-solid fa-eraser"></i></button>
+
+            </form>
+	</div>
+</body>
+</html>

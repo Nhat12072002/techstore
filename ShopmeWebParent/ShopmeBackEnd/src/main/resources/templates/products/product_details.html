@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+	<div th:fragment="content" id="divProductDetails">
+		<div>
+			<input type="button" class="btn btn-secondary" value="Add More Detail " onclick="addNextDetailSection()" />
+		</div>
+		<th:block th:each="detail, status : ${product.details}">
+			<div class="form-inline m-3" th:id="'divDetail'+${status.index}">
+				<input type="hidden" name="detailIDs" th:value="${detail.id}" />
+				<label class="m-3" style="display: inline;">Name:</label>
+				<input type="text" style="display: inline;" class="form-control w-25" name="detailNames" maxlength="255"
+					th:value="${detail.name}" />
+				<label class="m-3" style="display: inline;">Value:</label>
+				<input type="text" style="display: inline;" class="form-control w-25" name="detailValues"
+					th:value="${detail.value}" maxlength="255" />
+				<a name="linkRemoveDetail" class=" btn fas fa-times-circle fa-2x ml-3" title="Remove this detail"
+					style="color:red"></a>
+
+			</div>
+		</th:block>
+		<div class="form-inline m-3" th:id="'divDetail'+${#lists.size(product.details)}">
+			<input type="hidden" name="detailIDs" th:value="0" />
+			<label class="m-3" style="display: inline;">Name:</label>
+			<input type="text" style="display: inline;" class="form-control w-25" name="detailNames" maxlength="255" />
+			<label class="m-3" style="display: inline;">Value:</label>
+			<input type="text" style="display: inline;" class="form-control w-25" name="detailValues" maxlength="255" />
+		</div>
+	</div>
+	<script>
+		function addNextDetailSection() {
+			allDivDetails = $("[id^='divDetail']");
+			divDetailsCount = allDivDetails.length;
+			nextDivDetailId = divDetailsCount
+			htmlDetailSection =
+				`<div class="form-inline m-3" id="divDetail${nextDivDetailId}">
+			<label class="m-3"style="display: inline;">Name:</label>
+			<input type="text"style="display: inline;" class="form-control w-25" name="detailNames" maxlength="255" />
+			<label class="m-3"style="display: inline;">Value:</label>
+			<input type="text"style="display: inline;" class="form-control w-25" name="detailValues" maxlength="255" />
+		</div>`;
+			$("#divProductDetails").append(htmlDetailSection)
+			previousDivDetailSection = allDivDetails.last()
+			previousDivDetailID = previousDivDetailSection.attr("id")
+
+			htmlLinkRemove = `
+				<a class=" btn fas fa-times-circle fa-2x ml-3" title="Remove this detail" style="color:red" href="javascript:removeDetailSectionById('${previousDivDetailID}')"></a>
+				`;
+			previousDivDetailSection.append(htmlLinkRemove)
+
+			$("input[name='detailNames']").last().focus()
+
+		}
+		function removeDetailSectionById(id) {
+			$("#" + id).remove();
+		}
+
+	</script>
+</body>
+
+</html>

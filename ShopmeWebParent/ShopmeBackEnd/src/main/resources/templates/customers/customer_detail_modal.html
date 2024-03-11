@@ -1,0 +1,116 @@
+<div class="modal-header">
+	<h1 class="modal-title col-sm-12" id="modal-Title" style="text-align: center;">CUSTOMER DETAIL</h1>
+</div>
+<div class="modal-body">
+	<div class="row">
+		<div class="col-md-6" style="text-align: center;">
+			<img th:src="@{/img/techstore3.png}" alt="Hình ảnh" class="img-fluid" width="500px" />
+		</div>
+		<div class="col-md-6">
+			<form th:action="@{/create_customer}" method="post" onsubmit="return checkEmailUnique(this);">
+				<div class="row mb-3">
+					<label for="firstname" class="col-sm-3 col-form-label">First Name</label>
+					<div class="col-sm-9">
+						<input type="text" th:value="${customer.firstname}" class="form-control" id="firstname" name="firstname" required maxlength="45"
+							minlength="2" readonly/>
+					</div>
+				</div>
+				<div class="row mb-3">
+					<label for="lastname" class="col-sm-3 col-form-label">Last Name</label>
+					<div class="col-sm-9">
+						<input type="text" th:value="${customer.lastname}" class="form-control" id="lastname" name="lastname" required maxlength="45"
+							minlength="2" readonly/>
+					</div>
+				</div>
+				<div class="row mb-3">
+					<label for="email" class="col-sm-3 col-form-label">E-mail</label>
+					<div class="col-sm-9">
+						<input type="email" th:value="${customer.email}" class="form-control" id="email" name="email" required maxlength="45"
+							minlength="8" readonly/>
+					</div>
+				</div>
+				<div class="row mb-3">
+					<label for="phoneNumber" class="col-sm-3 col-form-label">Phone Number</label>
+					<div class="col-sm-9">
+						<input type="text" class="form-control"th:value="${customer.phoneNumber}" id="phoneNumber" name="phoneNumber" required
+							maxlength="15" minlength="8"readonly />
+					</div>
+				</div>
+				<div class="row mb-3">
+					<label for="address" class="col-sm-3 col-form-label">Address</label>
+					<div class="col-sm-9">
+						<input type="text" class="form-control"th:value="${customer.address}" id="address" name="address" required maxlength="64"
+							minlength="3"  readonly/>
+
+
+					</div>
+					<div class="row" style="margin-top: 10px; margin-left: 50px;">
+						<div class="col-sm-12 text-center">
+							<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+						</div>
+					</div>
+			</form>
+		</div>
+		</form>
+	</div>
+</div>
+</div>
+<style>
+	.modal-header h1 {
+		text-align: center;
+	}
+</style>
+<script type="text/javascript">
+	contextPath = "[[@{/}]]";
+
+
+	$("#link-register").on("click", function (e) {
+		e.preventDefault();
+		linkDataURL = $(this).attr("href");
+		console.log("Clicked on link-register");
+		$("#registerModal").modal("show").find(".modal-content").load(linkDataURL);
+	});
+	function checkPasswordMatch(confirmPassword) {
+		if (confirmPassword.value != $("#password").val()) {
+			confirmPassword.setCustomValidity("Passwords do not match!");
+		} else {
+			confirmPassword.setCustomValidity("");
+		}
+	}
+
+	function checkEmailUnique(form) {
+		url = contextPath + "customers/check_unique_email";
+		customerEmail = $("#email").val();
+		csrfValue = $("input[name='_csrf']").val();
+
+		params = {email: customerEmail, _csrf: csrfValue};
+
+		$.post(url, params, function (response) {
+			if (response == "OK") {
+				form.submit();
+			} else if (response == "Duplicated") {
+				showWarningModal("There is another cusotmer having the email " + customerEmail);
+			} else {
+				showErrorModal("Unknown response from server");
+			}
+		}).fail(function () {
+			showErrorModal("Could not connect to the server");
+		});
+
+		return false;
+	}
+
+	function showModalDialog(title, message) {
+		$("#modalTitle").text(title);
+		$("#modalBody").text(message);
+		$("#modalDialog").modal();
+	}
+
+	function showErrorModal(message) {
+		showModalDialog("Error", message);
+	}
+
+	function showWarningModal(message) {
+		showModalDialog("Warning", message);
+	}	
+</script>

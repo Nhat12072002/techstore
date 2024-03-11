@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+	<head th:replace="fragments :: page_head(${pageTitle},'tag')" />
+	<link rel="stylesheet" th:href="@{/richtext/richtext.min.css}" />
+	<script th:src="@{/richtext/jquery.richtext.min.js}"></script>
+</head>
+
+<body>
+	<div th:replace="navigation::menu"></div>
+	<div>
+		<h2 style="text-align: center;">Manage Products | [[${pageTitle}]]</h2>
+	</div>
+	<form th:action="@{/products/save}" method="post" th:object="${product}" onsubmit="return checkUnique(this)
+		" enctype="multipart/form-data">
+		<input type="hidden" th:field="*{id}" />
+		<input th:if="${product.category !=null}" type="hidden" id="categoryId" th:value="${product.category.id}" />
+		<div>
+			<!-- Nav tabs -->
+			<ul class="nav nav-tabs" id="myTab" role="tablist">
+				<li class="nav-item1">
+					<a class="nav-link active" data-toggle="tab" href="#overview" role="tab">Overview</a>
+				</li>
+				<li class="nav-item1">
+					<a class="nav-link" data-toggle="tab" href="#description" role="tab">Description</a>
+				</li>
+				<li class="nav-item1">
+					<a class="nav-link" data-toggle="tab" href="#images" role="tab">Images</a>
+				</li>
+				<li class="nav-item1">
+					<a class="nav-link" data-toggle="tab" href="#details" role="tab">Details</a>
+				</li>
+				<li class="nav-item1">
+					<a class="nav-link" data-toggle="tab" href="#shipping" role="tab">Shipping</a>
+				</li>
+			</ul>
+
+			<!-- Tab panes -->
+			<div class="tab-content">
+				<div class="tab-pane active p-3" id="overview" role="tabpanel">
+					<div th:replace="products/product_overview :: content"></div>
+				</div>
+				<div class="tab-pane p-3" id="description" role="tabpanel">
+					<th:block sec:authorize="hasAuthority('Salesperson')">
+						<div th:replace="products/product_description_read_only :: content"></div>
+					</th:block>
+					<th:block sec:authorize="hasAnyAuthority('Admin','Editor')">
+						<div th:replace="products/product_description :: content"></div>
+					</th:block>
+				</div>
+				<div class="tab-pane p-3" id="images" role="tabpanel">
+					<th:block sec:authorize="hasAuthority('Salesperson')">
+						<div th:replace="products/product_images_read_only :: content"></div>
+					</th:block>
+					<th:block sec:authorize="hasAnyAuthority('Admin','Editor')">
+						<div th:replace="products/product_images :: content"></div>
+					</th:block>
+				</div>
+				<div class="tab-pane p-3" id="details" role="tabpanel">
+					<th:block sec:authorize="hasAuthority('Salesperson')">
+						<div th:replace="products/product_details_read_only :: content"></div>
+					</th:block>
+					<th:block sec:authorize="hasAnyAuthority('Admin','Editor')">
+						<div th:replace="products/product_details :: content"></div>
+					</th:block>
+				</div>
+				<div class="tab-pane p-3" id="shipping" role="tabpanel">
+					<th:block sec:authorize="hasAuthority('Salesperson')">
+						<div th:replace="products/product_shipping_read_only :: content"></div>
+					</th:block>
+					<th:block sec:authorize="hasAnyAuthority('Admin','Editor')">
+						<div th:replace="products/product_shipping :: content"></div>
+					</th:block>
+				</div>
+
+			</div>
+		</div>
+		<div class="text-center">
+			<input type="submit" value="Save" class="btn btn-primary m-3" />
+			<input type="submit" value="Cancel" class="btn btn-secondary" id="buttonCancel" />
+		</div>
+	</form>
+	<div class="modal fade text-center" id="modal-Dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="modal-Title">Warning</h4>
+					<button type="button" class="close" style="font-size: 30px; border: none; background-color: white;"
+						data-bs-dismiss="modal">&times;</button>
+				</div>
+				<div class="modal-body">
+					<span id="modal-Body"></span>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:replace="fragments::footer"></div>
+	<script type="text/javascript">
+		moduleURL = "[[@{/products}]]"
+		brandModuleURL = "[[@{/brands}]]"
+		dropdownBrands = $("#brand");
+		dropdownCategories = $("#category");
+		var extraImagesCount = 0
+		defaultThumbnailImages = "[[@{/img/image-thumbnail.png}]]"
+
+
+		$(document).ready(function () {
+
+			$("input[name='extraImage']").each(function (index) {
+				extraImagesCount++;
+				$(this).change(function () {
+					if (!checkFileSize(this)) {
+						return;
+					}
+					showExtraImageThumbnail(this, index);
+				});
+			});
+			$("a[name='linkRemoveExtraImage']").each(function (index) {
+				$(this).click(function () {
+					removeExtraImage(index);
+				});
+			});
+		});
+
+
+
+		function showExtraImageThumbnail(fileInput, index) {
+			var file = fileInput.files[0];
+			fileName = file.name;
+			imageNameHiddenField = $("#imageName" + index)
+			if (imageNameHiddenField.length) {
+				imageNameHiddenField.val(fileName)
+			}
+			var reader = new FileReader();
+			reader.onload = function (e) {
+				$("#extraThumbnail" + index).attr("src", e.target.result);
+			};
+			reader.readAsDataURL(file);
+
+			// Kiểm tra xem phần tử extra image có hình ảnh không
+			var existingImage = $("#extraThumbnail" + index).attr("src");
+			if (!existingImage || existingImage.trim() === defaultThumbnailImages.trim()) {
+				// Chỉ thêm phần tử HTML mới khi hình ảnh đã chọn
+				addNextExtraImageSection(index + 1);
+			}
+		}
+
+
+		function addNextExtraImageSection(index) {
+			var htmlExtraImage = `<div class="col border m-3 p-2 text-center" id="divExtraImage${index}">
+				<div id="extraImageHeader${index}">
+					<label>Extra Images #${index + 1}:</label>
+				</div>
+					<div class="m-2">
+						<img id="extraThumbnail${index}" alt="Extra image #${index + 1} preview" class="img fluid" style="width: 300px;" src=" ${defaultThumbnailImages}" />
+					</div>
+					<div>
+						<input onchange="showExtraImageThumbnail(this,${index})" type="file"  name="extraImage" accept="image/png, image/jpeg" />
+					</div>
+				</div>`;
+			htmlLinkRemove = `
+				<a class=" btn fas fa-times-circle fa-2x ml-3" href="javascript:removeExtraImage(${index - 1})" title="Remove this image" style="color:black"></a>
+				`;
+
+			$("#divProductImages").append(htmlExtraImage);
+			$("#extraImageHeader" + (index - 1)).append(htmlLinkRemove)
+		}
+		function removeExtraImage(index) {
+			$("#divExtraImage" + index).remove()
+			extraImagesCount--
+		}
+
+		$('#myTab a').on('click', function (e) {
+			e.preventDefault()
+			$(this).tab('show')
+		})
+		function checkUnique(form) {
+			productId = $("#id").val();
+			productName = $("#name").val();
+			csrfValue = $("input[name='_csrf']").val();
+			url = "[[@{/products/check_unique}]]"
+			params = {id: productId, name: productName, _csrf: csrfValue};
+			$.post(url, params, function (response) {
+				if (response == "OK") {
+					form.submit();
+				} else if (response == "Duplicate") {
+					showModalDialog("Warning", "There is another product having same name: " + productName);
+				} else {
+					showModalDialog("Error", "Unknown response from server");
+				}
+			}).fail(function () {
+				showModalDialog("Error", "Could not connect to server");
+			});
+			return false;
+		}
+		function showModalDialog(title, message) {
+			$("#modal-Title").text(title);
+			$("#modal-Body").text(message);
+			$("#modal-Dialog").modal("show");
+		}
+		$(document).ready(function () {
+			$("#buttonCancel").on("click", function () {
+				window.location = "[[@{/products}]]";
+			});
+		});
+
+		function addNextDetailSection() {
+			allDivDetails = $("[id^='divDetail']");
+			divDetailsCount = allDivDetails.length;
+			nextDivDetailId = divDetailsCount
+			htmlDetailSection =
+				`<div class="form-inline m-3" id="divDetail${nextDivDetailId}">
+									<input type="hidden" name="detailIDs" value="0"/>
+			<label class="m-3"style="display: inline;">Name:</label>
+			<input type="text"style="display: inline;" class="form-control w-25" name="detailNames" maxlength="255" />
+			<label class="m-3"style="display: inline;">Value:</label>
+			<input type="text"style="display: inline;" class="form-control w-25" name="detailValues" maxlength="255" />
+		</div>`;
+			$("#divProductDetails").append(htmlDetailSection)
+			previousDivDetailSection = allDivDetails.last()
+			previousDivDetailID = previousDivDetailSection.attr("id")
+
+			htmlLinkRemove = `
+				<a class=" btn fas fa-times-circle fa-2x ml-3" title="Remove this detail" style="color:red" href="javascript:removeDetailSectionById('${previousDivDetailID}')"></a>
+				`;
+			previousDivDetailSection.append(htmlLinkRemove)
+
+			$("input[name='detailNames']").last().focus()
+
+		}
+		function removeDetailSectionById(id) {
+			$("#" + id).remove();
+		}
+		$("a[name='linkRemoveExtraImage']").each(function (index) {
+			$(this).click(function () {
+				removeExtraImage(index)
+			})
+		})
+		$("a[name='linkRemoveDetail']").each(function (index) {
+			$(this).click(function () {
+				removeDetailByIndex(index)
+			})
+		})
+		function removeDetailByIndex(index) {
+			$("#divDetail" + index).remove()
+		}
+	</script>
+	<script th:src="@{/js/common_form.js}"></script>
+	</script>
+</body>
+
+</html>

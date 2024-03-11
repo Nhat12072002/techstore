@@ -1,0 +1,46 @@
+server:
+  port: 80
+  servlet:
+    context-path: /Techstore
+spring:
+  datasource:
+    password: Nhat12072002
+    url: jdbc:mysql://localhost:3306/shopmedb
+    username: root
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: true
+    show-sql: true
+  mail:
+    host: smtp.gmail.com
+    password: kcme hhsx clkl deri
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+    username: "minhnhatnguyenphan1207@gmail.com\t"
+ 
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 165363165853-9befafd48s4q21641uqo58o5dgv8perj.apps.googleusercontent.com
+            client-secret: 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
+            scope:
+            - email
+            - profile
+          facebook:
+            client-id: 1516291665862734
+            client-secret: 1b683b352ddedfc8598a34a3b76dfd88
+            scope:
+            - email
+            - public_profile
+  

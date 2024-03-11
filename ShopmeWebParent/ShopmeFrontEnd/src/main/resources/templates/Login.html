@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+	<head th:replace="fragments :: page_head('Đăng Nhập','none')" />
+	<meta charset="UTF-8">
+	<title>Đăng Nhập</title>
+</head>
+
+<body>
+	<div style="text-align: center;">
+		<img th:src="@{/img/techstore3.png}" />
+	</div>
+
+	<div class="login-container">
+		<form th:action="@{/login}" method="post" class="login-form">
+			<div th:if="${param.error}" class="alert alert-danger" style="height: 50px; text-align: center;">
+				<p th:text="${session.SPRING_SECURITY_LAST_EXCEPTION.message}"></p>
+			</div>
+			<div th:if="${param.logout}" class="alert alert-success" style="height: 50px; text-align: center;">
+				<p>Bạn đã đăng xuất.</p>
+			</div>
+			<p style="text-align: center;">
+
+				<input type="email" name="email" class="form-control" placeholder="E-mail" required />
+			</p>
+			<p style="text-align: center;">
+				<input type="password" name="password" class="form-control" placeholder="Password" required />
+			</p>
+			<p style="text-align: center;">
+				<input type="checkbox" name="remember-me" />&nbsp;Remember me
+			</p>
+			<div style="text-align: center;">
+				<input type="submit" value="Đăng Nhập" class="btn" style="background-color:rgb(255, 202, 104);" />
+			</div>
+			<div style="text-align: center;margin-top: 10px;">
+			<span style="text-align: center; margin-top: 10px;">
+				<a th:href="@{/oauth2/authorization/google}" class="btn btn-danger">
+					<span class="fab fa-google"></span> 
+				</a>
+			</span>
+
+			<span style="text-align: center; margin-top: 10px;">
+				<a th:href="@{/oauth2/authorization/facebook}" class="btn btn-primary">
+					<span class="fab fa-facebook"></span> 
+				</a>
+			</span>
+			</div>
+			<div style="text-align: center; margin-top: 10px;">
+				or <a th:href="@{/forgot_password}">Forgot Password</a>
+			</div>
+		</form>
+	</div>
+</body>
+<style>
+	body {
+		background-color: rgb(255, 202, 104);
+	}
+
+	.login-container {
+		max-width: 350px;
+		margin: 0 auto;
+		padding: 20px;
+		background-color: white;
+		border-radius: 5px;
+	}
+
+	.login-title {
+		font-size: 24px;
+		font-weight: bold;
+		text-align: center;
+	}
+
+	.login-form {
+		margin-top: 20px;
+	}
+
+	.login-input {
+		width: 100%;
+		padding: 10px;
+		border: 1px solid #ccc;
+		border-radius: 5px;
+	}
+
+	.login-button {
+		width: 100%;
+		padding: 10px;
+		background-color: rgb(255, 202, 104);
+		color: black;
+		border: 1px solid rgb(255, 202, 104);
+		border-radius: 5px;
+		font-weight: bold;
+	}
+
+	.login-container {
+		max-width: 350px;
+		margin: 0 auto;
+		padding: 20px;
+		background-color: white;
+		border-radius: 5px;
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+	}
+
+	.login-title {
+		font-size: 24px;
+		font-weight: bold;
+		text-align: center;
+		margin-bottom: 20px;
+	}
+
+	.login-form {
+		margin-top: 20px;
+	}
+
+	.login-input {
+		width: 100%;
+		padding: 10px;
+		border: 1px solid #ccc;
+		border-radius: 5px;
+		font-size: 1rem;
+	}
+
+	.login-button {
+		width: 100%;
+		padding: 10px;
+		background-color: rgb(255, 202, 104);
+		color: black;
+		border: 1px solid rgb(255, 202, 104);
+		border-radius: 5px;
+		font-size: 1rem;
+		font-weight: bold;
+		cursor: pointer;
+	}
+
+	.login-button:hover {
+		background-color: rgb(255, 202, 104);
+	}
+
+	.login-container .btn-lg {
+		font-size: 1.25rem;
+	}
+</style>
+
+</html>

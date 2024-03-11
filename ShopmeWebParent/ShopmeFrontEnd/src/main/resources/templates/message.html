@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+	<head th:replace="fragments :: page_head('Quên mật khẩu?','none')" />
+	<meta charset="UTF-8">
+	<title>Quên mật khẩu</title>
+</head>
+
+<body>
+	<div th:replace="navigation::header"></div>
+	<div class="container-fluid text-center">
+
+		<div>&nbsp;</div>
+
+		<div th:if="${title != null}">
+			<h2 style="color: red;">[[${title}]]</h2>
+		</div>
+
+		<div th:if="${message != null}">
+			<h3 style="color: red;">[[${message}]]</h3>
+		</div>
+
+		<div>&nbsp;</div>
+
+	</div>
+</body>
+
+</html>

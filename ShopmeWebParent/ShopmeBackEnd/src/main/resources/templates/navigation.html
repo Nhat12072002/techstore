@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" type="text/css" th:href="@{/src/main/resources/static/style.css}">
+<body>
+	<div th:fragment="menu">
+		<form th:action="@{/logout}" method="post" th:hidden="true" name="LogoutForm">
+			<input type="submit" />
+		</form>
+		<nav class="navbar navbar-expand-lg navbar-dark" style="background-color:rgb(255, 202, 104);">
+			<a class="navbar-brand" th:href="@{/}" style="margin-left: 5px;">
+				<img id="logoshop"th:src="@{/img/techstore3.png}" width="90px" height="90px">
+
+			</a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topNavbar">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="topNavbar">
+				<ul class="navbar-nav">
+					<li class="nav-item">
+						<a class="nav-link" style="color: black; font-weight: bold;font-family: Georgia, 'Times New Roman', Times, serif;" th:href="@{/users}" sec:authorize="hasAuthority('Admin')">Users</a>
+					</li>
+					<th:block sec:authorize="hasAnyAuthority('Admin','Editor')">
+						<li class="nav-item">
+							<a class="nav-link" style="color: black; font-weight: bold;font-family: Georgia, 'Times New Roman', Times, serif;" th:href="@{/categories}">Categories</a>
+						</li>
+					</th:block>
+					<th:block sec:authorize="hasAnyAuthority('Admin','Editor')">
+						<li class="nav-item">
+							<a class="nav-link" style="color: black; font-weight: bold;font-family: Georgia, 'Times New Roman', Times, serif;" th:href="@{/brands}">Brands</a>
+						</li>
+					</th:block>
+					<th:block sec:authorize="hasAnyAuthority('Admin','Salesperson','Editor','Shipper')">
+						<li class="nav-item">
+							<a class="nav-link"  style="color: black; font-weight: bold;font-family: Georgia, 'Times New Roman', Times, serif;" th:href="@{/products}">Products</a>
+						</li>
+					</th:block>
+					<th:block sec:authorize="hasAnyAuthority('Admin','Salesperson')">
+						<li class="nav-item">
+							<a class="nav-link" style="color: black; font-weight: bold;font-family: Georgia, 'Times New Roman', Times, serif;" th:href="@{/customers}">Customers</a>
+						</li>
+					</th:block>
+					<th:block sec:authorize="hasAnyAuthority('Admin','Salesperson','Shipper')">
+						<li class="nav-item">
+							<a class="nav-link" style="color: black; font-weight: bold;font-family: Georgia, 'Times New Roman', Times, serif;" th:href="@{/orders}">Orders</a>
+						</li>
+					</th:block>
+					<th:block sec:authorize="hasAnyAuthority('Admin','Salesperson','Assistant')">
+						<li class="nav-item">
+							<a class="nav-link"  style="color: black; font-weight: bold;font-family: Georgia, 'Times New Roman', Times, serif;" th:href="@{/reports}">Report</a>
+						</li>
+					</th:block>
+					<th:block sec:authorize="hasAnyAuthority('Admin','Salesperson')">
+						<li class="nav-item">
+							<a class="nav-link"  style="color: black; font-weight: bold;font-family: Georgia, 'Times New Roman', Times, serif;" th:href="@{/reviews}">Reviews</a>
+						</li>
+					</th:block>
+					<th:block sec:authorize="hasAnyAuthority('Admin')">
+						<li class="nav-item">
+							<a class="nav-link" style="color: black; font-weight: bold;font-family: Georgia, 'Times New Roman', Times, serif;" th:href="@{/settings}">Settings</a>
+						</li>
+					</th:block>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<li>
+						<span class="fas fa-user fa-2x" style="color: blue" ></span>
+					</li>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" th:href="@{/account}"
+							sec:authentication="principal.fullname" style="font-size: 10pt;color: blue; font-weight: bold;text-decoration: underline;font-family: Georgia, 'Times New Roman', Times, serif;"></a>
+						<div class="dropdown-menu mr-2">
+							<a class="dropdown-item no-hover" id="LogoutLink" style="text-align: center; font-weight: bold;" href="">ĐĂNG XUẤT</a>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</nav>
+	</div>
+</body>
+
+</html>
