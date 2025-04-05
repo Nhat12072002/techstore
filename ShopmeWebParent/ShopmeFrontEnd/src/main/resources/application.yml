@@ -1,11 +1,11 @@
 server:
-  port: 80
+  port: 8082
   servlet:
     context-path: /Techstore
 spring:
   datasource:
-    password: Nhat12072002
-    url: jdbc:mysql://localhost:3306/shopmedb
+    password: Nhat@12072002
+    url: jdbc:mysql://localhost:3308/techstore
     username: root
   jpa:
     hibernate:
